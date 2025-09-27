@@ -1,26 +1,389 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
+@import "highlight.js/styles/github.css";
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+  --border: #000000;
+  --muted: #666666;
+  --accent: #000000;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000;
+    --foreground: #ffffff;
+    --border: #ffffff;
+    --muted: #999999;
+    --accent: #ffffff;
   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-mono), monospace;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Monospace Web inspired styles */
+.mono-container {
+  max-width: 80ch;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.mono-header {
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.mono-nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.mono-nav a {
+  color: var(--foreground);
+  text-decoration: none;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.mono-nav a:hover,
+.mono-nav a.active {
+  border-color: var(--border);
+}
+
+.mono-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.mono-subtitle {
+  color: var(--muted);
+  margin: 0.5rem 0 0 0;
+}
+
+.mono-content {
+  line-height: 1.6;
+}
+
+.mono-content h1,
+.mono-content h2,
+.mono-content h3,
+.mono-content h4,
+.mono-content h5,
+.mono-content h6 {
+  margin: 2rem 0 1rem 0;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.mono-content h1 {
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.mono-content h2 {
+  font-size: 1.25rem;
+}
+
+.mono-content h3 {
+  font-size: 1.125rem;
+}
+
+.mono-content p {
+  margin: 1rem 0;
+}
+
+.mono-content a {
+  color: var(--foreground);
+  text-decoration: underline;
+}
+
+/* Remove underlines from post and link cards */
+.mono-content a.mono-post-card,
+.mono-content a.mono-link-item {
+  text-decoration: none;
+}
+
+.mono-content a:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.mono-content ul {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.mono-content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+
+.mono-content ul ul {
+  list-style-type: circle;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.mono-content ul ul ul {
+  list-style-type: square;
+  padding-left: 1.5rem;
+}
+
+.mono-content ol ol {
+  list-style-type: lower-alpha;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.mono-content ol ol ol {
+  list-style-type: lower-roman;
+  padding-left: 1.5rem;
+}
+
+.mono-content li {
+  margin: 0.5rem 0;
+  display: list-item;
+  line-height: 1.6;
+}
+
+/* Ensure nested lists maintain proper styling */
+.mono-content li > ul,
+.mono-content li > ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Override Tailwind's list reset with higher specificity */
+.mono-content ul li {
+  list-style-type: disc;
+}
+
+.mono-content ol li {
+  list-style-type: decimal;
+}
+
+.mono-content ul ul li {
+  list-style-type: circle;
+}
+
+.mono-content ul ul ul li {
+  list-style-type: square;
+}
+
+.mono-content ol ol li {
+  list-style-type: lower-alpha;
+}
+
+.mono-content ol ol ol li {
+  list-style-type: lower-roman;
+}
+
+/* Specifically override for post list */
+.mono-content .mono-post-list li {
+  list-style-type: none;
+}
+
+.mono-content blockquote {
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.mono-content pre {
+  background: var(--background);
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.mono-content code {
+  font-family: var(--font-geist-mono), monospace;
+  background: var(--background);
+  padding: 0.125rem 0.25rem;
+  font-size: 0.875rem;
+}
+
+.mono-content pre code {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.mono-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.mono-content th,
+.mono-content td {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.mono-content th {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.mono-footer {
+  padding-top: 2rem;
+  margin-top: 4rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.mono-post-meta {
+  color: var(--muted);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.mono-content .mono-post-list {
+  list-style: none;
+  padding: 0;
+  padding-left: 0;
+  margin: 0;
+  margin-top: 2rem;
+}
+
+.mono-post-list li {
+  margin: 1rem 0;
+  margin-left: 0;
+  border: 1px solid var(--border);
+  list-style-type: none;
+  display: block;
+}
+
+.mono-post-card {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--foreground);
+  transition: all 0.2s;
+}
+
+.mono-post-card * {
+  text-decoration: none;
+}
+
+.mono-post-card:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.mono-post-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+}
+
+/* Override heading underlines for post cards */
+.mono-post-card .mono-post-title {
+  text-decoration: none;
+}
+
+.mono-post-excerpt {
+  margin: 0.5rem 0 0 0;
+  text-decoration: none;
+}
+
+.mono-post-date {
+  color: var(--muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.mono-post-card:hover .mono-post-title {
+  text-decoration: underline;
+}
+
+.mono-post-card:hover .mono-post-date {
+  color: var(--background);
+}
+
+.mono-links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.mono-link-item {
+  border: 1px solid var(--border);
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--foreground);
+  display: inline-block;
+  transition: all 0.2s;
+  flex: 0 0 auto;
+}
+
+.mono-link-item * {
+  text-decoration: none;
+}
+
+.mono-link-item:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.mono-link-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.mono-link-item:hover .mono-link-title {
+  text-decoration: underline;
+}
+
+/* Math styling */
+.katex {
+  font-size: 1em;
+}
+
+/* Code highlighting adjustments for monospace theme */
+.hljs {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@media (prefers-color-scheme: dark) {
+  @import "highlight.js/styles/github-dark.css";
 }

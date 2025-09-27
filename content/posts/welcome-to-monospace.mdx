@@ -1,0 +1,63 @@
+---
+title: "Welcome to the Monospace Web"
+date: "2025-01-27"
+excerpt: "An introduction to this monospace-themed blog built with Next.js and MDX."
+---
+
+# Welcome to the Monospace Web
+
+This is the first post on this monospace-themed blog! This site is built with **Next.js**, **MDX**, and styled with **Geist Mono** font throughout.
+
+## What makes this special?
+
+Unlike most websites that use proportional fonts, this entire site uses monospace fonts exclusively. This creates a unique aesthetic that's both nostalgic and modern.
+
+### Features
+
+- **MDX Support**: Write blog posts with embedded React components
+- **Math Rendering**: LaTeX math expressions via KaTeX
+- **Code Highlighting**: Syntax highlighting for code blocks
+- **Monospace Everything**: Consistent character spacing throughout
+
+## Code Example
+
+Here's a simple React component:
+
+```tsx
+interface Props {
+  title: string;
+  children: React.ReactNode;
+}
+
+export function Card({ title, children }: Props) {
+  return (
+    <div className="card">
+      <h2>{title}</h2>
+      {children}
+    </div>
+  );
+}
+```
+
+## Math Example
+
+The quadratic formula is:
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+
+And here's an inline equation: $E = mc^2$
+
+## Typography
+
+The monospace constraint creates interesting design challenges and opportunities:
+
+1. **Alignment**: Everything naturally aligns in columns
+2. **Rhythm**: Consistent character spacing creates visual rhythm  
+3. **Focus**: The constraint forces focus on content over decoration
+4. **Nostalgia**: Reminds us of early computing and terminals
+
+> "Constraints liberate, liberties constrain." - Rudy Rucker
+
+This approach to web design prioritizes readability and consistency over flashy visuals, creating a unique and focused reading experience.
