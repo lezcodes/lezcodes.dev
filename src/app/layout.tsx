@@ -28,7 +28,6 @@ export default function RootLayout({
                 lezcodes.dev
               </Link>
               <Link href="/posts">posts</Link>
-              <Link href="/links">links</Link>
             </nav>
           </header>
           <main>{children}</main>

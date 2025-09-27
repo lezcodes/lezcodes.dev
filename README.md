@@ -31,12 +31,27 @@ bun run format     # Format code with Biome
 
 ### Homepage (`content/home.mdx`)
 
-The homepage content is controlled by a single MDX file:
+The homepage content is controlled by a single MDX file with support for technologies, links, and projects:
 
 ```mdx
 ---
 title: "Your Name"
 subtitle: "your tagline or description"
+technologies:
+  - "JavaScript"
+  - "TypeScript"
+  - "React"
+  - "Next.js"
+links:
+  - title: "github"
+    url: "https://github.com/yourusername"
+  - title: "linkedin"
+    url: "https://linkedin.com/in/yourusername"
+projects:
+  - title: "my-awesome-project"
+    url: "https://github.com/yourusername/project"
+  - title: "another-project"
+    url: "https://github.com/yourusername/another"
 ---
 
 Your homepage content goes here.
@@ -45,7 +60,14 @@ You can use **markdown** and MDX components.
 
 **Rules:**
 - Must have `title` and `subtitle` in frontmatter
-- Content appears below the title/subtitle
+- `technologies` is optional array of strings (no URLs needed)
+- `links` is optional array with `title` and `url` (linktree-style)
+- `projects` is optional array with `title` and `url` (same style as links)
+  - Projects without `url` show "🚧" emoji to indicate work-in-progress
+- **Layout order**: title → subtitle → content → links → projects → technologies
+- **Automatic sorting**: All arrays are sorted alphabetically
+- **Section headers**: All lowercase (technologies, links, projects)
+- Content appears between title/subtitle and other sections
 - Supports full MDX syntax
 
 ### Blog Posts (`content/posts/*.mdx`)
@@ -79,32 +101,6 @@ console.log("Hello, monospace world!");
 - Supports LaTeX math with KaTeX
 - Supports syntax highlighting for code blocks
 - Can embed React components
-
-### Links Page (`content/links.mdx`)
-
-The links page creates a linktree-style page:
-
-```mdx
----
-title: "links"
-links:
-  - title: "github"
-    url: "https://github.com/yourusername"
-  - title: "twitter"
-    url: "https://twitter.com/yourusername"
-  - title: "linkedin"
-    url: "https://linkedin.com/in/yourusername"
----
-
-Optional additional content below the links...
-```
-
-**Rules:**
-- Must have `title` in frontmatter
-- `links` array creates clickable buttons
-- Each link needs `title` and `url`
-- Additional MDX content appears below the links
-- Links open in new tabs
 
 ## Project Rules & Conventions
 

@@ -42,7 +42,8 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), monospace;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -117,6 +118,51 @@ body {
 
 .mono-content h3 {
   font-size: 1.125rem;
+}
+
+/* Heading anchor styles */
+.mono-content h1 a,
+.mono-content h2 a,
+.mono-content h3 a,
+.mono-content h4 a,
+.mono-content h5 a,
+.mono-content h6 a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+}
+
+.mono-content h1 a:hover,
+.mono-content h2 a:hover,
+.mono-content h3 a:hover,
+.mono-content h4 a:hover,
+.mono-content h5 a:hover,
+.mono-content h6 a:hover {
+  text-decoration: underline;
+}
+
+/* Add a subtle hash symbol on hover */
+.mono-content h1 a::before,
+.mono-content h2 a::before,
+.mono-content h3 a::before,
+.mono-content h4 a::before,
+.mono-content h5 a::before,
+.mono-content h6 a::before {
+  content: "#";
+  position: absolute;
+  left: -1.5rem;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.mono-content h1:hover a::before,
+.mono-content h2:hover a::before,
+.mono-content h3:hover a::before,
+.mono-content h4:hover a::before,
+.mono-content h5:hover a::before,
+.mono-content h6:hover a::before {
+  opacity: 1;
 }
 
 .mono-content p {
@@ -233,7 +279,8 @@ body {
 }
 
 .mono-content code {
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), monospace;
   background: var(--background);
   padding: 0.125rem 0.25rem;
   font-size: 0.875rem;
@@ -260,6 +307,141 @@ body {
 .mono-content th {
   background: var(--foreground);
   color: var(--background);
+}
+
+/* Homepage sections */
+.mono-section {
+  margin: 3rem 0;
+}
+
+.mono-section h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* Tags for technologies and skills */
+.mono-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.mono-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.mono-tag-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mono-tag-link:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.mono-tag.mono-tag-hover:hover {
+  background: var(--foreground) !important;
+  color: var(--background) !important;
+  cursor: default;
+}
+
+/* Experience timeline */
+.mono-timeline {
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.mono-timeline::before {
+  content: "⋮";
+  position: absolute;
+  left: 0.45rem;
+  top: 1.5rem;
+  bottom: 1rem;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 0.8;
+  letter-spacing: 0;
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+}
+
+.mono-timeline-item {
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.mono-timeline-item::before {
+  content: "•";
+  position: absolute;
+  left: 0.4rem;
+  top: 0.2rem;
+  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1;
+  background: var(--background);
+  z-index: 1;
+}
+
+.mono-timeline-content {
+  padding-left: 1rem;
+}
+
+.mono-timeline-header {
+  margin-bottom: 0.5rem;
+}
+
+.mono-timeline-position {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin: 0 0 0.25rem 0;
+  text-decoration: underline;
+}
+
+.mono-timeline-company {
+  font-weight: normal;
+  color: var(--foreground);
+}
+
+.mono-timeline-company-link {
+  color: var(--foreground);
+  text-decoration: underline;
+}
+
+.mono-timeline-company-link:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.mono-timeline-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.mono-timeline-separator {
+  color: var(--muted);
+}
+
+.mono-timeline-duration {
+  font-weight: bold;
+}
+
+.mono-timeline-city {
+  color: var(--muted);
+}
+
+.mono-timeline-description {
+  margin: 0.75rem 0 0 0;
+  color: var(--foreground);
+  line-height: 1.5;
 }
 
 .mono-footer {
