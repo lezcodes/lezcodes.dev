@@ -2,85 +2,61 @@
 
 A monospace-themed website built with Next.js and MDX, inspired by [The Monospace Web](https://github.com/owickstrom/the-monospace-web).
 
-## Features
+## Quick Start
 
-- **Monospace Everything**: Uses Geist Mono font exclusively throughout the site
-- **MDX Blog**: Write blog posts with embedded React components
-- **Math Support**: LaTeX math expressions via KaTeX
-- **Code Highlighting**: Syntax highlighting for code blocks
-- **Links Page**: Linktree-style page editable via MDX
-- **Minimalist Design**: Clean, focused aesthetic inspired by Swiss typography
-- **Dark/Light Mode**: Automatic theme switching based on system preference
-
-## Getting Started
-
-1. Install dependencies:
 ```bash
+# Install dependencies
 bun install
-```
 
-2. Run the development server:
-```bash
+# Start development server
 bun run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) to see the site.
+Open [http://localhost:3000](http://localhost:3000) to see the site.
 
-## Project Structure
+## Available Commands
 
-```
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Main layout with navigation
-│   │   ├── page.tsx            # Landing page
-│   │   ├── posts/
-│   │   │   ├── page.tsx        # Blog posts index
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx    # Individual post pages
-│   │   └── links/
-│   │       └── page.tsx        # Links page
-│   ├── lib/
-│   │   ├── posts.ts            # Blog post utilities
-│   │   └── links.ts            # Links page utilities
-│   └── globals.css             # Monospace-themed styles
-├── content/
-│   ├── posts/                  # Blog posts (.mdx files)
-│   ├── home.mdx                # Homepage content
-│   └── links.mdx               # Links page content
-└── public/                     # Static assets
+```bash
+# Development
+bun run dev        # Start dev server with turbopack (accessible on network)
+bun run build      # Build for production with turbopack
+bun run start      # Start production server
+
+# Code Quality
+bun run lint       # Check code with Biome
+bun run format     # Format code with Biome
 ```
 
-## Writing Content
+## How to Create Content
 
-### Homepage
+### Homepage (`content/home.mdx`)
 
-Edit `content/home.mdx` to customize the homepage:
+The homepage content is controlled by a single MDX file:
 
 ```mdx
 ---
-title: "Your Site Title"
-subtitle: "Your site description"
+title: "Your Name"
+subtitle: "your tagline or description"
 ---
 
-# Your Content
-
-Write your homepage content here with full MDX support!
-
-## Features
-- Math: $E = mc^2$
-- Code blocks with syntax highlighting
-- And much more...
+Your homepage content goes here.
+You can use **markdown** and MDX components.
 ```
 
-### Blog Posts
+**Rules:**
+- Must have `title` and `subtitle` in frontmatter
+- Content appears below the title/subtitle
+- Supports full MDX syntax
 
-Create new blog posts in `content/posts/` as `.mdx` files:
+### Blog Posts (`content/posts/*.mdx`)
+
+Create new posts as `.mdx` files in the `content/posts/` directory:
 
 ```mdx
 ---
 title: "Your Post Title"
 date: "2025-01-27"
-excerpt: "A brief description of your post"
+excerpt: "Brief description for the posts index"
 ---
 
 # Your Post Title
@@ -96,63 +72,87 @@ console.log("Hello, monospace world!");
 ```
 ```
 
-### Links Page
+**Rules:**
+- Filename becomes the URL slug (e.g., `my-post.mdx` → `/posts/my-post`)
+- Must have `title`, `date`, and `excerpt` in frontmatter
+- Date format: `YYYY-MM-DD`
+- Supports LaTeX math with KaTeX
+- Supports syntax highlighting for code blocks
+- Can embed React components
 
-Edit `content/links.mdx` to customize your links:
+### Links Page (`content/links.mdx`)
+
+The links page creates a linktree-style page:
 
 ```mdx
 ---
-title: "Links"
-description: "Find me around the web"
+title: "links"
 links:
-  - title: "GitHub"
+  - title: "github"
     url: "https://github.com/yourusername"
-  - title: "Twitter"
+  - title: "twitter"
     url: "https://twitter.com/yourusername"
+  - title: "linkedin"
+    url: "https://linkedin.com/in/yourusername"
 ---
 
-# Links
-
-Additional content here...
+Optional additional content below the links...
 ```
 
-## Customization
+**Rules:**
+- Must have `title` in frontmatter
+- `links` array creates clickable buttons
+- Each link needs `title` and `url`
+- Additional MDX content appears below the links
+- Links open in new tabs
 
-### Styling
+## Project Rules & Conventions
 
-The monospace theme is defined in `src/app/globals.css`. Key CSS custom properties:
+### Design Philosophy
+- **Monospace Everything**: Uses Geist Mono font exclusively
+- **Minimal & Functional**: Clean, terminal-inspired aesthetic
+- **Content First**: Design serves the content, not the other way around
 
-- `--background`: Background color
-- `--foreground`: Text color  
-- `--border`: Border color
-- `--muted`: Muted text color
+### File Structure Rules
+```
+content/
+├── home.mdx           # Homepage content (required)
+├── links.mdx          # Links page content (required)
+└── posts/             # Blog posts directory
+    └── *.mdx          # Individual posts
 
-### Typography
-
-The site uses Geist Mono exclusively, loaded via `next/font/google` in the layout.
-
-### Colors
-
-The theme automatically switches between light and dark modes based on the user's system preference.
-
-## Deployment
-
-Build the site:
-
-```bash
-bun run build
+src/
+├── app/               # Next.js app directory
+├── lib/               # Utility functions
+└── globals.css        # Monospace theme styles
 ```
 
-The site generates static files and can be deployed to any static hosting service like Vercel, Netlify, or GitHub Pages.
+### Content Rules
+1. **All content is MDX** - No plain HTML files
+2. **Frontmatter is required** - Every MDX file needs YAML frontmatter
+3. **Dates use ISO format** - `YYYY-MM-DD` for consistency
+4. **Lowercase filenames** - Use kebab-case for post slugs
+5. **No spaces in filenames** - Use hyphens instead
 
-## Inspiration
+### Styling Rules
+1. **Monospace only** - All text uses Geist Mono font
+2. **System theme** - Respects user's dark/light mode preference  
+3. **No custom fonts** - Stick to the monospace constraint
+4. **Minimal colors** - Uses CSS custom properties for theming
 
-This project is inspired by:
+### Development Rules
+1. **Use Biome** - For linting and formatting (not Prettier/ESLint)
+2. **Use Turbopack** - Enabled for faster builds and dev server
+3. **TypeScript strict** - All code should be properly typed
+4. **No runtime errors** - Build should complete without warnings
 
-- [The Monospace Web](https://github.com/owickstrom/the-monospace-web) by Oskar Wickström
-- [Geist Font](https://vercel.com/font) by Vercel
-- Swiss design principles and terminal aesthetics
+## Tech Stack
 
-## License
-
-MIT License - feel free to use this as a template for your own monospace website!
+- **Framework**: Next.js 15 with App Router
+- **Content**: MDX with gray-matter for frontmatter
+- **Styling**: Tailwind CSS with custom monospace theme
+- **Math**: KaTeX for LaTeX rendering
+- **Code**: rehype-highlight for syntax highlighting
+- **Font**: Geist Mono (Google Fonts)
+- **Linting**: Biome (replaces ESLint + Prettier)
+- **Runtime**: Bun (Node.js alternative)
