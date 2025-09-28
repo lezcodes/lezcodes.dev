@@ -1,14 +1,25 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
-@import "highlight.js/styles/github.css";
 
+/* Light theme - based on the provided image colors */
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
-  --border: #000000;
-  --muted: #666666;
-  --accent: #000000;
+  --background: oklch(0.9721 0.0158 110.5501);
+  --foreground: oklch(0.5066 0.2501 271.8903);
+  --border: oklch(0.5066 0.2501 271.8903);
+  --muted: oklch(0.5066 0.2501 271.8903);
+  --accent: oklch(0.5066 0.2501 271.8903);
 }
+
+/* Dark theme - consistent 2-color system like light mode */
+[data-theme="dark"] {
+  --background: #1a1a1a;
+  --foreground: #ff6b35;
+  --border: #ff6b35;
+  --muted: #ff6b35;
+  --accent: #ff6b35;
+}
+
+/* Default to light theme, dark theme applied via data-theme attribute */
 
 @theme inline {
   --color-background: var(--background);
@@ -18,16 +29,6 @@
   --color-accent: var(--accent);
   --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #ffffff;
-    --border: #ffffff;
-    --muted: #999999;
-    --accent: #ffffff;
-  }
 }
 
 * {
@@ -42,8 +43,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family:
-    var(--font-geist-mono), monospace;
+  font-family: var(--font-geist-mono), monospace;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -58,33 +58,60 @@ body {
 }
 
 .mono-header {
-  padding-bottom: 1rem;
+  padding: 1rem 0;
   margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .mono-nav {
   display: flex;
-  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mono-nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.mono-nav-right {
+  display: flex;
+  gap: 1.5rem;
   align-items: center;
 }
 
 .mono-nav a {
   color: var(--foreground);
   text-decoration: none;
-  border: 1px solid transparent;
-  padding: 0.25rem 0.5rem;
-  transition: border-color 0.2s;
+  padding: 0.25rem 0;
+  transition: text-decoration 0.2s;
 }
 
 .mono-nav a:hover,
 .mono-nav a.active {
-  border-color: var(--border);
+  text-decoration: underline;
 }
 
 .mono-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   margin: 0;
+}
+
+.mono-theme-toggle {
+  background: none;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.mono-theme-toggle:hover {
+  opacity: 0.7;
 }
 
 .mono-subtitle {
@@ -118,6 +145,25 @@ body {
 
 .mono-content h3 {
   font-size: 1.125rem;
+}
+
+.mono-content .mono-section h3 {
+  margin: 2rem 0 1rem 0;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  outline: none;
+}
+
+.mono-section-header-left {
+  text-align: left;
+}
+
+.mono-section-header-right {
+  text-align: right;
 }
 
 /* Heading anchor styles */
@@ -279,8 +325,7 @@ body {
 }
 
 .mono-content code {
-  font-family:
-    var(--font-geist-mono), monospace;
+  font-family: var(--font-geist-mono), monospace;
   background: var(--background);
   padding: 0.125rem 0.25rem;
   font-size: 0.875rem;
@@ -290,6 +335,54 @@ body {
   border: none;
   padding: 0;
   background: transparent;
+}
+
+/* Monochromatic syntax highlighting - uses theme text colors */
+.mono-content .hljs {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* All syntax elements use the same foreground color - highest specificity first */
+.mono-content .hljs-keyword,
+.mono-content .hljs-selector-tag,
+.mono-content .hljs-built_in,
+.mono-content .hljs-name,
+.mono-content .hljs-tag,
+.mono-content .hljs-string,
+.mono-content .hljs-attr,
+.mono-content .hljs-selector-attr,
+.mono-content .hljs-selector-pseudo,
+.mono-content .hljs-template-tag,
+.mono-content .hljs-comment,
+.mono-content .hljs-quote,
+.mono-content .hljs-number,
+.mono-content .hljs-literal,
+.mono-content .hljs-variable,
+.mono-content .hljs-template-variable,
+.mono-content .hljs-link,
+.mono-content .hljs-function,
+.mono-content .hljs-title,
+.mono-content .hljs-class .hljs-title,
+.mono-content .hljs-params,
+.mono-content .hljs-meta,
+.mono-content .hljs-type {
+  color: var(--foreground);
+}
+
+/* Keep basic text styling for scoped elements */
+.mono-content .hljs-comment,
+.mono-content .hljs-quote {
+  font-style: italic;
+}
+
+.mono-content .hljs-doctag,
+.mono-content .hljs-strong {
+  font-weight: bold;
+}
+
+.mono-content .hljs-emphasis {
+  font-style: italic;
 }
 
 .mono-content table {
@@ -347,8 +440,8 @@ body {
 }
 
 .mono-tag.mono-tag-hover:hover {
-  background: var(--foreground) !important;
-  color: var(--background) !important;
+  background: var(--foreground);
+  color: var(--background);
   cursor: default;
 }
 
@@ -558,14 +651,4 @@ body {
 /* Math styling */
 .katex {
   font-size: 1em;
-}
-
-/* Code highlighting adjustments for monospace theme */
-.hljs {
-  background: var(--background);
-  color: var(--foreground);
-}
-
-@media (prefers-color-scheme: dark) {
-  @import "highlight.js/styles/github-dark.css";
 }

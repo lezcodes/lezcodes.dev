@@ -5,7 +5,7 @@ import matter from "gray-matter";
 const homeFile = path.join(process.cwd(), "content/home.mdx");
 
 export interface Link {
-  title: string;
+  icon: string;
   url: string;
 }
 
@@ -29,13 +29,13 @@ export function getHomeData(): HomeData {
 
   // Sort arrays alphabetically
   const technologies = data.technologies?.sort((a: string, b: string) =>
-    a.localeCompare(b)
+    a.localeCompare(b),
   );
   const links = data.links?.sort((a: Link, b: Link) =>
-    a.title.localeCompare(b.title)
+    a.icon.localeCompare(b.icon),
   );
   const projects = data.projects?.sort((a: Project, b: Project) =>
-    a.title.localeCompare(b.title)
+    a.title.localeCompare(b.title),
   );
 
   return {

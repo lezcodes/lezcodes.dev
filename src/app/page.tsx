@@ -1,3 +1,6 @@
+import type { LucideIcon } from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
@@ -7,14 +10,53 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { getHomeData } from "@/lib/home";
 
+export const metadata: Metadata = {
+  title: "Carlos Lezama - ML & Software Engineer",
+  description:
+    "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio. Previously at RappiCard and Didi Food.",
+  openGraph: {
+    title: "Carlos Lezama - ML & Software Engineer",
+    description:
+      "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio.",
+    url: "https://lezcodes.dev",
+    siteName: "lezcodes.dev",
+    images: [
+      {
+        url: "/cookie.PNG",
+        width: 1200,
+        height: 630,
+        alt: "Carlos Lezama with Cookie - lezcodes.dev",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Carlos Lezama - ML & Software Engineer",
+    description:
+      "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio.",
+    images: ["/cookie.PNG"],
+  },
+  alternates: {
+    canonical: "https://lezcodes.dev",
+  },
+};
+
+// Function to render icon by name
+function renderIcon(iconName: string) {
+  const IconComponent = (LucideIcons as Record<string, unknown>)[
+    iconName
+  ] as LucideIcon;
+  if (!IconComponent) return null;
+  return <IconComponent size={16} />;
+}
+
 export default function Home() {
   const homeData = getHomeData();
 
   return (
     <div className="mono-content">
-      <h1>{homeData.title}</h1>
-      <p className="mono-subtitle">{homeData.subtitle}</p>
-
       {/* Content between title and technologies */}
       <MDXRemote
         source={homeData.content}
@@ -34,7 +76,7 @@ export default function Home() {
       {/* Links Section */}
       {homeData.links && homeData.links.length > 0 && (
         <section className="mono-section">
-          <h2>links</h2>
+          <h3 className="mono-section-header-left">links</h3>
           <div className="mono-tags">
             {homeData.links.map((link) => (
               <a
@@ -44,7 +86,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="mono-tag mono-tag-link"
               >
-                {link.title}
+                {renderIcon(link.icon)}
               </a>
             ))}
           </div>
@@ -54,29 +96,24 @@ export default function Home() {
       {/* Projects Section */}
       {homeData.projects && homeData.projects.length > 0 && (
         <section className="mono-section">
-          <h2>projects</h2>
+          <h3 className="mono-section-header-left">projects</h3>
           <div className="mono-tags">
-            {homeData.projects.map((project, index) =>
-              project.url
-                ? (
-                  <a
-                    key={index}
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mono-tag mono-tag-link"
-                  >
-                    {project.title}
-                  </a>
-                )
-                : (
-                  <span
-                    key={index}
-                    className="mono-tag mono-tag-hover"
-                  >
-                    {project.title} 🚧
-                  </span>
-                )
+            {homeData.projects.map((project) =>
+              project.url ? (
+                <a
+                  key={project.title}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-tag mono-tag-link"
+                >
+                  {project.title}
+                </a>
+              ) : (
+                <span key={project.title} className="mono-tag mono-tag-hover">
+                  {project.title} 🚧
+                </span>
+              ),
             )}
           </div>
         </section>
@@ -85,7 +122,7 @@ export default function Home() {
       {/* Technologies Section */}
       {homeData.technologies && homeData.technologies.length > 0 && (
         <section className="mono-section">
-          <h2>technologies</h2>
+          <h3 className="mono-section-header-left">technologies</h3>
           <div className="mono-tags">
             {homeData.technologies.map((tech) => (
               <span key={tech} className="mono-tag mono-tag-hover">

@@ -132,9 +132,10 @@ src/
 
 ### Styling Rules
 1. **Monospace only** - All text uses Geist Mono font
-2. **System theme** - Respects user's dark/light mode preference  
-3. **No custom fonts** - Stick to the monospace constraint
-4. **Minimal colors** - Uses CSS custom properties for theming
+2. **Theme system** - Light theme (purple/beige), dark theme (black/orange)
+3. **Theme toggle** - Click to switch: ☀ (light) ↔ 🌙 (dark), auto-detects system preference
+4. **No custom fonts** - Stick to the monospace constraint
+5. **Minimal colors** - Uses CSS custom properties for theming
 
 ### Development Rules
 1. **Use Biome** - For linting and formatting (not Prettier/ESLint)
