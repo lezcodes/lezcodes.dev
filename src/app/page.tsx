@@ -1,5 +1,3 @@
-import type { LucideIcon } from "lucide-react";
-import * as LucideIcons from "lucide-react";
 import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -8,6 +6,11 @@ import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import { AudioLinesIcon } from "@/components/ui/audio-lines";
+import { GithubIcon } from "@/components/ui/github";
+import { InstagramIcon } from "@/components/ui/instagram";
+import { LinkedinIcon } from "@/components/ui/linkedin";
+import { TwitterIcon } from "@/components/ui/twitter";
 import { getHomeData } from "@/lib/home";
 import { generatePageMetadata } from "@/lib/seo";
 
@@ -19,11 +22,18 @@ export const metadata: Metadata = generatePageMetadata({
 
 // Function to render icon by name
 function renderIcon(iconName: string) {
-  const IconComponent = (LucideIcons as Record<string, unknown>)[
-    iconName
-  ] as LucideIcon;
+  const iconMap = {
+    Github: GithubIcon,
+    Instagram: InstagramIcon,
+    Linkedin: LinkedinIcon,
+    AudioLines: AudioLinesIcon,
+    Twitter: TwitterIcon,
+  };
+
+  const IconComponent = iconMap[iconName as keyof typeof iconMap];
   if (!IconComponent) return null;
-  return <IconComponent size={16} />;
+
+  return <IconComponent size={16} className="inline-block" />;
 }
 
 export default function Home() {

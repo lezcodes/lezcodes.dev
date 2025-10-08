@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 /* Light theme - based on the provided image colors */
 :root {
@@ -432,6 +435,21 @@ body {
 .mono-tag-link {
   text-decoration: none;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+}
+
+.mono-tag-link > div {
+  width: 16px;
+  height: 16px;
+}
+
+.mono-tag-link svg {
+  width: 16px;
+  height: 16px;
 }
 
 .mono-tag-link:hover {
@@ -651,4 +669,10 @@ body {
 /* Math styling */
 .katex {
   font-size: 1em;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
 }
