@@ -208,7 +208,8 @@ export function generateBlogPostStructuredData({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: title,
-    description: description ||
+    description:
+      description ||
       `Technical blog post by ${seoConfig.author.name} about ${title}`,
     image: `${seoConfig.siteUrl}${seoConfig.defaultOgImage}`,
     author: {

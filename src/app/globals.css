@@ -12,7 +12,7 @@
 
 /* Dark theme - consistent 2-color system like light mode */
 [data-theme="dark"] {
-  --background: #1a1a1a;
+  --background: #121212;
   --foreground: #ff6b35;
   --border: #ff6b35;
   --muted: #ff6b35;
