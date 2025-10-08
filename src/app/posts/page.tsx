@@ -1,39 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
+import { generatePageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Blog Posts - Carlos Lezama",
+export const metadata: Metadata = generatePageMetadata({
+  title: "Blog Posts",
   description:
     "Technical blog posts about machine learning, software engineering, and technology by Carlos Lezama (lez). Insights on Python, Go, TypeScript, AI/ML, and platform engineering.",
-  openGraph: {
-    title: "Blog Posts - Carlos Lezama",
-    description:
-      "Technical blog posts about machine learning, software engineering, and technology by Carlos Lezama (lez).",
-    url: "https://lezcodes.dev/posts",
-    siteName: "lezcodes.dev",
-    images: [
-      {
-        url: "/cookie.PNG",
-        width: 1200,
-        height: 630,
-        alt: "Carlos Lezama Blog Posts - lezcodes.dev",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog Posts - Carlos Lezama",
-    description:
-      "Technical blog posts about machine learning, software engineering, and technology by Carlos Lezama (lez).",
-    images: ["/cookie.PNG"],
-  },
-  alternates: {
-    canonical: "https://lezcodes.dev/posts",
-  },
-};
+  path: "/posts",
+});
 
 export default function PostsPage() {
   const posts = getAllPosts();

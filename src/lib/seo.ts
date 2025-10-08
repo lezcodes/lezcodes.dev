@@ -1,6 +1,8 @@
 // SEO Configuration for lezcodes.dev
 // This file contains all SEO-related constants and configurations
 
+import type { Metadata } from "next";
+
 export const seoConfig = {
   // Basic site information
   siteName: "lezcodes.dev",
@@ -82,6 +84,7 @@ export function generatePageMetadata({
   image = seoConfig.defaultOgImage,
   type = "website",
   publishedTime,
+  keywords,
 }: {
   title?: string;
   description?: string;
@@ -89,16 +92,28 @@ export function generatePageMetadata({
   image?: string;
   type?: "website" | "article";
   publishedTime?: string;
-}) {
+  keywords?: string[];
+}): Metadata {
   const fullTitle = title
     ? `${title} | ${seoConfig.siteName}`
     : seoConfig.defaultTitle;
   const fullDescription = description || seoConfig.defaultDescription;
   const fullUrl = `${seoConfig.siteUrl}${path}`;
+  const fullImageUrl = image.startsWith("http")
+    ? image
+    : `${seoConfig.siteUrl}${image}`;
 
   return {
-    title: fullTitle,
+    title: {
+      default: fullTitle,
+      template: `%s | ${seoConfig.siteName}`,
+    },
     description: fullDescription,
+    keywords: keywords || seoConfig.keywords,
+    authors: [{ name: seoConfig.author.name, url: seoConfig.siteUrl }],
+    creator: seoConfig.author.name,
+    publisher: seoConfig.author.name,
+    metadataBase: new URL(seoConfig.siteUrl),
     openGraph: {
       title: title || seoConfig.defaultTitle,
       description: fullDescription,
@@ -106,10 +121,12 @@ export function generatePageMetadata({
       siteName: seoConfig.siteName,
       images: [
         {
-          url: image,
+          url: fullImageUrl,
           width: 1200,
           height: 630,
-          alt: title || seoConfig.author.name,
+          alt: title
+            ? `${title} - ${seoConfig.author.name}`
+            : seoConfig.author.name,
         },
       ],
       locale: "en_US",
@@ -121,12 +138,19 @@ export function generatePageMetadata({
       card: "summary_large_image",
       title: title || seoConfig.defaultTitle,
       description: fullDescription,
-      images: [image],
+      images: [fullImageUrl],
       site: seoConfig.author.twitter,
       creator: seoConfig.author.twitter,
     },
     alternates: {
       canonical: fullUrl,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    verification: {
+      google: seoConfig.analytics.googleVerification,
     },
     ...(type === "article" && {
       authors: [{ name: seoConfig.author.name, url: seoConfig.siteUrl }],
@@ -184,8 +208,7 @@ export function generateBlogPostStructuredData({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: title,
-    description:
-      description ||
+    description: description ||
       `Technical blog post by ${seoConfig.author.name} about ${title}`,
     image: `${seoConfig.siteUrl}${seoConfig.defaultOgImage}`,
     author: {

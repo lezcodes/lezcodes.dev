@@ -9,39 +9,13 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { getHomeData } from "@/lib/home";
+import { generatePageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = generatePageMetadata({
   title: "Carlos Lezama - ML & Software Engineer",
   description:
     "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio. Previously at RappiCard and Didi Food.",
-  openGraph: {
-    title: "Carlos Lezama - ML & Software Engineer",
-    description:
-      "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio.",
-    url: "https://lezcodes.dev",
-    siteName: "lezcodes.dev",
-    images: [
-      {
-        url: "/cookie.PNG",
-        width: 1200,
-        height: 630,
-        alt: "Carlos Lezama with Cookie - lezcodes.dev",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Carlos Lezama - ML & Software Engineer",
-    description:
-      "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio.",
-    images: ["/cookie.PNG"],
-  },
-  alternates: {
-    canonical: "https://lezcodes.dev",
-  },
-};
+});
 
 // Function to render icon by name
 function renderIcon(iconName: string) {
