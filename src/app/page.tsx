@@ -78,7 +78,7 @@ export default function Home() {
         <section className="mono-section">
           <h3 className="mono-section-header-left">links</h3>
           <p>
-            {homeData.links.map((link, index) => {
+            {homeData.links.map((link, index, array) => {
               const isExternal = link.url.startsWith("http");
               return (
                 <span key={link.url}>
@@ -91,7 +91,7 @@ export default function Home() {
                   >
                     {link.label}
                   </a>
-                  {index < homeData.links.length - 1 && " ✦ "}
+                  {index < array.length - 1 && " ✦ "}
                 </span>
               );
             })}
