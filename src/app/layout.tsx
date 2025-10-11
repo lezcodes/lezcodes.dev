@@ -35,7 +35,6 @@ export default function RootLayout({
                 </Link>
               </div>
               <div className="mono-nav-right">
-                <Link href="/posts">posts</Link>
                 <ThemeToggle />
               </div>
             </nav>

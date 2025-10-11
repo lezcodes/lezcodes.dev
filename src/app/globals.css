@@ -4,22 +4,58 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Light theme - based on the provided image colors */
+/* Light theme - GitHub Light */
 :root {
-  --background: oklch(0.9721 0.0158 110.5501);
-  --foreground: oklch(0.5066 0.2501 271.8903);
-  --border: oklch(0.5066 0.2501 271.8903);
-  --muted: oklch(0.5066 0.2501 271.8903);
-  --accent: oklch(0.5066 0.2501 271.8903);
+  --background: #f4f4f4;
+  --foreground: #3e3e3e;
+  --border: #666666;
+  --muted: #666666;
+  --accent: #2e6cba;
+  --selection: #a9c1e2;
+
+  /* Syntax highlighting */
+  --syntax-comment: #666666;
+  --syntax-keyword: #003e8a;
+  --syntax-string: #07962a;
+  --syntax-function: #e94691;
+  --syntax-constant: #970b16;
+  --syntax-type: #2e6cba;
+  --syntax-operator: #7cc4df;
+
+  /* Alternating link colors */
+  --link-color-1: #970b16;
+  --link-color-2: #003e8a;
+  --link-color-3: #c5bb94;
+  --link-color-4: #e94691;
+  --link-color-5: #7cc4df;
+  --link-color-6: #07962a;
 }
 
-/* Dark theme - consistent 2-color system like light mode */
+/* Dark theme - GitHub Dark */
 [data-theme="dark"] {
-  --background: #121212;
-  --foreground: #ff6b35;
-  --border: #ff6b35;
-  --muted: #ff6b35;
-  --accent: #ff6b35;
+  --background: #101216;
+  --foreground: #8b949e;
+  --border: #4d4d4d;
+  --muted: #4d4d4d;
+  --accent: #6ca4f8;
+  --selection: #3b5070;
+
+  /* Syntax highlighting */
+  --syntax-comment: #4d4d4d;
+  --syntax-keyword: #6ca4f8;
+  --syntax-string: #56d364;
+  --syntax-function: #db61a2;
+  --syntax-constant: #f78166;
+  --syntax-type: #6ca4f8;
+  --syntax-operator: #2b7489;
+
+  /* Alternating link colors */
+  --link-color-1: #f78166;
+  --link-color-2: #6ca4f8;
+  --link-color-3: #e3b341;
+  --link-color-4: #db61a2;
+  --link-color-5: #2b7489;
+  --link-color-6: #56d364;
 }
 
 /* Default to light theme, dark theme applied via data-theme attribute */
@@ -63,7 +99,6 @@ body {
 .mono-header {
   padding: 1rem 0;
   margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
 }
 
 .mono-nav {
@@ -234,6 +269,68 @@ body {
   color: var(--background);
 }
 
+/* Alternating link colors in links section */
+.mono-section p span:nth-child(6n + 1) a {
+  color: var(--link-color-1);
+}
+
+.mono-section p span:nth-child(6n + 2) a {
+  color: var(--link-color-2);
+}
+
+.mono-section p span:nth-child(6n + 3) a {
+  color: var(--link-color-3);
+}
+
+.mono-section p span:nth-child(6n + 4) a {
+  color: var(--link-color-4);
+}
+
+.mono-section p span:nth-child(6n + 5) a {
+  color: var(--link-color-5);
+}
+
+.mono-section p span:nth-child(6n + 6) a {
+  color: var(--link-color-6);
+}
+
+.mono-section p span a:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Alternating colors for posts and share sections */
+.mono-section p a {
+  text-decoration: none;
+}
+
+/* Date styling - muted color */
+.post-date {
+  color: var(--muted);
+}
+
+/* Separator styling - accent color */
+.post-separator {
+  color: var(--accent);
+}
+
+/* Title styling - foreground color */
+.post-title {
+  color: var(--foreground);
+}
+
+/* Hover effect for the entire link */
+.mono-section p a:hover {
+  background: var(--foreground);
+  text-decoration: none;
+}
+
+.mono-section p a:hover .post-date,
+.mono-section p a:hover .post-separator,
+.mono-section p a:hover .post-title {
+  color: var(--background);
+}
+
 .mono-content ul {
   margin: 1rem 0;
   padding-left: 2rem;
@@ -340,45 +437,80 @@ body {
   background: transparent;
 }
 
-/* Monochromatic syntax highlighting - uses theme text colors */
+/* Syntax highlighting with Vesper/Rose Pine Dawn colors */
 .mono-content .hljs {
   background: var(--background);
   color: var(--foreground);
 }
 
-/* All syntax elements use the same foreground color - highest specificity first */
+/* Keywords */
 .mono-content .hljs-keyword,
 .mono-content .hljs-selector-tag,
 .mono-content .hljs-built_in,
 .mono-content .hljs-name,
-.mono-content .hljs-tag,
+.mono-content .hljs-tag {
+  color: var(--syntax-keyword);
+}
+
+/* Strings */
 .mono-content .hljs-string,
 .mono-content .hljs-attr,
 .mono-content .hljs-selector-attr,
 .mono-content .hljs-selector-pseudo,
-.mono-content .hljs-template-tag,
-.mono-content .hljs-comment,
-.mono-content .hljs-quote,
-.mono-content .hljs-number,
-.mono-content .hljs-literal,
-.mono-content .hljs-variable,
-.mono-content .hljs-template-variable,
-.mono-content .hljs-link,
-.mono-content .hljs-function,
-.mono-content .hljs-title,
-.mono-content .hljs-class .hljs-title,
-.mono-content .hljs-params,
-.mono-content .hljs-meta,
-.mono-content .hljs-type {
-  color: var(--foreground);
+.mono-content .hljs-template-tag {
+  color: var(--syntax-string);
 }
 
-/* Keep basic text styling for scoped elements */
+/* Comments */
 .mono-content .hljs-comment,
 .mono-content .hljs-quote {
+  color: var(--syntax-comment);
   font-style: italic;
 }
 
+/* Numbers and literals */
+.mono-content .hljs-number,
+.mono-content .hljs-literal {
+  color: var(--syntax-constant);
+}
+
+/* Variables */
+.mono-content .hljs-variable,
+.mono-content .hljs-template-variable {
+  color: var(--foreground);
+}
+
+/* Functions */
+.mono-content .hljs-function,
+.mono-content .hljs-title,
+.mono-content .hljs-class .hljs-title {
+  color: var(--syntax-function);
+}
+
+/* Types */
+.mono-content .hljs-type,
+.mono-content .hljs-class,
+.mono-content .hljs-params {
+  color: var(--syntax-type);
+}
+
+/* Operators */
+.mono-content .hljs-operator,
+.mono-content .hljs-punctuation {
+  color: var(--syntax-operator);
+}
+
+/* Links */
+.mono-content .hljs-link {
+  color: var(--accent);
+}
+
+/* Meta */
+.mono-content .hljs-meta {
+  color: var(--muted);
+}
+
+/* Text styling */
 .mono-content .hljs-doctag,
 .mono-content .hljs-strong {
   font-weight: bold;
@@ -386,6 +518,15 @@ body {
 
 .mono-content .hljs-emphasis {
   font-style: italic;
+}
+
+/* Deletions and additions (diff) */
+.mono-content .hljs-deletion {
+  color: var(--syntax-constant);
+}
+
+.mono-content .hljs-addition {
+  color: var(--syntax-string);
 }
 
 .mono-content table {

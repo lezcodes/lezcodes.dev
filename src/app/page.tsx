@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
@@ -6,13 +7,10 @@ import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import { AudioLinesIcon } from "@/components/ui/audio-lines";
-import { GithubIcon } from "@/components/ui/github";
-import { InstagramIcon } from "@/components/ui/instagram";
-import { LinkedinIcon } from "@/components/ui/linkedin";
-import { TwitterIcon } from "@/components/ui/twitter";
 import { getHomeData } from "@/lib/home";
+import { getAllPosts } from "@/lib/posts";
 import { generatePageMetadata } from "@/lib/seo";
+import { getAllShares } from "@/lib/share";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Carlos Lezama - ML & Software Engineer",
@@ -20,24 +18,10 @@ export const metadata: Metadata = generatePageMetadata({
     "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio. Previously at RappiCard and Didi Food.",
 });
 
-// Function to render icon by name
-function renderIcon(iconName: string) {
-  const iconMap = {
-    Github: GithubIcon,
-    Instagram: InstagramIcon,
-    Linkedin: LinkedinIcon,
-    AudioLines: AudioLinesIcon,
-    Twitter: TwitterIcon,
-  };
-
-  const IconComponent = iconMap[iconName as keyof typeof iconMap];
-  if (!IconComponent) return null;
-
-  return <IconComponent size={16} className="inline-block" />;
-}
-
 export default function Home() {
   const homeData = getHomeData();
+  const posts = getAllPosts();
+  const shares = getAllShares();
 
   return (
     <div className="mono-content">
@@ -57,63 +41,61 @@ export default function Home() {
         }}
       />
 
+      {/* Posts Section */}
+      {posts && posts.length > 0 && (
+        <section className="mono-section">
+          <h3 className="mono-section-header-left">posts</h3>
+          {posts.map((post) => (
+            <p key={post.slug}>
+              <Link href={`/posts/${post.slug}`}>
+                <span className="post-date">{post.date}</span>
+                <span className="post-separator"> ✦ </span>
+                <span className="post-title">{post.title}</span>
+              </Link>
+            </p>
+          ))}
+        </section>
+      )}
+
+      {/* Share Section */}
+      {shares && shares.length > 0 && (
+        <section className="mono-section">
+          <h3 className="mono-section-header-left">share</h3>
+          {shares.map((share) => (
+            <p key={share.slug}>
+              <Link href={`/share/${share.slug}`}>
+                <span className="post-date">{share.date}</span>
+                <span className="post-separator"> ✦ </span>
+                <span className="post-title">{share.title}</span>
+              </Link>
+            </p>
+          ))}
+        </section>
+      )}
+
       {/* Links Section */}
       {homeData.links && homeData.links.length > 0 && (
         <section className="mono-section">
           <h3 className="mono-section-header-left">links</h3>
-          <div className="mono-tags">
-            {homeData.links.map((link) => (
-              <a
-                key={link.url}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mono-tag mono-tag-link"
-              >
-                {renderIcon(link.icon)}
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Projects Section */}
-      {homeData.projects && homeData.projects.length > 0 && (
-        <section className="mono-section">
-          <h3 className="mono-section-header-left">projects</h3>
-          <div className="mono-tags">
-            {homeData.projects.map((project) =>
-              project.url ? (
-                <a
-                  key={project.title}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mono-tag mono-tag-link"
-                >
-                  {project.title}
-                </a>
-              ) : (
-                <span key={project.title} className="mono-tag mono-tag-hover">
-                  {project.title} 🚧
+          <p>
+            {homeData.links.map((link, index) => {
+              const isExternal = link.url.startsWith("http");
+              return (
+                <span key={link.url}>
+                  <a
+                    href={link.url}
+                    {...(isExternal && {
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                    })}
+                  >
+                    {link.label}
+                  </a>
+                  {index < homeData.links.length - 1 && " ✦ "}
                 </span>
-              ),
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Technologies Section */}
-      {homeData.technologies && homeData.technologies.length > 0 && (
-        <section className="mono-section">
-          <h3 className="mono-section-header-left">technologies</h3>
-          <div className="mono-tags">
-            {homeData.technologies.map((tech) => (
-              <span key={tech} className="mono-tag mono-tag-hover">
-                {tech}
-              </span>
-            ))}
-          </div>
+              );
+            })}
+          </p>
         </section>
       )}
     </div>
