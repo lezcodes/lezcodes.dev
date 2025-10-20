@@ -14,25 +14,21 @@ export default function PostsPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="mono-content">
+    <div className="content">
       <h1>posts</h1>
 
       {posts.length === 0 ? (
         <p>No posts yet. Check back soon!</p>
       ) : (
-        <ul className="mono-post-list">
+        <div className="card-grid">
           {posts.map((post) => (
-            <li key={post.slug}>
-              <Link href={`/posts/${post.slug}`} className="mono-post-card">
-                <div className="mono-post-title">{post.title}</div>
-                <div className="mono-post-date">{post.date}</div>
-                {post.excerpt && (
-                  <p className="mono-post-excerpt">{post.excerpt}</p>
-                )}
-              </Link>
-            </li>
+            <Link key={post.slug} href={`/posts/${post.slug}`} className="card">
+              <div className="card-title">{post.title}</div>
+              <div className="card-date">{post.date}</div>
+              {post.excerpt && <p className="card-excerpt">{post.excerpt}</p>}
+            </Link>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

@@ -14,25 +14,25 @@ export default function SharePage() {
   const shares = getAllShares();
 
   return (
-    <div className="mono-content">
+    <div className="content">
       <h1>share</h1>
 
       {shares.length === 0 ? (
         <p>No shares yet. Check back soon!</p>
       ) : (
-        <ul className="mono-post-list">
+        <div className="card-grid">
           {shares.map((share) => (
-            <li key={share.slug}>
-              <Link href={`/share/${share.slug}`} className="mono-post-card">
-                <div className="mono-post-title">{share.title}</div>
-                <div className="mono-post-date">{share.date}</div>
-                {share.excerpt && (
-                  <p className="mono-post-excerpt">{share.excerpt}</p>
-                )}
-              </Link>
-            </li>
+            <Link
+              key={share.slug}
+              href={`/share/${share.slug}`}
+              className="card"
+            >
+              <div className="card-title">{share.title}</div>
+              <div className="card-date">{share.date}</div>
+              {share.excerpt && <p className="card-excerpt">{share.excerpt}</p>}
+            </Link>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

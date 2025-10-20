@@ -41,25 +41,65 @@ export default async function SharePostPage({
     const share = getShareBySlug(slug);
 
     return (
-      <article className="mono-content">
-        <h1>{share.title}</h1>
-        <div className="mono-post-meta">
-          <time dateTime={share.date}>{share.date}</time>
+      <article className="article-content">
+        <header className="article-header">
+          <h1 className="article-title">{share.title}</h1>
+        </header>
+        <div className="article-grid">
+          <aside className="article-aside">
+            <div className="meta-panel">
+              <div className="meta-section">
+                <div className="meta-label">DATE:</div>
+                <div className="meta-value">
+                  <time dateTime={share.date}>{share.date}</time>
+                </div>
+              </div>
+              {share.readingTime && (
+                <div className="meta-section">
+                  <div className="meta-label">READING TIME:</div>
+                  <div className="meta-value">{share.readingTime}</div>
+                </div>
+              )}
+              <div className="meta-section">
+                <div className="meta-label">SHARE:</div>
+                <div className="share-buttons">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(share.title)}&url=${encodeURIComponent(`https://lezcodes.dev/share/${slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-button"
+                  >
+                    Twitter/X
+                  </a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://lezcodes.dev/share/${slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-button"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <div className="article-body">
+            <MDXRemote
+              source={share.content}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm, remarkMath],
+                  rehypePlugins: [
+                    rehypeSlug,
+                    [rehypeAutolinkHeadings, { behavior: "wrap" }],
+                    rehypeKatex,
+                    rehypeHighlight,
+                  ],
+                },
+              }}
+            />
+          </div>
         </div>
-        <MDXRemote
-          source={share.content}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm, remarkMath],
-              rehypePlugins: [
-                rehypeSlug,
-                [rehypeAutolinkHeadings, { behavior: "wrap" }],
-                rehypeKatex,
-                rehypeHighlight,
-              ],
-            },
-          }}
-        />
       </article>
     );
   } catch {

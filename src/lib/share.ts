@@ -10,7 +10,15 @@ export interface Share {
   date: string;
   excerpt?: string;
   content: string;
+  readingTime?: string;
   [key: string]: unknown;
+}
+
+function calculateReadingTime(content: string): string {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
 }
 
 export function getAllShares(): Share[] {
@@ -34,6 +42,7 @@ export function getAllShares(): Share[] {
         title: data.title,
         date: data.date,
         excerpt: data.excerpt,
+        readingTime: calculateReadingTime(content),
         ...data,
       } as Share;
     });
@@ -52,6 +61,7 @@ export function getShareBySlug(slug: string): Share {
     title: data.title,
     date: data.date,
     excerpt: data.excerpt,
+    readingTime: calculateReadingTime(content),
     ...data,
   } as Share;
 }

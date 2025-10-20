@@ -24,8 +24,8 @@ export default function Home() {
   const shares = getAllShares();
 
   return (
-    <div className="mono-content">
-      {/* Content between title and technologies */}
+    <div className="content">
+      {/* Main content */}
       <MDXRemote
         source={homeData.content}
         options={{
@@ -43,45 +43,45 @@ export default function Home() {
 
       {/* Posts Section */}
       {posts && posts.length > 0 && (
-        <section className="mono-section">
-          <h3 className="mono-section-header-left">posts</h3>
-          {posts.map((post) => (
-            <p key={post.slug}>
-              <Link href={`/posts/${post.slug}`}>
-                <span className="post-date">{post.date}</span>
-                <span className="post-separator"> ✦ </span>
-                <span className="post-title">{post.title}</span>
-              </Link>
-            </p>
-          ))}
+        <section className="section">
+          <h3>posts</h3>
+          <ul className="posts-list">
+            {posts.map((post) => (
+              <li key={post.slug} className="post-item">
+                <Link href={`/posts/${post.slug}`}>
+                  <span className="post-title">{post.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
       {/* Share Section */}
       {shares && shares.length > 0 && (
-        <section className="mono-section">
-          <h3 className="mono-section-header-left">share</h3>
-          {shares.map((share) => (
-            <p key={share.slug}>
-              <Link href={`/share/${share.slug}`}>
-                <span className="post-date">{share.date}</span>
-                <span className="post-separator"> ✦ </span>
-                <span className="post-title">{share.title}</span>
-              </Link>
-            </p>
-          ))}
+        <section className="section">
+          <h3>share</h3>
+          <ul className="posts-list">
+            {shares.map((share) => (
+              <li key={share.slug} className="post-item">
+                <Link href={`/share/${share.slug}`}>
+                  <span className="post-title">{share.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
       {/* Links Section */}
       {homeData.links && homeData.links.length > 0 && (
-        <section className="mono-section">
-          <h3 className="mono-section-header-left">links</h3>
-          <p>
-            {homeData.links.map((link, index, array) => {
+        <section className="section">
+          <h3>links</h3>
+          <ul className="links-list">
+            {homeData.links.map((link) => {
               const isExternal = link.url.startsWith("http");
               return (
-                <span key={link.url}>
+                <li key={link.url}>
                   <a
                     href={link.url}
                     {...(isExternal && {
@@ -91,11 +91,10 @@ export default function Home() {
                   >
                     {link.label}
                   </a>
-                  {index < array.length - 1 && " ✦ "}
-                </span>
+                </li>
               );
             })}
-          </p>
+          </ul>
         </section>
       )}
     </div>

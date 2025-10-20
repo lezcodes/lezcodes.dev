@@ -55,26 +55,65 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <>
       <StructuredData data={structuredData} />
-      <article className="mono-content">
-        <header className="mono-post-meta">
-          <h1>{post.title}</h1>
-          <time dateTime={post.date}>{post.date}</time>
+      <article className="article-content">
+        <header className="article-header">
+          <h1 className="article-title">{post.title}</h1>
         </header>
-
-        <MDXRemote
-          source={post.content}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm, remarkMath],
-              rehypePlugins: [
-                rehypeSlug,
-                [rehypeAutolinkHeadings, { behavior: "wrap" }],
-                rehypeKatex,
-                rehypeHighlight,
-              ],
-            },
-          }}
-        />
+        <div className="article-grid">
+          <aside className="article-aside">
+            <div className="meta-panel">
+              <div className="meta-section">
+                <div className="meta-label">DATE:</div>
+                <div className="meta-value">
+                  <time dateTime={post.date}>{post.date}</time>
+                </div>
+              </div>
+              {post.readingTime && (
+                <div className="meta-section">
+                  <div className="meta-label">READING TIME:</div>
+                  <div className="meta-value">{post.readingTime}</div>
+                </div>
+              )}
+              <div className="meta-section">
+                <div className="meta-label">SHARE:</div>
+                <div className="share-buttons">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://lezcodes.dev/posts/${slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-button"
+                  >
+                    Twitter/X
+                  </a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://lezcodes.dev/posts/${slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-button"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <div className="article-body">
+            <MDXRemote
+              source={post.content}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm, remarkMath],
+                  rehypePlugins: [
+                    rehypeSlug,
+                    [rehypeAutolinkHeadings, { behavior: "wrap" }],
+                    rehypeKatex,
+                    rehypeHighlight,
+                  ],
+                },
+              }}
+            />
+          </div>
+        </div>
       </article>
     </>
   );

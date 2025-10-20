@@ -10,7 +10,15 @@ export interface Post {
   date: string;
   excerpt?: string;
   content: string;
+  readingTime?: string;
   [key: string]: unknown;
+}
+
+function calculateReadingTime(content: string): string {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
 }
 
 export function getAllPosts(): Post[] {
@@ -29,6 +37,7 @@ export function getAllPosts(): Post[] {
         title: data.title,
         date: data.date,
         excerpt: data.excerpt,
+        readingTime: calculateReadingTime(content),
         ...data,
       } as Post;
     });
@@ -47,6 +56,7 @@ export function getPostBySlug(slug: string): Post {
     title: data.title,
     date: data.date,
     excerpt: data.excerpt,
+    readingTime: calculateReadingTime(content),
     ...data,
   } as Post;
 }
