@@ -61,40 +61,14 @@ export default async function PostPage({ params }: PostPageProps) {
         </header>
         <div className="article-grid">
           <aside className="article-aside">
-            <div className="meta-panel">
-              <div className="meta-section">
-                <div className="meta-label">DATE:</div>
-                <div className="meta-value">
-                  <time dateTime={post.date}>{post.date}</time>
-                </div>
-              </div>
+            <div className="meta-info">
+              <time dateTime={post.date}>{post.date}</time>
               {post.readingTime && (
-                <div className="meta-section">
-                  <div className="meta-label">READING TIME:</div>
-                  <div className="meta-value">{post.readingTime}</div>
-                </div>
+                <>
+                  <span className="meta-separator"> ・ </span>
+                  <span>{post.readingTime}</span>
+                </>
               )}
-              <div className="meta-section">
-                <div className="meta-label">SHARE:</div>
-                <div className="share-buttons">
-                  <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://lezcodes.dev/posts/${slug}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="share-button"
-                  >
-                    Twitter/X
-                  </a>
-                  <a
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://lezcodes.dev/posts/${slug}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="share-button"
-                  >
-                    LinkedIn
-                  </a>
-                </div>
-              </div>
             </div>
           </aside>
           <div className="article-body">

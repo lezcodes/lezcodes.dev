@@ -47,40 +47,14 @@ export default async function SharePostPage({
         </header>
         <div className="article-grid">
           <aside className="article-aside">
-            <div className="meta-panel">
-              <div className="meta-section">
-                <div className="meta-label">DATE:</div>
-                <div className="meta-value">
-                  <time dateTime={share.date}>{share.date}</time>
-                </div>
-              </div>
+            <div className="meta-info">
+              <time dateTime={share.date}>{share.date}</time>
               {share.readingTime && (
-                <div className="meta-section">
-                  <div className="meta-label">READING TIME:</div>
-                  <div className="meta-value">{share.readingTime}</div>
-                </div>
+                <>
+                  <span className="meta-separator"> ・ </span>
+                  <span>{share.readingTime}</span>
+                </>
               )}
-              <div className="meta-section">
-                <div className="meta-label">SHARE:</div>
-                <div className="share-buttons">
-                  <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(share.title)}&url=${encodeURIComponent(`https://lezcodes.dev/share/${slug}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="share-button"
-                  >
-                    Twitter/X
-                  </a>
-                  <a
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://lezcodes.dev/share/${slug}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="share-button"
-                  >
-                    LinkedIn
-                  </a>
-                </div>
-              </div>
             </div>
           </aside>
           <div className="article-body">
