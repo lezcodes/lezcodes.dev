@@ -24,7 +24,7 @@ export const seoConfig = {
     "Carlos Lezama (lez) - ML and Software Engineer with expertise in Python, Go, TypeScript, and AI/ML. Platform team lead at Monopolio. Economics graduate from ITAM.",
 
   // Open Graph default image
-  defaultOgImage: "/cookie.PNG",
+  defaultOgImage: "/cookie.png",
 
   // Keywords for the site
   keywords: [
