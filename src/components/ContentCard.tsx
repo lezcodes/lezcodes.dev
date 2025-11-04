@@ -5,7 +5,7 @@ interface ContentCardProps {
   title: string;
   date: string;
   excerpt?: string;
-  basePath: "posts" | "share";
+  basePath: "posts" | "vault";
 }
 
 export function ContentCard({
@@ -17,9 +17,11 @@ export function ContentCard({
 }: ContentCardProps) {
   return (
     <Link href={`/${basePath}/${slug}`} className="card">
-      <div className="card-title">{title}</div>
       <div className="card-date">{date}</div>
-      {excerpt && <p className="card-excerpt">{excerpt}</p>}
+      <div>
+        <div className="card-title">{title}</div>
+        {excerpt && <p className="card-excerpt">{excerpt}</p>}
+      </div>
     </Link>
   );
 }

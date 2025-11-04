@@ -36,7 +36,7 @@ bun run format     # Format code with Biome (not Prettier)
 src/
 ├── app/                    # Next.js App Router pages
 │   ├── posts/[slug]/      # Dynamic blog post routes
-│   ├── share/[slug]/      # Dynamic share routes
+│   ├── vault/[slug]/      # Dynamic vault routes
 │   ├── globals.css        # Tailwind + custom theme styles
 │   ├── layout.tsx         # Root layout with header/footer
 │   └── page.tsx           # Homepage
@@ -47,14 +47,14 @@ src/
 └── lib/                   # Utility functions
     ├── home.ts           # Homepage MDX data fetching
     ├── posts.ts          # Blog posts data fetching
-    ├── share.ts          # Share content data fetching
+    ├── vault.ts          # Vault content data fetching
     ├── seo.ts            # SEO configuration and metadata generators
     └── utils.ts          # General utilities
 
 content/
 ├── home.mdx              # Homepage content (required)
 ├── posts/*.mdx           # Blog posts
-└── share/*.mdx           # Share pages (curated lists, reviews, etc.)
+└── vault/*.mdx           # Vault pages (curated lists, reviews, etc.)
 ```
 
 ### Content System
@@ -65,7 +65,7 @@ All content is MDX-based with frontmatter. Content is read at build time using N
 - Must have `title` and `subtitle` in frontmatter
 - Optional: `links` array (label + url pairs)
 - Content is rendered between title/subtitle and links section
-- The homepage pulls in posts and shares dynamically
+- The homepage pulls in posts and vault items dynamically
 
 **Blog Posts (`content/posts/*.mdx`)**:
 - Required frontmatter: `title`, `date` (YYYY-MM-DD), `excerpt`
@@ -74,9 +74,9 @@ All content is MDX-based with frontmatter. Content is read at build time using N
 - Reading time calculated automatically (200 words/min)
 - Supports full MDX with math and code highlighting
 
-**Share Pages (`content/share/*.mdx`)**:
+**Vault Pages (`content/vault/*.mdx`)**:
 - Same structure as blog posts but for curated content (lists, reviews, links)
-- Listed on homepage under "share" section
+- Listed on homepage under "vault" section
 - Example: anime-reviews.mdx, favorite-reads.mdx
 
 ### MDX Processing Pipeline
@@ -126,7 +126,7 @@ import { StructuredData } from "@/components/StructuredData";
 ### Development Notes
 
 - The site uses Next.js 15's async params API (params must be awaited in page components)
-- Static site generation (SSG) via `generateStaticParams()` for all posts and shares
+- Static site generation (SSG) via `generateStaticParams()` for all posts and vault items
 - Turbopack is enabled for faster builds (`--turbopack` flag)
 - Server accessible on network during dev (`-H 0.0.0.0`)
 - Content changes require dev server restart (MDX files are read at build time)

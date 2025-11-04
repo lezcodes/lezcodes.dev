@@ -3,9 +3,9 @@ import path from "node:path";
 import matter from "gray-matter";
 import { calculateReadingTime } from "./utils";
 
-const shareDirectory = path.join(process.cwd(), "content/share");
+const vaultDirectory = path.join(process.cwd(), "content/vault");
 
-export interface Share {
+export interface VaultItem {
   slug: string;
   title: string;
   date: string;
@@ -15,18 +15,18 @@ export interface Share {
   [key: string]: unknown;
 }
 
-export function getAllShares(): Share[] {
+export function getAllVaultItems(): VaultItem[] {
   // Check if directory exists
-  if (!fs.existsSync(shareDirectory)) {
+  if (!fs.existsSync(vaultDirectory)) {
     return [];
   }
 
-  const fileNames = fs.readdirSync(shareDirectory);
-  const allSharesData = fileNames
+  const fileNames = fs.readdirSync(vaultDirectory);
+  const allVaultData = fileNames
     .filter((fileName) => fileName.endsWith(".mdx"))
     .map((fileName) => {
       const slug = fileName.replace(/\.mdx$/, "");
-      const fullPath = path.join(shareDirectory, fileName);
+      const fullPath = path.join(vaultDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
 
@@ -38,14 +38,14 @@ export function getAllShares(): Share[] {
         excerpt: data.excerpt,
         readingTime: calculateReadingTime(content),
         ...data,
-      } as Share;
+      } as VaultItem;
     });
 
-  return allSharesData.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return allVaultData.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export function getShareBySlug(slug: string): Share {
-  const fullPath = path.join(shareDirectory, `${slug}.mdx`);
+export function getVaultItemBySlug(slug: string): VaultItem {
+  const fullPath = path.join(vaultDirectory, `${slug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
@@ -57,16 +57,16 @@ export function getShareBySlug(slug: string): Share {
     excerpt: data.excerpt,
     readingTime: calculateReadingTime(content),
     ...data,
-  } as Share;
+  } as VaultItem;
 }
 
-export function getAllShareSlugs(): string[] {
+export function getAllVaultSlugs(): string[] {
   // Check if directory exists
-  if (!fs.existsSync(shareDirectory)) {
+  if (!fs.existsSync(vaultDirectory)) {
     return [];
   }
 
-  const fileNames = fs.readdirSync(shareDirectory);
+  const fileNames = fs.readdirSync(vaultDirectory);
   return fileNames
     .filter((fileName) => fileName.endsWith(".mdx"))
     .map((fileName) => fileName.replace(/\.mdx$/, ""));

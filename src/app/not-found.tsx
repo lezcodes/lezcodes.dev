@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
@@ -20,13 +19,13 @@ export default function NotFound() {
         <h3>what you can do</h3>
         <ul className="links-list">
           <li>
-            <Link href="/">go home</Link>
+            <a href="/">go home</a>
           </li>
           <li>
-            <Link href="/posts">browse posts</Link>
+            <a href="/posts">browse posts</a>
           </li>
           <li>
-            <Link href="/share">view shares</Link>
+            <a href="/vault">view vault</a>
           </li>
         </ul>
       </section>

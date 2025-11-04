@@ -5,7 +5,7 @@ import { getHomeData } from "@/lib/home";
 import { mdxOptions } from "@/lib/mdx";
 import { getAllPosts } from "@/lib/posts";
 import { generatePageMetadata } from "@/lib/seo";
-import { getAllShares } from "@/lib/share";
+import { getAllVaultItems } from "@/lib/vault";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Carlos Lezama - ML & Software Engineer",
@@ -16,7 +16,7 @@ export const metadata: Metadata = generatePageMetadata({
 export default function Home() {
   const homeData = getHomeData();
   const posts = getAllPosts();
-  const shares = getAllShares();
+  const vaultItems = getAllVaultItems();
 
   return (
     <div className="content">
@@ -24,9 +24,11 @@ export default function Home() {
       <MDXRemote source={homeData.content} options={mdxOptions} />
 
       {/* Posts Section */}
-      {posts && posts.length > 0 && (
-        <section className="section">
-          <h3>posts</h3>
+      <section className="section">
+        <h3>
+          <Link href="/posts">posts</Link>
+        </h3>
+        {posts && posts.length > 0 ? (
           <ul className="posts-list">
             {posts.map((post) => (
               <li key={post.slug} className="post-item">
@@ -36,24 +38,30 @@ export default function Home() {
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        ) : (
+          <p>¯\_(ツ)_/¯ no posts yet</p>
+        )}
+      </section>
 
-      {/* Share Section */}
-      {shares && shares.length > 0 && (
-        <section className="section">
-          <h3>share</h3>
+      {/* Vault Section */}
+      <section className="section">
+        <h3>
+          <Link href="/vault">vault</Link>
+        </h3>
+        {vaultItems && vaultItems.length > 0 ? (
           <ul className="posts-list">
-            {shares.map((share) => (
-              <li key={share.slug} className="post-item">
-                <Link href={`/share/${share.slug}`}>
-                  <span className="post-title">{share.title}</span>
+            {vaultItems.map((item) => (
+              <li key={item.slug} className="post-item">
+                <Link href={`/vault/${item.slug}`}>
+                  <span className="post-title">{item.title}</span>
                 </Link>
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        ) : (
+          <p>¯\_(ツ)_/¯ no vault items yet</p>
+        )}
+      </section>
 
       {/* Links Section */}
       {homeData.links && homeData.links.length > 0 && (
