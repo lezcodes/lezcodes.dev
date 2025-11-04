@@ -1,52 +1,38 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [mounted, setMounted] = useState(false);
 
-  const applyTheme = useCallback((newTheme: "light" | "dark") => {
-    const root = document.documentElement;
-    root.setAttribute("data-theme", newTheme);
-  }, []);
-
-  const detectSystemTheme = useCallback((): "light" | "dark" => {
-    if (typeof window !== "undefined") {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-    return "light";
-  }, []);
-
   useEffect(() => {
     setMounted(true);
 
-    // Always start with system theme
-    const systemTheme = detectSystemTheme();
+    // Detect and apply system theme
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches
+      ? "dark"
+      : "light";
     setTheme(systemTheme);
-    applyTheme(systemTheme);
+    document.documentElement.setAttribute("data-theme", systemTheme);
 
-    // Always listen for system theme changes
+    // Listen for system theme changes
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      const newSystemTheme = e.matches ? "dark" : "light";
-      setTheme(newSystemTheme);
-      applyTheme(newSystemTheme);
+    const handleChange = (e: MediaQueryListEvent) => {
+      const newTheme = e.matches ? "dark" : "light";
+      setTheme(newTheme);
+      document.documentElement.setAttribute("data-theme", newTheme);
     };
 
-    mediaQuery.addEventListener("change", handleSystemThemeChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleSystemThemeChange);
-    };
-  }, [applyTheme, detectSystemTheme]);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    applyTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
   };
 
   if (!mounted) {
@@ -57,10 +43,6 @@ export function ThemeToggle() {
     );
   }
 
-  const getIcon = () => {
-    return theme === "light" ? "☀" : "◐";
-  };
-
   return (
     <button
       type="button"
@@ -68,7 +50,7 @@ export function ThemeToggle() {
       className="mono-theme-toggle"
       title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
-      {getIcon()}
+      {theme === "light" ? "☀" : "◐"}
     </button>
   );
 }

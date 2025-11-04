@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ContentCard } from "@/components/ContentCard";
 import { getAllPosts } from "@/lib/posts";
 import { generatePageMetadata } from "@/lib/seo";
 
@@ -22,11 +22,14 @@ export default function PostsPage() {
       ) : (
         <div className="card-grid">
           {posts.map((post) => (
-            <Link key={post.slug} href={`/posts/${post.slug}`} className="card">
-              <div className="card-title">{post.title}</div>
-              <div className="card-date">{post.date}</div>
-              {post.excerpt && <p className="card-excerpt">{post.excerpt}</p>}
-            </Link>
+            <ContentCard
+              key={post.slug}
+              slug={post.slug}
+              title={post.title}
+              date={post.date}
+              excerpt={post.excerpt}
+              basePath="posts"
+            />
           ))}
         </div>
       )}

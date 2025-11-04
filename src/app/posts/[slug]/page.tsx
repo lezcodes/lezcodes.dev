@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeHighlight from "rehype-highlight";
-import rehypeKatex from "rehype-katex";
-import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
 import { StructuredData } from "@/components/StructuredData";
+import { mdxOptions } from "@/lib/mdx";
 import { getAllPostSlugs, getPostBySlug } from "@/lib/posts";
 import {
   generateBlogPostStructuredData,
@@ -72,20 +67,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           </aside>
           <div className="article-body">
-            <MDXRemote
-              source={post.content}
-              options={{
-                mdxOptions: {
-                  remarkPlugins: [remarkGfm, remarkMath],
-                  rehypePlugins: [
-                    rehypeSlug,
-                    [rehypeAutolinkHeadings, { behavior: "wrap" }],
-                    rehypeKatex,
-                    rehypeHighlight,
-                  ],
-                },
-              }}
-            />
+            <MDXRemote source={post.content} options={mdxOptions} />
           </div>
         </div>
       </article>

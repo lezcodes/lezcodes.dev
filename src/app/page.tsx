@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeHighlight from "rehype-highlight";
-import rehypeKatex from "rehype-katex";
-import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
 import { getHomeData } from "@/lib/home";
+import { mdxOptions } from "@/lib/mdx";
 import { getAllPosts } from "@/lib/posts";
 import { generatePageMetadata } from "@/lib/seo";
 import { getAllShares } from "@/lib/share";
@@ -26,20 +21,7 @@ export default function Home() {
   return (
     <div className="content">
       {/* Main content */}
-      <MDXRemote
-        source={homeData.content}
-        options={{
-          mdxOptions: {
-            remarkPlugins: [remarkGfm, remarkMath],
-            rehypePlugins: [
-              rehypeSlug,
-              [rehypeAutolinkHeadings, { behavior: "wrap" }],
-              rehypeKatex,
-              rehypeHighlight,
-            ],
-          },
-        }}
-      />
+      <MDXRemote source={homeData.content} options={mdxOptions} />
 
       {/* Posts Section */}
       {posts && posts.length > 0 && (

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ContentCard } from "@/components/ContentCard";
 import { generatePageMetadata } from "@/lib/seo";
 import { getAllShares } from "@/lib/share";
 
@@ -22,15 +22,14 @@ export default function SharePage() {
       ) : (
         <div className="card-grid">
           {shares.map((share) => (
-            <Link
+            <ContentCard
               key={share.slug}
-              href={`/share/${share.slug}`}
-              className="card"
-            >
-              <div className="card-title">{share.title}</div>
-              <div className="card-date">{share.date}</div>
-              {share.excerpt && <p className="card-excerpt">{share.excerpt}</p>}
-            </Link>
+              slug={share.slug}
+              title={share.title}
+              date={share.date}
+              excerpt={share.excerpt}
+              basePath="share"
+            />
           ))}
         </div>
       )}

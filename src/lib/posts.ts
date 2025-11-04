@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { calculateReadingTime } from "./utils";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -12,13 +13,6 @@ export interface Post {
   content: string;
   readingTime?: string;
   [key: string]: unknown;
-}
-
-function calculateReadingTime(content: string): string {
-  const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return `${minutes} min read`;
 }
 
 export function getAllPosts(): Post[] {

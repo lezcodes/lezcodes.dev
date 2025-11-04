@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { calculateReadingTime } from "./utils";
 
 const shareDirectory = path.join(process.cwd(), "content/share");
 
@@ -12,13 +13,6 @@ export interface Share {
   content: string;
   readingTime?: string;
   [key: string]: unknown;
-}
-
-function calculateReadingTime(content: string): string {
-  const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return `${minutes} min read`;
 }
 
 export function getAllShares(): Share[] {
