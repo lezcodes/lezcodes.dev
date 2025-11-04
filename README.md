@@ -1,6 +1,6 @@
 # lezcodes.dev
 
-A monospace-themed website built with Next.js and MDX, inspired by [The Monospace Web](https://github.com/owickstrom/the-monospace-web).
+A monospace-themed personal website built with Next.js 15 and MDX, inspired by [The Monospace Web](https://github.com/owickstrom/the-monospace-web).
 
 ## Quick Start
 
@@ -18,13 +18,17 @@ Open [http://localhost:3000](http://localhost:3000) to see the site.
 
 ```bash
 # Development
-bun run dev        # Start dev server with turbopack (accessible on network)
-bun run build      # Build for production with turbopack
+bun run dev        # Start dev server with Turbopack (accessible on network)
+bun run build      # Build for production with Turbopack
 bun run start      # Start production server
+
+# Testing
+bun test           # Run all tests with Bun
+bun test <file>    # Run specific test file
 
 # Code Quality
 bun run lint       # Check code with Biome
-bun run format     # Format code with Biome
+bun run format     # Auto-fix and format code with Biome
 ```
 
 ## How to Create Content
@@ -102,6 +106,31 @@ console.log("Hello, monospace world!");
 - Supports syntax highlighting for code blocks
 - Can embed React components
 
+### Vault (`content/vault/*.mdx`)
+
+Create curated collections as `.mdx` files in the `content/vault/` directory:
+
+```mdx
+---
+title: "My Favorite Links"
+excerpt: "A curated collection of interesting resources"
+---
+
+# My Favorite Links
+
+Your curated content with MDX support.
+
+## Resources
+- [Example](https://example.com) - Description here
+```
+
+**Rules:**
+- Filename becomes the URL slug (e.g., `favorite-links.mdx` → `/vault/favorite-links`)
+- Must have `title` and `excerpt` in frontmatter
+- No date required (unlike posts)
+- Supports full MDX syntax
+- Perfect for curated lists, bookmarks, or evergreen content
+
 ## Project Rules & Conventions
 
 ### Design Philosophy
@@ -113,14 +142,25 @@ console.log("Hello, monospace world!");
 ```
 content/
 ├── home.mdx           # Homepage content (required)
-├── links.mdx          # Links page content (required)
-└── posts/             # Blog posts directory
-    └── *.mdx          # Individual posts
+├── posts/             # Blog posts directory
+│   └── *.mdx          # Individual posts (with dates)
+└── vault/             # Curated collections directory
+    └── *.mdx          # Evergreen content (no dates)
 
 src/
-├── app/               # Next.js app directory
-├── lib/               # Utility functions
-└── globals.css        # Monospace theme styles
+├── app/               # Next.js app directory (App Router)
+│   ├── posts/         # Blog posts routes
+│   ├── vault/         # Vault routes
+│   └── page.tsx       # Homepage
+├── components/        # React components
+│   └── ui/            # UI icon components
+├── lib/               # Core utilities and logic
+│   ├── mdx/           # MDX collection utilities
+│   ├── pages/         # Page factory functions
+│   ├── seo/           # SEO and structured data
+│   ├── types/         # TypeScript type definitions
+│   └── utils/         # Error handling and utilities
+└── test/              # Test setup
 ```
 
 ### Content Rules
@@ -138,18 +178,25 @@ src/
 5. **Minimal colors** - Uses CSS custom properties for theming
 
 ### Development Rules
-1. **Use Biome** - For linting and formatting (not Prettier/ESLint)
-2. **Use Turbopack** - Enabled for faster builds and dev server
-3. **TypeScript strict** - All code should be properly typed
-4. **No runtime errors** - Build should complete without warnings
+1. **Use Bun** - Runtime and package manager (replaces Node.js/npm)
+2. **Use Biome** - For linting and formatting (replaces ESLint/Prettier)
+3. **Use Turbopack** - Enabled for faster builds and dev server
+4. **TypeScript strict** - All code must be properly typed with `@/` imports
+5. **Test with Bun** - Co-locate tests with source files as `*.test.ts(x)`
+6. **Error handling** - Use `tryCatch` and `tryCatchCallback` from `@/lib/utils/error-handler`
+7. **DRY principle** - Use generic helpers from `@/lib/mdx/collection` instead of duplicating logic
+8. **No runtime errors** - Build and tests should complete without warnings
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 with App Router
+- **Framework**: Next.js 15 with App Router and React Server Components
+- **Runtime**: Bun (replaces Node.js/npm)
 - **Content**: MDX with gray-matter for frontmatter
 - **Styling**: Tailwind CSS with custom monospace theme
+- **Typography**: Geist Mono font (Google Fonts)
 - **Math**: KaTeX for LaTeX rendering
 - **Code**: rehype-highlight for syntax highlighting
-- **Font**: Geist Mono (Google Fonts)
-- **Linting**: Biome (replaces ESLint + Prettier)
-- **Runtime**: Bun (Node.js alternative)
+- **Linting & Formatting**: Biome (replaces ESLint + Prettier)
+- **Testing**: Bun test with happy-dom
+- **Build Tool**: Turbopack (Next.js built-in)
+- **SEO**: Automatic sitemap, robots.txt, and structured data (JSON-LD)
