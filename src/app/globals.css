@@ -605,6 +605,9 @@ a:hover {
   background: transparent;
   padding: 0;
   border-radius: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Remove syntax highlighting colors, only bold keywords */
@@ -822,6 +825,13 @@ a:hover {
     padding: 0.875rem;
     margin: 1.25rem 0;
     font-size: 0.8125rem;
+    overflow-x: auto;
+  }
+
+  .article-body pre code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .article-body ul,
