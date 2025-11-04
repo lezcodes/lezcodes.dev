@@ -1,63 +1,34 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
-import { calculateReadingTime } from "./utils";
+/**
+ * Posts collection API.
+ * Simplified using generic collection module - following DRY principle.
+ */
 
-const postsDirectory = path.join(process.cwd(), "content/posts");
+import { createCollectionHelpers } from "@/lib/mdx/collection";
+import type { Post } from "@/lib/types/content";
 
-export interface Post {
-  slug: string;
-  title: string;
-  date: string;
-  excerpt?: string;
-  content: string;
-  readingTime?: string;
-  [key: string]: unknown;
-}
+// Create collection helpers for posts
+const postsCollection = createCollectionHelpers<Post>("posts");
 
+/**
+ * Get all blog posts, sorted by date (newest first)
+ */
 export function getAllPosts(): Post[] {
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames
-    .filter((fileName) => fileName.endsWith(".mdx"))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, "");
-      const fullPath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, "utf8");
-      const { data, content } = matter(fileContents);
-
-      return {
-        slug,
-        content,
-        title: data.title,
-        date: data.date,
-        excerpt: data.excerpt,
-        readingTime: calculateReadingTime(content),
-        ...data,
-      } as Post;
-    });
-
-  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return postsCollection.getAll();
 }
 
+/**
+ * Get a single post by slug
+ */
 export function getPostBySlug(slug: string): Post {
-  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
-
-  return {
-    slug,
-    content,
-    title: data.title,
-    date: data.date,
-    excerpt: data.excerpt,
-    readingTime: calculateReadingTime(content),
-    ...data,
-  } as Post;
+  return postsCollection.getBySlug(slug);
 }
 
+/**
+ * Get all post slugs for static generation
+ */
 export function getAllPostSlugs(): string[] {
-  const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames
-    .filter((fileName) => fileName.endsWith(".mdx"))
-    .map((fileName) => fileName.replace(/\.mdx$/, ""));
+  return postsCollection.getSlugs();
 }
+
+// Re-export Post type for backward compatibility
+export type { Post } from "@/lib/types/content";

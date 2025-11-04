@@ -1,34 +1,19 @@
 import type { Metadata } from "next";
+import { ErrorPage, STANDARD_ERROR_ACTIONS } from "@/components/ErrorPage";
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "404 - Page Not Found",
-  description: "The page you're looking for doesn't exist.",
+  title: "404 - page not found",
+  description: "the page you're looking for doesn't exist. whoops!",
 });
 
 export default function NotFound() {
   return (
-    <div className="content">
-      <h1>404</h1>
-      <p>
-        the page you're looking for doesn't exist. it might have been moved,
-        deleted, or perhaps it never existed in the first place.
-      </p>
-
-      <section className="section">
-        <h3>what you can do</h3>
-        <ul className="links-list">
-          <li>
-            <a href="/">go home</a>
-          </li>
-          <li>
-            <a href="/posts">browse posts</a>
-          </li>
-          <li>
-            <a href="/vault">view vault</a>
-          </li>
-        </ul>
-      </section>
-    </div>
+    <ErrorPage
+      statusCode={404}
+      title="404 - page not found"
+      description="the page you're looking for doesn't exist. it might have been moved, deleted, or perhaps it never existed in the first place. (spooky!)"
+      actions={STANDARD_ERROR_ACTIONS}
+    />
   );
 }

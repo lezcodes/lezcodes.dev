@@ -25,8 +25,8 @@ export function generateContentMetadata({
 }: GenerateContentMetadataParams): Metadata {
   if (!content) {
     return generatePageMetadata({
-      title: `${basePath === "posts" ? "Post" : "Vault Item"} Not Found`,
-      description: `The ${basePath === "posts" ? "post" : "vault item"} you're looking for doesn't exist.`,
+      title: `${basePath === "posts" ? "post" : "vault item"} not found`,
+      description: `the ${basePath === "posts" ? "post" : "vault item"} you're looking for doesn't exist. maybe it wandered off?`,
       path: `/${basePath}/${slug}`,
     });
   }
@@ -34,7 +34,7 @@ export function generateContentMetadata({
   const description =
     content.excerpt ||
     defaultDescription ||
-    `${content.title} - by Carlos Lezama`;
+    `${content.title} - by carlos lezama`;
 
   return generatePageMetadata({
     title: content.title,

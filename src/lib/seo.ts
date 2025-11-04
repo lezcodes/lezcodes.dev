@@ -2,79 +2,10 @@
 // This file contains all SEO-related constants and configurations
 
 import type { Metadata } from "next";
+import { seoConfig } from "@/lib/seo/config";
 
-export const seoConfig = {
-  // Basic site information
-  siteName: "lezcodes.dev",
-  siteUrl: "https://lezcodes.dev",
-
-  // Personal information
-  author: {
-    name: "Carlos Lezama",
-    nickname: "lez",
-    email: "carloselezamaj@gmail.com",
-    twitter: "@lezcodes",
-    github: "https://github.com/lezcodes",
-    linkedin: "https://linkedin.com/in/lezcodes",
-  },
-
-  // Default metadata
-  defaultTitle: "Carlos Lezama - ML & Software Engineer | lezcodes.dev",
-  defaultDescription:
-    "Carlos Lezama (lez) - ML and Software Engineer with expertise in Python, Go, TypeScript, and AI/ML. Platform team lead at Monopolio. Economics graduate from ITAM.",
-
-  // Open Graph default image
-  defaultOgImage: "/cookie.png",
-
-  // Keywords for the site
-  keywords: [
-    "Carlos Lezama",
-    "lez",
-    "lezcodes",
-    "machine learning engineer",
-    "software engineer",
-    "ML engineer",
-    "Python developer",
-    "Go developer",
-    "TypeScript developer",
-    "AI engineer",
-    "platform engineering",
-    "Monopolio",
-    "RappiCard",
-    "Didi Food",
-    "ITAM",
-    "economics",
-    "software development",
-    "artificial intelligence",
-    "backend development",
-    "full stack developer",
-    "retrieval-augmented generation",
-    "model context protocol",
-    "tensorflow",
-    "pytorch",
-    "postgresql",
-    "redis",
-    "docker",
-    "terraform",
-    "aws",
-    "gcp",
-  ],
-
-  // Social media links
-  socialLinks: [
-    "https://github.com/lezcodes",
-    "https://instagram.com/lezcodes",
-    "https://linkedin.com/in/lezcodes",
-    "https://x.com/lezcodes",
-    "https://open.spotify.com/user/lezcodes",
-  ],
-
-  // Google Analytics / Verification codes
-  analytics: {
-    googleVerification: "your-google-verification-code", // TODO: Replace with actual Google Search Console verification code
-    googleAnalyticsId: "G-XXXXXXXXXX", // TODO: Replace with your actual GA4 ID
-  },
-};
+// Re-export config for backward compatibility
+export { seoConfig };
 
 // Helper function to generate page metadata
 export function generatePageMetadata({
@@ -159,20 +90,25 @@ export function generatePageMetadata({
 }
 
 // Structured data generators
+import {
+  createArticleStructuredData,
+  createOrganizationSchema,
+  createPersonSchema,
+  createStructuredData,
+  createWebPageSchema,
+  defaultAuthorSchema,
+  defaultPublisherSchema,
+} from "@/lib/seo/structured-data-factory";
+
 export function generatePersonStructuredData() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: seoConfig.author.name,
-    alternateName: seoConfig.author.nickname,
-    url: seoConfig.siteUrl,
+  return createStructuredData("Person", {
+    ...createPersonSchema(),
     image: `${seoConfig.siteUrl}${seoConfig.defaultOgImage}`,
     jobTitle: "ML & Software Engineer",
-    worksFor: {
-      "@type": "Organization",
+    worksFor: createOrganizationSchema({
       name: "Monopolio",
       url: "https://monopolio.com.mx/",
-    },
+    }),
     alumniOf: {
       "@type": "EducationalOrganization",
       name: "Instituto Tecnológico Autónomo de México",
@@ -190,7 +126,7 @@ export function generatePersonStructuredData() {
       "Backend Development",
     ],
     sameAs: seoConfig.socialLinks,
-  };
+  });
 }
 
 export function generateBlogPostStructuredData({
@@ -204,31 +140,23 @@ export function generateBlogPostStructuredData({
   slug: string;
   publishedDate: string;
 }) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
+  const postUrl = `${seoConfig.siteUrl}/posts/${slug}`;
+
+  return createArticleStructuredData({
+    type: "BlogPosting",
     headline: title,
     description:
       description ||
-      `Technical blog post by ${seoConfig.author.name} about ${title}`,
+      `technical blog post by ${seoConfig.author.name} about ${title}`,
     image: `${seoConfig.siteUrl}${seoConfig.defaultOgImage}`,
-    author: {
-      "@type": "Person",
-      name: seoConfig.author.name,
-      alternateName: seoConfig.author.nickname,
-      url: seoConfig.siteUrl,
-    },
-    publisher: {
-      "@type": "Person",
-      name: seoConfig.author.name,
-      url: seoConfig.siteUrl,
-    },
+    author: defaultAuthorSchema,
+    publisher: defaultPublisherSchema,
     datePublished: publishedDate,
     dateModified: publishedDate,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${seoConfig.siteUrl}/posts/${slug}`,
-    },
-    url: `${seoConfig.siteUrl}/posts/${slug}`,
-  };
+    mainEntityOfPage: createWebPageSchema({
+      id: postUrl,
+      url: postUrl,
+    }),
+    url: postUrl,
+  });
 }

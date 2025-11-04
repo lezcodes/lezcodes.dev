@@ -16,7 +16,10 @@ export function EmptyState({ type }: EmptyStateProps) {
 
   return (
     <>
-      <p>¯\_(ツ)_/¯ no {type === "posts" ? "posts" : "vault items"} yet</p>
+      <p>
+        ¯\_(ツ)_/¯ no {type === "posts" ? "posts" : "vault items"} yet. check
+        back later!
+      </p>
       <section className="section">
         <h3>what you can do</h3>
         <ul className="links-list">

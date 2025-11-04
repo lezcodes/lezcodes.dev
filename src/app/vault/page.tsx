@@ -4,9 +4,9 @@ import { generatePageMetadata } from "@/lib/seo";
 import { getAllVaultItems } from "@/lib/vault";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Vault",
+  title: "vault",
   description:
-    "Curated list of favorite reads, links, and anime reviews by Carlos Lezama (lez).",
+    "curated list of favorite reads, links, and anime reviews by carlos lezama (lez).",
   path: "/vault",
 });
 

@@ -4,9 +4,9 @@ import { getAllPosts } from "@/lib/posts";
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Blog Posts",
+  title: "blog posts",
   description:
-    "Technical blog posts about machine learning, software engineering, and technology by Carlos Lezama (lez). Insights on Python, Go, TypeScript, AI/ML, and platform engineering.",
+    "technical blog posts about machine learning, software engineering, and technology by carlos lezama (lez). insights on python, go, typescript, ai/ml, and platform engineering.",
   path: "/posts",
 });
 
