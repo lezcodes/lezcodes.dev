@@ -1,11 +1,18 @@
 // SEO Configuration for lezcodes.dev
 // This file contains all SEO-related constants and configurations
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { seoConfig } from "@/lib/seo/config";
 
 // Re-export config for backward compatibility
 export { seoConfig };
+
+// Viewport configuration (Next.js 15+)
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 // Helper function to generate page metadata
 export function generatePageMetadata({
