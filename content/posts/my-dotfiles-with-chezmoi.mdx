@@ -1,0 +1,623 @@
+---
+title: "my-dotfiles-with-chezmoi"
+date: "2025-11-07"
+excerpt: "how i use chezmoi for my dotfiles"
+---
+
+> most of my workflow is terminal-based, so no vscode or cursor here.
+
+over the years, i've accumulated a pretty extensive dotfiles setup. syncing everything across machines used to be a pain until i discovered [chezmoi](https://www.chezmoi.io/). now my entire dev environment is version-controlled, encrypted where needed, and deployable in minutes.
+
+this is how i set it up and use it daily.
+
+## getting started
+
+### install chezmoi
+
+first, install chezmoi and age (for encryption):
+
+```bash
+brew install chezmoi age
+```
+
+chezmoi handles a bunch of stuff that makes managing configs way easier:
+
+- **templating**: machine-specific configs without duplication
+- **encryption**: sensitive files (ssh keys, aws credentials) encrypted with age
+- **automation**: scripts run on apply to keep everything in sync
+- **state tracking**: knows what changed and what needs updating
+
+### initialize your dotfiles
+
+if you already have a dotfiles repo:
+
+```bash
+chezmoi init git@github.com:yourusername/dotfiles.git
+```
+
+if you're starting fresh:
+
+```bash
+chezmoi init
+```
+
+### directory structure
+
+chezmoi stores your dotfiles in `~/.local/share/chezmoi/`. here's how i organize mine:
+
+```
+.
+├── dot_bin/
+│   ├── aliases/        # shell aliases by category
+│   └── functions/      # reusable shell functions
+├── dot_config/
+│   ├── ghostty/        # terminal emulator config
+│   ├── helix/          # editor setup
+│   ├── tmux/           # terminal multiplexer
+│   └── starship.toml   # prompt customization
+├── dot_aws/            # encrypted aws credentials
+├── dot_ssh/            # encrypted ssh keys
+└── dot_zshrc           # shell configuration
+```
+
+### setting up encryption
+
+generate an age key:
+
+```bash
+age-keygen -o ~/.config/chezmoi/key.txt
+```
+
+configure chezmoi to use it by creating `~/.config/chezmoi/chezmoi.toml`:
+
+```toml
+encryption = "age"
+[age]
+    identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1..." # your public key from key.txt
+```
+
+now you can encrypt sensitive files. chezmoi will automatically decrypt them when you run `chezmoi apply`. use this for ssh keys, cloud credentials, api tokens, etc.
+
+to add an encrypted file:
+
+```bash
+chezmoi add --encrypt ~/.ssh/id_rsa
+```
+
+### adding your first dotfiles
+
+add any config file to chezmoi:
+
+```bash
+chezmoi add ~/.zshrc
+chezmoi add ~/.gitconfig
+chezmoi add ~/.config/helix/config.toml
+```
+
+preview what will change:
+
+```bash
+chezmoi diff
+```
+
+apply the changes:
+
+```bash
+chezmoi apply
+```
+
+## my setup
+
+here's what i'm running and how i configured everything.
+
+### terminal: ghostty
+
+switched to [ghostty](https://ghostty.org/) recently and loving it. fast, native, and super configurable:
+
+```
+font-family = JetBrainsMonoNL Nerd Font Mono
+font-size = 12
+cursor-style = block
+theme = dark:vesper,light:vesper
+window-colorspace = display-p3    # better colors on mac
+shell-integration-features = no-cursor,sudo,no-title
+mouse-hide-while-typing = true
+```
+
+i use the [vesper](https://github.com/raunofreiberg/vesper) theme everywhere — terminal, helix, and tmux.
+
+
+### editor: helix
+
+switched from neovim to [helix](https://helix-editor.com/) and honestly haven't looked back. batteries-included approach and the lsp integration just works. no weird plugins or endless configuration.
+
+**config highlights:**
+
+```toml
+[editor]
+auto-save = true           # save on focus loss
+bufferline = "multiple"    # show open files
+line-number = "relative"   # vim-style relative numbers
+true-color = true
+
+[editor.lsp]
+display-inlay-hints = true # show type hints inline
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.indent-guides]
+render = true             # visual indent guides
+```
+
+**language servers:**
+
+my `languages.toml` configures lsp servers:
+
+```toml
+[[language]]
+name = "python"
+language-servers = ["ruff", "pyright", "pyrefly"]
+auto-format = true
+
+[language-server.ruff.config.settings]
+lineLength = 120
+
+[[language]]
+name = "sql"
+auto-format = true
+formatter = { command = "sqlfluff", args = ["format", "--nocolor", "-"] }
+```
+
+python gets three language servers: [ruff](https://docs.astral.sh/ruff/) for linting, [pyright](https://github.com/microsoft/pyright) for types, and pyrefly for ai-powered analysis. overkill? maybe. worth it? absolutely.
+
+### prompt: starship
+
+clean and minimal, shows what i need:
+
+```toml
+format = '''($cmd_duration )$username@$hostname
+$directory($git_branch@$git_commit $git_status)
+▲ '''
+```
+
+shows:
+- command duration (for slow commands)
+- username@hostname
+- current directory (truncated to repo root)
+- git branch, commit hash (8 chars), and status
+- clean triangle prompt (vercel's logo bc it's cool hahaha)
+
+example output:
+```
+carlos@pro-crastinator
+~/code/lezcodes.dev(main@a1b2c3d4 [↑1])
+▲ 
+```
+
+### terminal multiplexer: tmux
+
+[tmux](https://github.com/tmux/tmux) for managing multiple terminal sessions. super handy for ssh sessions that need to survive disconnects.
+
+i use [oh my tmux](https://github.com/gpakosz/.tmux) which is basically a sensible tmux config that just works. only thing i changed was adapting the color palette to match the vesper theme. no need to reinvent the wheel when someone's already done it right.
+
+mostly use tmux for long-running processes and ssh sessions. you know, the usual stuff.
+
+### package management: homebrew
+
+my `.Brewfile` is the source of truth for all my packages:
+
+**dev tools:** [node](https://nodejs.org/), [go](https://go.dev/), [rust](https://www.rust-lang.org/), python (via [uv](https://docs.astral.sh/uv/)), [zig](https://ziglang.org/), [deno](https://deno.com/), [bun](https://bun.sh/)  
+**databases & sql:** [postgresql](https://www.postgresql.org/), [duckdb](https://duckdb.org/), [usql](https://github.com/xo/usql), [sqlc](https://sqlc.dev/)  
+**infrastructure:** [docker](https://www.docker.com/), [kubernetes-cli](https://kubernetes.io/docs/reference/kubectl/), [terraform](https://www.terraform.io/), [aws-cdk](https://aws.amazon.com/cdk/), [sst](https://sst.dev/)  
+**editors & ides:** [helix](https://helix-editor.com/), [neovim](https://neovim.io/), [opencode](https://opencode.ai/)  
+**utilities:** [fzf](https://github.com/junegunn/fzf), [ripgrep](https://github.com/BurntSushi/ripgrep), [fd](https://github.com/sharkdp/fd), [bat](https://github.com/sharkdp/bat), [eza](https://github.com/eza-community/eza), [zoxide](https://github.com/ajeetdsouza/zoxide), [bottom](https://github.com/ClementTsang/bottom), [httpie](https://httpie.io/)  
+**language servers:** [typescript-language-server](https://github.com/typescript-language-server/typescript-language-server), [gopls](https://pkg.go.dev/golang.org/x/tools/gopls), [rust-analyzer](https://rust-analyzer.github.io/), [pyright](https://github.com/microsoft/pyright)  
+
+120+ packages total. syncing to a new machine? one command:
+
+```bash
+brew bundle install --file=~/.Brewfile
+```
+
+**tools i use daily:**
+
+- **[usql](https://github.com/xo/usql)**: universal sql cli that works with every database. no more remembering different syntax for postgres vs mysql vs sqlite
+- **[bottom](https://github.com/ClementTsang/bottom) (btm)**: modern system monitor, way better than htop. tracks process memory and looks good
+- **[httpie](https://httpie.io/)**: human-friendly http client. makes api testing actually pleasant
+- **[opencode](https://opencode.ai/)**: ai-powered coding assistant in the terminal
+- **[sqlc](https://sqlc.dev/)**: generates type-safe go code from sql queries. saves me from writing tons of boilerplate
+- **[sst](https://sst.dev/)**: infrastructure as code framework, my go-to for deploying stuff
+
+## shell setup
+
+### installing zsh plugins
+
+first, install the plugins:
+
+```bash
+brew install zsh-autosuggestions zsh-syntax-highlighting fzf starship zoxide
+```
+
+### zsh configuration
+
+my `.zshrc` is pretty minimal. here's the important parts:
+
+```zsh
+# oh-my-zsh plugins (https://ohmyz.sh/)
+plugins=(
+  aliases git macos python 
+  qrcode terraform tmux
+)
+
+# modern shell tools
+eval "$(starship init zsh)"  # custom prompt
+eval "$(zoxide init zsh)"    # smarter cd
+
+# enhancements
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source <(fzf --zsh)          # fuzzy finder
+
+# auto-load all custom functions and aliases
+for file in ~/.bin/**/*.zsh(N); do
+  source "$file"
+done
+```
+
+### building custom functions
+
+> real talk: i love interactive clis and tuis. hate remembering cli arguments or reading long useless docs — most people don't know how to write docs that are easy to read or build clis that are easy to use. so i wrap everything in interactive interfaces.
+
+here are some functions you can add to your dotfiles. i keep mine in `~/.bin/functions/` and auto-load them in my `.zshrc`.
+
+#### `dotfiles()` - interactive dotfile editor
+
+```zsh
+dotfiles() {
+  local selected_file
+  selected_file=$(chezmoi managed | sed 's|^|~/|' | fzf \
+    --prompt="Select dotfile to edit: " \
+    --height=40% \
+    --reverse \
+    --preview 'chezmoi cat {} 2>/dev/null || echo "Preview not available"' \
+    --preview-window=right:60%:wrap)
+  
+  if [ -n "$selected_file" ]; then
+    chezmoi edit --watch "$selected_file" && \
+    chezmoi apply && \
+    unalias -m "*" && \
+    source ~/.zprofile && \
+    source ~/.zshrc
+  fi
+}
+```
+
+my favorite utility. does everything:
+1. lists all managed dotfiles with fuzzy search
+2. shows a live preview of the selected file
+3. opens it in my editor with `--watch` mode
+4. auto-applies changes on save
+5. reloads the shell to pick up changes
+
+basically magic
+
+#### `sysupdate()` - one command to update everything
+
+```zsh
+sysupdate() {
+  echo "Updating brew packages..."
+  brew update && brew upgrade
+  
+  if [[ $(scutil --get LocalHostName) == $MACHINE ]]; then
+    echo "Updating brew dump file..."
+    brew bundle dump --force --file=$BREW_FILE
+    echo "Updating chezmoi Brewfile..."
+    chezmoi add $BREW_FILE
+  fi
+  
+  echo "Cleaning up brew packages..."
+  brew bundle cleanup --force --file=$BREW_FILE --zap
+  
+  echo "Reloading shell..."
+  unalias -m "*"
+  source ~/.zshrc
+  new-app  # refreshes launchpad
+  
+  echo "System updated!"
+}
+```
+
+this function:
+- updates homebrew and all packages
+- dumps current packages to `.Brewfile` (only on my main machine)
+- adds the brewfile to chezmoi for syncing
+- cleans up orphaned packages
+- reloads the shell environment
+
+#### `kserver()` - intelligent dev server killer
+
+```zsh
+kserver() {
+  # finds running dev servers (node, python, go, bun, etc.)
+  # presents interactive list with PID, port, and command
+  # safely kills selected process
+}
+```
+
+scans for common dev server processes and lets you kill them interactively. supports node, python, go, rust, php, and more. no more hunting for PIDs or googling "how to kill process on port 3000".
+
+#### `www()` - open current git repo in browser
+
+```zsh
+www() {
+  url=$(git remote -v | grep '(fetch)' | awk '{print $2}' | \
+    sed -E 's|^git@([^:]+):(.*)\.git$|https://\1/\2|')
+  branch=$(git branch --show-current)
+  [[ -n "$branch" ]] && url="${url}/tree/${branch}"
+  open $url
+}
+```
+
+from any git repo, type `www` to open the current branch on github/gitlab in your browser.
+
+#### `nd()` - mkdir + cd in one
+
+```zsh
+nd() {
+  mkdir -p -- "$1" && cd -- "$1"
+}
+```
+
+simple but saves dozens of keystrokes daily.
+
+#### `notify()` - desktop notifications for long commands
+
+```zsh
+notify() {
+  local start_time=$(date +%s)
+  "$@"  # run the command
+  local cmd_status=$?
+  local end_time=$(date +%s)
+  local duration=$((end_time - start_time))
+  
+  # formats duration and sends notification
+  local message="✅ Succeeded after ${formatted_time}"
+  echo -e '\033]777;notify;;'"$message"''
+}
+```
+
+wrap any long-running command to get a desktop notification when it completes. perfect for when you're browsing twitter while your build runs:
+
+```bash
+notify bun run build
+notify terraform apply
+notify uv sync
+```
+
+### setting up aliases
+
+first install the tools these aliases use:
+
+```bash
+brew install bat eza zoxide bottom
+```
+
+then add these to your shell config:
+
+```zsh
+# better defaults
+alias cat='bat --theme=ansi'         # syntax highlighting (bat)
+alias cd='z'                         # zoxide (tracks frecency)
+alias ls='eza'                       # modern ls replacement
+alias btm='btm --process_memory_as_value'
+
+# tree view that ignores noise
+alias tree='eza --tree --all --git --ignore-glob ".DS_Store|.git|.next|.ruff_cache|.venv|__pycache__|node_modules|target|venv"'
+
+# git utilities
+alias gchanges='git ls-files --modified --exclude-standard'
+alias guntracked='git ls-files . --exclude-standard --others'
+alias gignored='git ls-files --cached --ignored --exclude-standard -z | xargs -0 git rm --cached'
+alias repo-info='onefetch --no-art --no-color-palette || true && tokei || true && scc || true'
+
+# quick utils
+alias hfc='history -n 1 | fzf | tr -d "\n" | pbcopy'  # fuzzy search history to clipboard (fzf)
+alias randpw='openssl rand -base64 12 | pbcopy'       # generate random password
+alias size='du -shc *'                                # directory sizes
+alias activate='source .venv/bin/activate && which python'
+```
+
+## configuring git
+
+### conditional includes for different hosts
+
+create separate git configs for different providers. in your main `~/.gitconfig`:
+
+```ini
+[includeIf "gitdir:~"]
+path = ~/.gitconfig-github
+
+[includeIf "gitdir:~"]
+path = ~/.gitconfig-gitlab
+
+[includeIf "gitdir:~"]
+path = ~/.gitconfig-hf
+```
+
+then create `~/.gitconfig-github`, `~/.gitconfig-gitlab`, etc. with specific settings for each host (different emails, signing keys, etc.).
+
+### useful git settings
+
+add these to your `~/.gitconfig`:
+
+```ini
+[alias]
+undo = reset --soft HEAD^
+
+[push]
+autoSetupRemote = true   # auto-create remote branch on first push
+default = current
+followTags = true
+
+[pull]
+default = current
+rebase = true            # rebase instead of merge
+
+[branch]
+sort = -committerdate    # newest branches first
+
+[diff]
+renames = copies         # detect file moves
+interHunkContext = 10    # more context in diffs
+
+[pager]
+diff = diff-so-fancy | $PAGER  # beautiful diffs
+```
+
+install [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) for better git diffs:
+
+```bash
+brew install diff-so-fancy
+```
+
+can't go back to regular diffs after using it.
+
+## daily workflows
+
+### setting up a new machine
+
+when you get a new machine, run:
+
+```bash
+# install chezmoi and age
+brew install chezmoi age
+
+# clone your dotfiles
+chezmoi init git@github.com:yourusername/dotfiles.git
+
+# preview what will change
+chezmoi diff
+
+# apply everything
+chezmoi apply
+```
+
+that's it. everything gets set up automatically.
+
+### editing dotfiles
+
+use the interactive function (if you added it):
+
+```bash
+dotfiles
+```
+
+or edit manually:
+
+```bash
+# edit the source file
+chezmoi edit ~/.zshrc
+
+# see what changed
+chezmoi diff
+
+# apply changes
+chezmoi apply
+```
+
+pull updates from your repo:
+
+```bash
+chezmoi update
+```
+
+### syncing changes to git
+
+after making changes, back them up:
+
+```bash
+# cd into chezmoi's source directory
+chezmoi cd
+
+# check what changed
+git status
+git diff
+
+# commit and push
+git add .
+git commit -m "update: whatever changed"
+git push
+
+# go back to wherever you were
+exit
+```
+
+or use a git alias to commit directly:
+
+```bash
+chezmoi git add .
+chezmoi git commit -m "update: zsh config"
+chezmoi git push
+```
+
+## tips and best practices
+
+### start small
+
+don't try to manage everything at once. start with:
+
+1. your shell config (`.zshrc` or `.bashrc`)
+2. git config (`.gitconfig`)
+3. your editor config
+
+add more as you get comfortable with chezmoi.
+
+### what to encrypt
+
+encrypt anything sensitive:
+- ssh keys (`~/.ssh/id_*`)
+- cloud provider credentials (`~/.aws/`, `~/.config/gcloud/`)
+- api tokens and secrets
+- password manager configs
+
+### keep it simple
+
+most configs don't need templating or machine-specific logic. only use templates when you actually need different values on different machines.
+
+### document your setup
+
+add comments to your configs explaining why you made certain choices. future you will thank you.
+
+### automate everything
+
+use shell functions to automate repetitive tasks. if you're doing something more than twice, write a function for it (or have AI write it for you).
+
+## next steps
+
+once you have the basics working:
+
+1. **add more configs**: editor settings, terminal configs, tool configurations
+2. **set up a brewfile**: manage all your packages in one file (see my setup above)
+3. **create custom functions**: automate your common tasks
+4. **share with your team**: help teammates get set up faster
+
+## why this approach works
+
+- **reproducible**: new machine to fully configured in under an hour
+- **secure**: sensitive data encrypted, only decrypted locally
+- **maintainable**: organized by category, easy to find and modify
+- **automatic**: shell reloads, package syncing, all automated
+- **portable**: works on any machine with chezmoi and age
+
+dotfiles are more than config files — they're your dev environment's dna. with chezmoi, you can spin up identical environments anywhere, experiment without fear (git history has your back), share configs with teammates, and keep secrets secure.
+
+## useful resources
+
+- [chezmoi docs](https://www.chezmoi.io/) - official documentation
+- [chezmoi user guide](https://www.chezmoi.io/user-guide/command-overview/) - command reference
+
+if you're still manually copying configs between machines, give this a shot. setup takes an afternoon, but you'll save that time in a week.
