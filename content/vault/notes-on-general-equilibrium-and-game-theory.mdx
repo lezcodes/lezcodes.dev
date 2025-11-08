@@ -70,7 +70,7 @@ the set of all pareto allocations is known as the *contract curve*.
 
 <Example title="general case">
 $$
-\begin{align}
+\begin{align*}
 \max_{ x_1,\ \dots\ ,\ x_m } \quad & u_1(x_{1,1}, \dots, x_{1,n}) \\
 \text{subject to} \quad & u_2(x_{2,1}, \dots, x_{2,n}) \geq \bar{u}_2, \\
 & \quad \vdots \\
@@ -78,7 +78,7 @@ $$
 & \sum_{i \in \mathscr{I}} x_{i,1} \leq \sum_{i \in \mathscr{I}} w_{i,1}, \\
 & \quad \vdots \\
 & \sum_{i \in \mathscr{I}} x_{i,n} \leq \sum_{i \in \mathscr{I}} w_{i,n}.
-\end{align}
+\end{align*}
 $$
 </Example>
 
@@ -109,10 +109,10 @@ an ordered pair of an allocation and a price vector, $\left( X^*, p = (p_1, \dot
 
 1. $\forall i \in \mathscr{I}$, $x_i^* = (x_{i,1}^*, \dots, x_{i,n}^*)$ solves the following maximization problem:
 $$
-\begin{align}
+\begin{align*}
 \max_{ x_i } \quad & u_i(x_i) \\
 \text{subject to} \quad & \langle p, x_i \rangle \leq \langle p, w_i \rangle = \sum_{\ell \in \mathscr{L}} p_{\ell} w_{i,\ell}.
-\end{align}
+\end{align*}
 $$
 2. markets clear, i.e. $\displaystyle \sum_{i \in \mathscr{I}} x_{i,\ell}^* = \sum_{i \in \mathscr{I}} w_{i,\ell}$, $\forall \ell \in \mathscr{L}$.
 </Definition>
@@ -205,10 +205,10 @@ $$
 $$
 2. $\forall i \in \mathscr{I}$, $x_i^* = (x_{i,1}^*, \dots, x_{i,n}^*)$ solves the following maximization problem:
 $$
-\begin{align}
+\begin{align*}
 \max_{ x_i } \quad & u_i(x_i) \\
 \text{subject to} \quad & \langle p, x_i \rangle \leq \langle p, w_i \rangle + \sum_{j \in \mathscr{J}} \theta_{i,j} \pi^*_j.
-\end{align}
+\end{align*}
 $$
 3. markets clear, i.e. $\displaystyle \sum_{i \in \mathscr{I}} x_{i,\ell}^* + \sum_{j \in \mathscr{J}} \sum_{\ell \in \mathscr{L}} z^*_{j,l} = \sum_{i \in \mathscr{I}} w_{i,\ell} + \sum_{j \in \mathscr{J}} f_{j,l} (z^*_\ell)$, $\forall \ell \in \mathscr{L}$.
 </Definition>
@@ -227,7 +227,7 @@ with production, edgeworth box diagrams are no longer helpful.
 
 <Example title="general case">
 $$
-\begin{align}
+\begin{align*}
 \max_{ x_i, z_j } \quad & u_1(x_1) \\
 \text{subject to} \quad & u_2(x_2) \geq \bar{u}_2, \\
 & \quad \vdots \\
@@ -235,7 +235,7 @@ $$
 & \sum_{i \in \mathscr{I}} x_{i,1} + \sum_{j \in \mathscr{J}} z_{j,1} \leq \sum_{j \in \mathscr{J}} f_{j,1} (z_\ell) + \sum_{i \in \mathscr{I}} w_{i,1}, \\
 & \quad \vdots \\
 & \sum_{i \in \mathscr{I}} x_{i,n} + \sum_{j \in \mathscr{J}} z_{j,n} \leq \sum_{j \in \mathscr{J}} f_{j,n} (z_\ell) + \sum_{i \in \mathscr{I}} w_{i,n}.
-\end{align}
+\end{align*}
 $$
 </Example>
 

@@ -974,12 +974,12 @@ let $S \subseteq \mathbb{R}^n$ be non-empty.
 let $f : \mathbb{R}^n \to \mathbb{R}$, $g_1 : \mathbb{R}^n \to \mathbb{R}$, . . . , $g_m : \mathbb{R}^n \to \mathbb{R}$ be differentiable functions. the *nlp problem* is
 
 $$
-\begin{align}
+\begin{align*}
 \min_{x \in \mathbb{R}^n} \quad & f(x) \\
 \text{subject to} \quad & g_1(x) \geq 0, \\
 & \quad \vdots \\
 & g_m(x) \geq 0.
-\end{align}
+\end{align*}
 $$
 </Definition>
 
@@ -1017,12 +1017,12 @@ if $\bar{\lambda}_i = \bar{\mu}_i$ for all $i \in I\left(\bar{x}\right)$ and $\b
 for $a_1, \dots, a_m, c \in \mathbb{R}^n$ and $b_1, \dots, b_m \in \mathbb{R}$, consider the following *lp problem*:
 
 $$
-\begin{align}
+\begin{align*}
 \min_{x \in \mathbb{R}^n} \quad & c \cdot x \\
 \text{subject to} \quad & a_1 \cdot x \geq b_1, \\
 & \qquad \vdots \\
 & a_m \cdot x \geq b_m.
-\end{align}
+\end{align*}
 $$
 lp is a special case of nlp where $f(x) = c \cdot x$ and $g_i(x) = a_i \cdot x - b_i$.
 </Definition>
@@ -1054,10 +1054,10 @@ if $\bar{x}$ solves the lp problem, then there exists some $\bar{\lambda}$ such 
 a solution $\bar{x}$ to the nlp problem satisfies the *general constraint qualification (gcq) condition* if it solves the following lp problem:
 
 $$
-\begin{align}
+\begin{align*}
 \min_{x \in \mathbb{R}^n} \quad & \nabla f\left(\bar{x}\right) \cdot x \\
 \text{subject to} \quad & g_i\left(\bar{x}\right) + \nabla g_i\left(\bar{x}\right) \cdot \left(x - \bar{x}\right) \geq 0,\ \forall i = 1, \dots, m.
-\end{align}
+\end{align*}
 $$
 </Definition>
 
@@ -1184,11 +1184,11 @@ then $\bar{x}$ solves the maximization problem above.
 consider the following utility maximization problem
 
 $$
-\begin{align}
+\begin{align*}
 \max_{x \in \mathbb{R}^n} \quad & u(x) \\
 \text{subject to} \quad & p \cdot x \leq y, \\
 & x \geq 0.
-\end{align}
+\end{align*}
 $$
 
 the kt conditions are
@@ -1215,11 +1215,11 @@ $\lambda$ is interpreted as the *marginal utility of income*. call the solutions
 consider the following expenditure minimization problem
 
 $$
-\begin{align}
+\begin{align*}
 \min_{x \in \mathbb{R}^n} \quad & p \cdot x \\
 \text{subject to} \quad & u(x) \geq \bar{u}, \\
 & x \geq 0.
-\end{align}
+\end{align*}
 $$
 
 <Remark>
@@ -1310,10 +1310,10 @@ call $I$ an *equivalence* class if it is reflexive, symmetric and transitive.
 suppose that $P$ is a (strict) weak order and that binary relations $R$ and $I$ are defined, using $P$, as follows
 
 $$
-\begin{align}
+\begin{align*}
 xRy && \iff && y \not P x \\
 xIy && \iff && x \not P y && \land && y \not P x
-\end{align}
+\end{align*}
 $$
 
 then $R$ is a (weak) weak order and $I$ is an equivalence class. if, in particular, $P$ is a (strict) linear order, then $R$ is a (weak) linear order.
@@ -1323,10 +1323,10 @@ then $R$ is a (weak) weak order and $I$ is an equivalence class. if, in particul
 suppose that $R$ is a (weak) weak order and that binary relations $P$ and $I$ are defined, using $R$, as follows
 
 $$
-\begin{align}
+\begin{align*}
 xPy && \iff && xRy && \land && y \not R x \\
 xIy && \iff && xRy && \land && yRx
-\end{align}
+\end{align*}
 $$
 
 then $P$ is a (strict) weak order and $I$ is an equivalence class. if, in particular, $R$ is a (weak) linear order, then $P$ is a (strict) linear order.
@@ -1341,10 +1341,10 @@ let $2^X = \left\{ A \subseteq X : A \neq \emptyset \right\}$. any member of $2^
 <Remark>
 for any binary relation $T$ and any menu $A$, let
 $$
-\begin{align}
+\begin{align*}
 m(A,T) &= \left\{ x \in A : yTx,\ \text{for no}\ y \in A \right\}, \\
 M(A,T) &= \left\{ x \in A : xTy,\ \forall y \in A \right\}.
-\end{align}
+\end{align*}
 $$
 in general, these sets may be empty and they need not to coincide.
 </Remark>

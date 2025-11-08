@@ -318,10 +318,10 @@ $$
 <Definition title="covariance">
 let $X$ and $Y$ be random variables with finite expected value. the *covariance* of $X$ and $Y$ is defined as
 $$
-\begin{align}
+\begin{align*}
 \text{Cov}(X, Y) :&=\ E\left[ (X - E[X]) (Y - E[Y]) \right] \\
 &=\ E[XY] - E[X]E[Y]
-\end{align}
+\end{align*}
 $$
 </Definition>
 
@@ -460,11 +460,11 @@ $$
 <Definition title="conditional distribution">
 the *conditional distribution* $f_{X \mid Y} : \mathbb{R} \to [0,1]$ is defined as
 $$
-\begin{align}
+\begin{align*}
 f_{X\mid Y} (x \mid y) :&=\ P[X = x \mid Y = y] \\
 &=\ \frac{P[X = x, Y = y]}{P[Y = y]} \\
 &=\ \frac{\text{joint pdf}}{\text{marginal pdf}}
-\end{align}
+\end{align*}
 $$
 </Definition>
 
@@ -530,19 +530,19 @@ where $A_C = \{ x = (x_1, \dots, x_n) \in \mathbb{R}^n : g(x) \in C \}$ and $t =
 <Theorem title="transformation">
 when $g(\cdot)$ is a strictly increasing function, then
 $$
-\begin{align}
+\begin{align*}
 F_Y(y) &=\ \int_{-\infty}^{g^{-1}(y)} f_X(x)dx \\
 &=\ F_X(g^{-1}(y)) \\
 f_Y(y) &=\ f_X\left( g^{-1}(y) \right) \frac{\partial}{\partial y} g^{-1}(y)
-\end{align}
+\end{align*}
 $$
 when $g(\cdot)$ is a strictly decreasing function, then
 $$
-\begin{align}
+\begin{align*}
 F_Y(y) &=\ \int_{g^{-1}(y)}^{\infty} f_X(x)dx \\
 &=\ 1 - F_X(g^{-1}(y)) \\
 f_Y(y) &= - f_X\left( g^{-1}(y) \right) \frac{\partial}{\partial y} g^{-1}(y)
-\end{align}
+\end{align*}
 $$
 equivalently, $\displaystyle f_X(x) = f_Y(g(x)) \left| \frac{\partial g(x)}{\partial x} \right|$.
 
@@ -563,12 +563,12 @@ for $X \sim F_X$ and $Y \sim F_Y$, if $M_X$ and $M_Y$ exist, and $M_X(t) = M_Y(t
 <Remark title="monte carlo integration">
 let $\displaystyle I = \int_a^b g(x)dx$ be the integral of a function that is hard to evaluate, then
 $$
-\begin{align}
+\begin{align*}
 I &=\ \int_a^b g(x)dx \\
 &=\ (b - a) \int_a^b g(x) \frac{1}{b - a} dx \\
 &=\ (b - a) \int_{-\infty}^{\infty} g(x) f_{\text{Unif}}(x) dx \\
 &=\ (b - a) \cdot E[g(\text{Unif})]
-\end{align}
+\end{align*}
 $$
 where $\text{Unif}(a,b)$ is uniformly distributed. then, by the **law of large numbers**, we know that we can approximate $E[g(\text{Unif})]$ by randomly sampling $u_1, u_2, \dots$ from $\text{Unif}(a,b)$.
 $$
@@ -598,13 +598,13 @@ often it is much easier to use properties of the random variables to find the su
 <Remark title="product">
 let $X$ and $Y$ be independent random variables. to evaluate the pdf and the cdf of $Z = XY$, we proceed as
 $$
-\begin{align}
+\begin{align*}
 F_Z(z) &=\ P[XY \leq z] \\
 &=\ P\left[ X \geq \frac{z}{Y}, Y < 0 \right] \\
 &+\ P\left[ X \leq \frac{z}{Y}, Y > 0 \right] \\
 &=\ \int_{-\infty}^0 \left[ \int_{\frac{z}{y}}^\infty f_X(x)dx \right] f_Y(y)dy \\
 &+\ \int_0^\infty \left[ \int_{-\infty}^{\frac{z}{y}} f_X(x)dx \right] f_Y(y)dy
-\end{align}
+\end{align*}
 $$
 where the pdf is
 $$
@@ -615,13 +615,13 @@ $$
 <Remark title="quotient">
 let $X$ and $Y$ be independent random variables. to evaluate the pdf and the cdf of $\displaystyle Z = \frac{X}{Y}$, we proceed as
 $$
-\begin{align}
+\begin{align*}
 F_Z(z) &=\ P\left[\frac{X}{Y} \leq z\right] \\
 &=\ P\left[ X \geq zY, Y < 0 \right] \\
 &+\ P\left[ X \leq zY, Y > 0 \right] \\
 &=\ \int_{-\infty}^0 \left[ \int_{yz}^\infty f_X(x)dx \right] f_Y(y)dy \\
 &+\ \int_0^\infty \left[ \int_{-\infty}^{yz} f_X(x)dx \right] f_Y(y)dy
-\end{align}
+\end{align*}
 $$
 where the pdf is
 $$

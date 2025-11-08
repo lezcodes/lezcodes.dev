@@ -21,11 +21,11 @@ consider a maximization or minimization problem for a function $f : \mathbb{R}^n
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \max_{\{x_1, \dots, x_n\}} \quad & f(x_1, \dots, x_n; p_1, \dots, p_q) \\
 \text{subject to} \quad & h_i(x_1, \dots, x_n; p_1, \dots, p_q) = 0, \quad \forall i = 1, \dots, k; \\
 & g_j(x_1, \dots, x_n; p_1, \dots, p_q) \geq 0, \quad \forall j = 1, \dots, m.
-\end{align}
+\end{align*}
 $$
 
 **lagrangian of the problem:**
@@ -39,11 +39,11 @@ $$
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \min_{\{x_1, \dots, x_n\}} \quad & f(x_1, \dots, x_n; p_1, \dots, p_q) \\
 \text{subject to} \quad & h_i(x_1, \dots, x_n; p_1, \dots, p_q) = 0, \quad \forall i = 1, \dots, k; \\
 & g_j(x_1, \dots, x_n; p_1, \dots, p_q) \geq 0, \quad \forall j = 1, \dots, m.
-\end{align}
+\end{align*}
 $$
 
 **lagrangian of the problem:**
@@ -213,13 +213,13 @@ for all $x \in \mathbb{R}^n_+$, $i \neq j$ and $\lambda > 0$.
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \max_{\{x_1, \dots, x_n\}} \quad & u(x_1, \dots, x_n) \\
 \text{subject to} \quad & \sum_{i=1}^n p_i x_i \leq I, \\
 & 0 \leq x_1, \\
 & \quad \vdots \\
 & 0 \leq x_n.
-\end{align}
+\end{align*}
 $$
 </Example>
 
@@ -364,13 +364,13 @@ $$
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \min_{\{x_1, \dots, x_n\}} \quad & \sum_{i=1}^n p_i x_i \\
 \text{subject to} \quad & \bar{u} \leq u(x_1, \dots, x_n), \\
 & 0 \leq x_1, \\
 & \quad \vdots \\
 & 0 \leq x_n.
-\end{align}
+\end{align*}
 $$
 </Example>
 
@@ -548,13 +548,13 @@ $$
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \max_{\{x_1, \dots, x_n\}} \quad & u(x_1, \dots, x_n) \\
 \text{subject to} \quad & \sum_{i=1}^n p_i x_i \leq \sum_{i=1}^n p_i \bar{x}_i, \\
 & 0 \leq x_1, \\
 & \quad \vdots \\
 & 0 \leq x_n.
-\end{align}
+\end{align*}
 $$
 </Example>
 
@@ -668,12 +668,12 @@ for all $i \neq j$.
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \max_{\{h, c\}} \quad & u(h, c) \\
 \text{subject to} \quad & c \leq l^{NL} + w(T - h), \\
 & h \leq T, \\
 & 0 \leq h, c.
-\end{align}
+\end{align*}
 $$
 
 $$
@@ -764,13 +764,13 @@ $$
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \max_{\{c_0, \dots, c_n\}} \quad & u(c_0, \dots, c_n) \\
 \text{subject to} \quad & c_0 \leq \left(\sum_{t=0}^{n-1} (1 + r) (I_t - c_t)\right) + I_n, \\
 & 0 \leq c_0, \\
 & \quad \vdots \\
 & 0 \leq c_n.
-\end{align}
+\end{align*}
 $$
 
 $$
@@ -909,12 +909,12 @@ we say that $f(l, k)$ has increasing returns to scale if and only if the average
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \min_{\{l, k\}} \quad & wl + rk \\
 \text{subject to} \quad & 0 \leq l, \\
 & 0 \leq k, \\
 & \bar{q} \leq f(l, k).
-\end{align}
+\end{align*}
 $$
 
 $$
@@ -1032,10 +1032,10 @@ $$
 
 <Example>
 $$
-\begin{align}
+\begin{align*}
 \max_{\{q\}} \quad & pq - C(w, r, \bar{q}) \\
 \text{subject to} \quad & 0 \leq q.
-\end{align}
+\end{align*}
 $$
 
 $$
@@ -1134,14 +1134,14 @@ $$
 <Definition title="producer surplus">
 the **producer surplus** represents the difference between the price at which the producer sells and the disposition to sell a determined quantity and is defined as follows:
 $$
-\begin{align}
+\begin{align*}
 \text{EP} &= \pi(w_1, r_1, p_1) - \pi(w_1, r_1, p_0) \\
 &= \int_{p_0}^{p_1} q(w, r, p) dp \\
 &= \pi(w_1, r_1, p_1) - \pi(w_0, r_1, p_1) \\
 &= -\int_{w_0}^{w_1} l(w, r, p) dw \\
 &= \pi(w_1, r_1, p_1) - \pi(w_1, r_0, p_1) \\
 &= -\int_{r_0}^{r_1} k(w, r, p) dr
-\end{align}
+\end{align*}
 $$
 </Definition>
 
