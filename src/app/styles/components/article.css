@@ -313,9 +313,8 @@
 
 /* Lazy math loading placeholders */
 .article-body .lazy-katex {
-  display: inline-block;
+  display: inline;
   min-height: 1.2em;
-  min-width: 2em;
 }
 
 .article-body .lazy-katex[data-display-mode="true"] {
