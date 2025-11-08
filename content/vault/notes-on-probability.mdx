@@ -1,0 +1,656 @@
+---
+title: "notes-on-probability"
+date: "2019-11-01"
+excerpt: "notes on probability theory, random variables, distributions, convergence, and limit theorems"
+---
+
+> **note**: for a basic course in probability, you may want to skip some notes on measure theory.
+
+## basics and combinatorics
+
+<Definition title="sample space">
+the *sample space* $\Omega \neq \emptyset$ is the set of all possible outcomes of an experiment. it can be finite or infinite.
+</Definition>
+
+<Definition title="event">
+an *event* $A$ is a subset of the sample space $A \subseteq \Omega$, or an element of the power set of the sample space $\displaystyle A \in 2^\Omega$.
+</Definition>
+
+<Definition title="observable event set">
+the set of all *observable events* is denoted by $\mathscr{F}$, where $\displaystyle \mathscr{F} \subseteq 2^\Omega$.
+</Definition>
+
+<Remark>
+usually, if $\Omega$ is countable, $\mathscr{F} = 2^\Omega$. however, sometimes many events are excluded from $\mathscr{F}$ since it is not possible for them to happen.
+</Remark>
+
+<Definition title="σ-algebra">
+the set $\mathscr{F}$ is called a *$\sigma$-algebra* if:
+
+1. $\Omega \in \mathscr{F}$;
+2. $\forall A \subseteq \Omega$, $A \in \mathscr{F}$, then $A^C \in \mathscr{F}$; and
+3. $\forall (A_n)_{n \in \mathbb{N}}$, $A_n \in \mathscr{F}$, then $\displaystyle \bigcup_{n = 1}^\infty A_n \in \mathscr{F}$.
+</Definition>
+
+<Definition title="probability measure">
+$P : \mathscr{F} \to [0, 1]$ is a *probability measure* if it satisfies the following three axioms:
+
+1. $\forall A \in \mathscr{F} : P(A) \geq 0$,
+2. $P(\Omega) = 1$, and
+3. $\displaystyle P\left( \bigcup_{n=1}^\infty A_n \right) = \sum_{n = 1}^\infty P\left(A_n\right)$,
+
+where $A_n$ are disjunct.
+</Definition>
+
+<Remark>
+* $\displaystyle P\left(A^C\right) = 1 - P(A)$,
+* $P(\emptyset) = 0$,
+* if $A \subseteq B$, then $P(A) \leq P(B)$, and
+* $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+</Remark>
+
+<Proposition title="de morgan's laws">
+let $A_1, \dots, A_n$ be a set of events.
+$$
+\left( \bigcup_{i=1}^n A_i \right)^C = \bigcap_{i=1}^n A_i^C \qquad \left( \bigcap_{i=1}^n A_i \right)^C = \bigcup_{i=1}^n A_i^C
+$$
+</Proposition>
+
+<Theorem title="inclusion-exclusion principle">
+let $A_1, \dots, A_n$ be a set of events, then
+$$
+P\left( \bigcup_{i=1}^n A_i \right) = \sum_{k = 1}^n (-1)^{k-1} S_k,
+$$
+where
+$$
+S_k = \sum_{\substack{I \subseteq \{1, \dots, n\} \\ |I| = k}} P\left( \bigcap_{i \in I} A_i \right).
+$$
+</Theorem>
+
+<Definition title="laplace space">
+if $\Omega = \{\omega_1, \dots, \omega_N\}$ with $|\Omega| = N$ where all $\omega_i$ have the same probability $p_i = \frac{1}{N}$, $\Omega$ is called *laplace space* and $P$ has a discrete uniform distribution. for some event $A$, we have
+$$
+P(A) = \frac{|A|}{|\Omega|}.
+$$
+</Definition>
+
+<Remark>
+the discrete uniform distribution exists only if $\Omega$ is finite.
+</Remark>
+
+<Definition title="conditional probability">
+given two events $A$ and $B$ with $P(A) > 0$, the probability of $B$ given $A$ is defined as
+$$
+P(B \mid A) := \frac{P(B \cap A)}{P(A)}.
+$$
+</Definition>
+
+<Theorem title="total probability">
+let $A_1, \dots, A_n$ be a set of disjunct events $\forall i \neq j : A_i \cap A_j = \emptyset$ where $\displaystyle \bigcup_{i=1}^n A_i = \Omega$, then, for any event $B \subseteq \Omega$,
+$$
+P(B) = \sum_{i = 1}^n P(B \mid A_i) P(A_i).
+$$
+</Theorem>
+
+<Definition title="bayes' rule">
+let $A_1, \dots, A_n$ be the set of disjunct event $\forall i \neq j : A_i \cap A_j = \emptyset$ where $\displaystyle \bigcup_{i=1}^n A_i = \Omega$ with $P(A_i) > 0$ for all $i = 1, \dots, n$, then, for an event $B \subseteq \Omega$ with $P(B) > 0$, we have
+$$
+P(A_k \mid B) = \frac{P(B \mid A_k) P(A_k)}{\displaystyle\sum_{i=1}^n P(B \mid A_i) P(A_i)}.
+$$
+</Definition>
+
+<Definition title="independence">
+a set of events $A_1, \dots, A_n$ are *independent* if, for all $m \in \mathbb{N}$ with $\{k_1, \dots, k_m\} \subseteq \{1, \dots, n\}$, we have
+$$
+P\left( \bigcap_{i=1}^m A_{k_i} \right) = \prod_{i=1}^m P\left(A_{k_i}\right).
+$$
+</Definition>
+
+<Definition title="factorial">
+the *factorial* function is defined by the product
+$$
+n! = \prod_{i=1}^n i = n \cdot (n - 1)!
+$$
+for integer $n \geq 1$.
+</Definition>
+
+<Definition title="gamma function">
+let $z \in \mathbb{C}$ with $\Re(z) > 0$, the *gamma function* is defined via the following convergent improper integral:
+$$
+\Gamma(z) = \int_0^\infty t^{z - 1} e^{-t} dt.
+$$
+</Definition>
+
+<Remark title="gamma function properties">
+* $\displaystyle \Gamma(1/2) = \sqrt{\pi}$.
+* $\displaystyle \Gamma(1) = \Gamma(2) = 1$.
+* $\displaystyle \Gamma(z) = (z - 1)\Gamma(z - 1)$.
+* $\displaystyle \Gamma(n) = (n - 1)!$, $\forall n \in \mathbb{N}$.
+</Remark>
+
+<Definition title="permutation">
+let $n$ be the number of total objects and $k$ be the number of objects we want to select. a *permutation* is an arrangement of elements where we care about ordering.
+
+1. repetition not allowed:
+$$
+P_n(k) = \frac{n!}{(n - k)!}.
+$$
+2. repetition allowed:
+$$
+P_n(k) = n^k.
+$$
+</Definition>
+
+<Definition title="combination">
+let $n$ be the number of total objects and $k$ be the number of objects we want to select. a *combination* is an arrangement of elements where we do not care about ordering.
+
+1. repetition not allowed:
+$$
+C_n(k) = \binom{n}{k} = \frac{P_n(k)}{k!} = \frac{n!}{k!(n - k)!}.
+$$
+2. repetition allowed:
+$$
+C_n(k) = \binom{n + k -1}{k}.
+$$
+</Definition>
+
+<Remark>
+repetition is the same as replacement.
+</Remark>
+
+<Remark title="binomial coefficient properties">
+* $0! = 1$,
+* $\displaystyle \binom{n}{0} = \binom{n}{n} = 1$,
+* $\displaystyle \binom{n}{1} = \binom{n}{n - 1} = n$,
+* $\displaystyle \binom{n}{k} = \binom{n}{n - k}$,
+* $\displaystyle \binom{n}{k} = \binom{n - 1}{k - 1} + \binom{n - 1}{k}$, and
+* $\displaystyle \sum_{k = 0}^n \binom{n}{k} = 2^n$.
+</Remark>
+
+<Remark title="sum properties">
+let $x, y \in \mathbb{R}^n$, $c \in \mathbb{R}$ and $k \neq 1$.
+
+* $\displaystyle \sum_i x_i y_i \neq \sum_i x_i \sum y_i$.
+* $\displaystyle \sum_i x_i^k \neq \left( \sum_i x_i \right)^k$.
+* $\displaystyle \sum_{i=1}^n c = nc$.
+* $\displaystyle \sum_{i=1}^n cx_i = c\sum_{i=1}^n x_i$.
+* $\displaystyle \sum_i (x_i + y_i) = \sum_i x_i + \sum_i y_i$.
+</Remark>
+
+<Theorem title="binomial expansion">
+$$
+(x+y)^n = \sum_{k=0}^n {n \choose k}x^{n-k}y^k = \sum_{k=0}^n {n \choose k}  x^k y^{n-k}
+$$
+</Theorem>
+
+## random variables
+
+<Definition title="random variable">
+let $(\Omega, \mathscr{F}, P)$ be a probability space. a *random variable* on $\Omega$ is a function
+$$
+X : \Omega \to \mathscr{W}(X) \subseteq \mathbb{R}.
+$$
+if the image $\mathscr{W}(X)$ is countable, $X$ is called a *discrete random variable*, otherwise it is called a *continuous random variable*.
+</Definition>
+
+<Definition title="probability density function / probability mass function">
+the *probability density function* (pdf) $f_X : \mathbb{R} \to \mathbb{R}$ of a random variable $X$ is a function defined as
+$$
+f_X(x) := P(X = x) := P\left(\{\omega \mid X(\omega) = x\}\right).
+$$
+with $X$ discrete, it is called *probability mass function*.
+</Definition>
+
+<Remark>
+* if $X$ is a discrete random variable, then $\displaystyle \sum_i f_X(u_i) = 1$.
+* if $X$ is a continuous random variable, then $\displaystyle \int_{-\infty}^{\infty} f_X(t)dt = 1$.
+</Remark>
+
+<Definition title="cumulative distribution">
+the *cumulative distribution function* (cdf) $F_X : \mathbb{R} \to [0,1]$ of a random variable $X$ is a function defined as
+$$
+F_X(x) := P(X \leq x) := P\left(\{\omega \mid X(\omega) \leq x\}\right).
+$$
+if the pdf is given, the cdf can be expressed with
+$$
+F_X(x) =
+\begin{cases}
+\displaystyle \sum_{x_i \leq x} f_X(x_i), & \text{discrete} \\
+\displaystyle \int_{-\infty}^x f_X(t)dt,  & \text{continuous}
+\end{cases}
+$$
+</Definition>
+
+<Remark title="cumulative distribution properties">
+* if $t \leq s$, then $F_X(t) \leq F_X(s)$ (*monotonicity*).
+* if $t > s$, then $\displaystyle \lim_{t \to s} F_X(t) = F_X(s)$.
+* $\displaystyle \lim_{t \to -\infty} F_X(t) = 0$ and $\displaystyle \lim_{t \to \infty} F_X(t) = 1$.
+* $\displaystyle P(a \leq X \leq b) = F_X(b) - F_X(a) = \int_{a}^{b} f_X(t)dt$.
+* $P(X > t) = 1 - P(X \leq t) = 1 - F_X(t)$.
+* $\displaystyle \frac{d}{dx}F_X(x) = f_X(x)$.
+</Remark>
+
+<Definition title="expected value">
+let $X$ be a random variable. the *expected value* is defined as
+$$
+E[X] :=
+\begin{cases}
+\displaystyle \sum_{x_k \in \mathscr{W}(X)} x_k \cdot f_X(x_k), & \text{discrete} \\
+\displaystyle \int_{-\infty}^\infty x \cdot f_X(x)dx,  & \text{continuous}
+\end{cases}
+$$
+</Definition>
+
+<Remark title="expected value properties">
+* $E[X] \leq E[Y]$ if $\forall \omega : X(\omega) \leq Y(\omega)$,
+* $\displaystyle E\left[ \sum_{i=0}^n a_i X_i \right] = \sum_{i=0}^n a_i E\left[ X_i \right]$,
+* $\displaystyle E[X] = \sum_{j=1}^\infty P[X \geq j]$ if $\mathscr{W}(X) \subseteq \mathbb{N}_0$,
+* $\displaystyle E\left[ \sum_{i=0}^\infty X_i \right] \neq \sum_{i=0}^\infty E\left[ X_i \right]$,
+* $E[E[X]] = E[X]$,
+* $E[XY]^2 \leq E[X^2]E[Y^2]$, and
+* $\displaystyle E\left[ \prod_{i=0}^n X_i \right] = \prod_{i=0}^n E[X_i]$ for independent $X_1, \dots, X_n$.
+</Remark>
+
+<Remark>
+the expected value is a linear operator.
+</Remark>
+
+<Definition title="raw moment / central moment">
+let $n \in \mathbb{N}$. the *$n$th (raw) moment* is defined as
+$$
+\mu_n' = E\left[X^n\right].
+$$
+the *$n$th central moment* is defined as
+$$
+\mu_n = E\left[\left( X - E[X] \right)^n \right].
+$$
+</Definition>
+
+<Definition title="expected value of functions">
+let $X$ be a random variable and $Y = g(X)$ with $g : \mathbb{R} \to \mathbb{R}$, then
+$$
+E[Y] :=
+\begin{cases}
+\displaystyle \sum_{x_k \in \mathscr{W}(X)} g(x_k) \cdot f_X(x_k), & \text{discrete} \\
+\displaystyle \int_{-\infty}^\infty g(x) \cdot f_X(x)dx,  & \text{continuous}
+\end{cases}
+$$
+</Definition>
+
+<Definition title="moment-generating function">
+let $X$ be a random variable. the *moment-generating function* of $X$ is defined as
+$$
+M_X(t) := E \left[ e^{tX} \right].
+$$
+</Definition>
+
+<Definition title="characteristic function">
+let $X$ be a random variable. the *characteristic function* of $X$ is defined as
+$$
+\varphi_X(t) := E \left[ e^{itX} \right]
+$$
+where $i = \sqrt{-1} \in \mathbb{C}$.
+</Definition>
+
+<Definition title="variance">
+let $X$ be a random variable with $E[X^2] < \infty$. the *variance* of $X$ is defined as
+$$
+\text{Var}[X] := E\left[ (X - E[X])^2 \right].
+$$
+</Definition>
+
+<Remark title="variance properties">
+* $0 \leq \text{Var}[X] \leq E[X^2]$,
+* $\text{Var}[X] = E[X^2] - E^2[X]$,
+* $\text{Var}[aX + b] = a^2\text{Var}[X]$,
+* $\text{Var}[X] = \text{Cov}(X,X)$,
+* $\displaystyle \text{Var} \left[ \sum_{i=1}^n a_i X_i \right] = \sum_{i = 1}^n a_i^2 \text{Var}[X_i] + 2 \sum_{1 \leq i < j \leq n} a_i a_j \text{Cov}(X_i, X_j)$, and
+* $\displaystyle \text{Var} \left[ \sum_{i=1}^n X_i \right] = \sum_{i = 1}^n \text{Var}[X_i]$ if $\text{Cov}(X_i, X_j) = 0$, $\forall i \neq j$.
+</Remark>
+
+<Definition title="standard deviation">
+let $X$ be a random variable with $E[X^2] < \infty$. the *standard deviation* of $X$ is defined as
+$$
+\sigma(X) = \text{sd}(X) := \sqrt{\text{Var}[X]}.
+$$
+</Definition>
+
+<Definition title="covariance">
+let $X$ and $Y$ be random variables with finite expected value. the *covariance* of $X$ and $Y$ is defined as
+$$
+\begin{align}
+\text{Cov}(X, Y) :&=\ E\left[ (X - E[X]) (Y - E[Y]) \right] \\
+&=\ E[XY] - E[X]E[Y]
+\end{align}
+$$
+</Definition>
+
+<Remark>
+the covariance is a measure of correlation between two random variables. $\text{Cov}(X,Y)>0$ if $Y$ tends to increase as $X$ increases. $\text{Cov}(X,Y)<0$ if $Y$ tends to decrease as $X$ increases. if $\text{Cov}(X,Y)=0$, then $X$ and $Y$ are uncorrelated.
+</Remark>
+
+<Remark title="covariance properties">
+* $\text{Cov}(aX,bY) = ab\text{Cov}(X,Y)$,
+* $\text{Cov}(X + a, Y + b) = \text{Cov}(X,Y)$, and
+* $\text{Cov}(aX_1 + bX_2, cY_1 + dY_2) = ac\text{Cov}(X_1,Y_1) + ad\text{Cov}(X_1,Y_2) + bc\text{Cov}(X_2,Y_1) + bd\text{Cov}(X_2,Y_2)$.
+</Remark>
+
+<Definition title="correlation">
+let $X$ and $Y$ be random variables with finite expected value. the *correlation* of $X$ and $Y$ is defined as
+$$
+\text{Corr}(X,Y) := \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}[X] \cdot \text{Var}[Y]}}.
+$$
+</Definition>
+
+<Remark>
+correlation is the same as covariance but normalized with values between $-1$ and $1$.
+</Remark>
+
+<Definition title="coefficient of variation">
+the *coefficient of variation* is defined as the ratio of the standard deviation to the mean.
+$$
+\text{i.e.} \quad c_V = \frac{\sigma}{\mu}.
+$$
+</Definition>
+
+<Definition title="indicator function">
+the *indicator function* $\mathbb{1}_A : \Omega \to \{0, 1\}$ for a set (event) $A$ is defined as
+$$
+\mathbb{1}_A (\omega) :=
+\begin{cases}
+1, & \omega \in A \\
+0, & \omega \in A^C
+\end{cases}
+$$
+</Definition>
+
+<Definition title="survival function">
+let $X$ be a continuous random variable with cumulative distribution function $F(x)$ on the interval $[0, \infty)$. its *survival function* or *reliability function* is defined as
+$$
+S(x) = P[X > x] = \int_x^\infty f(t)dt = 1 - F(x).
+$$
+</Definition>
+
+<Definition title="memorylessness">
+suppose $X$ is a non-negative random variable. the probability distribution of $X$ is *memoryless* if for any $s, t \geq 0$, we have
+$$
+P[X > s + t \mid X > t] = P[X > s].
+$$
+</Definition>
+
+<Theorem title="markov's inequality">
+let $X$ be a random variable and $g : \mathscr{W}(X) \to [0, \infty)$ be an increasing function, then, for all $c$ with $g(c) > 0$, we have
+$$
+P[X \geq c] \leq \frac{E[g(X)]}{g(c)}.
+$$
+
+<Remark>
+for practical uses usually $g(x) = x$.
+</Remark>
+</Theorem>
+
+<Theorem title="chebyshev's inequality">
+let $X$ be a random variable with $\text{Var}[X] < \infty$, then, if $k > 0$,
+$$
+P\left[ |X - E[X]| \geq k \right] \leq \frac{\text{Var}[X]}{k^2}.
+$$
+</Theorem>
+
+<Theorem title="jensen's inequality">
+if $X$ is a random variable and $\varphi$ is a convex function, then
+$$
+\varphi\left(E[X]\right) \leq E\left[\varphi(X)\right].
+$$
+</Theorem>
+
+## multivariate distributions
+
+<Definition title="joint probability density function">
+the *joint probability density function* $f_X : \mathbb{R}^n \to [0, 1]$ with $X = (X_1, \dots, X_n)$ is a function defined as
+$$
+f_X(x_1, \dots, x_n) := P[X_1 = x_1, \dots, X_n = x_n].
+$$
+</Definition>
+
+<Definition title="joint cumulative distribution function">
+the *joint cumulative distribution function* $F_X : \mathbb{R}^n \to [0, 1]$ with $X = (X_1, \dots, X_n)$ is a function defined as
+$$
+F_X(x_1, \dots, x_n) := P[X_1 \leq x_1, \dots, X_n \leq x_n].
+$$
+if the joint pdf is given, it can be expressed with
+$$
+F_X(x) =
+\begin{cases}
+\displaystyle \sum_{t_1 \leq x_1} \cdots \sum_{t_n \leq x_n} f_X(t), & \text{discrete} \\
+\displaystyle \int_{-\infty}^{x_1} \cdots \int_{-\infty}^{x_n} f_X(t)dt, & \text{continuous}
+\end{cases}
+$$
+where $t = (t_1, \dots, t_n)$ and $x = (x_1, \dots, x_n)$.
+</Definition>
+
+<Remark>
+$$
+\frac{\partial F_X(x_1, \dots, x_n)}{\partial x_1, \dots, x_n} = f_X(x_1, \dots, x_n)
+$$
+</Remark>
+
+<Definition title="marginal probability density function">
+the *marginal probability density function* $f_{X_i} : \mathbb{R} \to [0,1]$ of $X_i$ given a joint pdf $f_X(x_1, \dots, x_n)$ is defined as
+$$
+f_{X_i}(t_i) =
+\begin{cases}
+\displaystyle \sum_{t_1} \cdots \sum_{t_{i-1}} \sum_{t_{i+1}} \cdots \sum_{t_n} f_X(t), & \text{discrete} \\
+\displaystyle \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} f_X(t)d\tilde{t}, & \text{continuous}
+\end{cases}
+$$
+where $\tilde{t} = (t_1, \dots, t_{i-1}, t_{i+1}, \dots, t_n)$, and in the discrete case $t_k \in \mathscr{W}(X_k)$.
+</Definition>
+
+<Remark>
+the idea of the marginal probability is to ignore all other random variables and consider only the one we're interested in.
+</Remark>
+
+<Definition title="marginal cumulative distribution function">
+the *marginal cumulative distribution function* $F_{X_i} : \mathbb{R} \to [0,1]$ of $X_i$ given a joint cdf $F_X(x_1, \dots, x_n)$ is defined as
+$$
+F_{X_i}(x_i) := \lim_{x_{j\neq i} \to \infty} F_X(x_1, \dots, x_n).
+$$
+</Definition>
+
+<Definition title="conditional distribution">
+the *conditional distribution* $f_{X \mid Y} : \mathbb{R} \to [0,1]$ is defined as
+$$
+\begin{align}
+f_{X\mid Y} (x \mid y) :&=\ P[X = x \mid Y = y] \\
+&=\ \frac{P[X = x, Y = y]}{P[Y = y]} \\
+&=\ \frac{\text{joint pdf}}{\text{marginal pdf}}
+\end{align}
+$$
+</Definition>
+
+<Definition title="independence">
+the random variables $X_1, \dots, X_n$ are *independent* if
+$$
+F_{X_1, \dots, X_n} (x_1, \dots, x_n) = \prod_{i=1}^n F_{X_i}(x_i).
+$$
+similarly, if their pdf is absolutely continuous, they are *independent* if
+$$
+f_{X_1, \dots, X_n} (x_1, \dots, x_n) = \prod_{i=1}^n f_{X_i}(x_i).
+$$
+</Definition>
+
+<Theorem title="function independence">
+if the random variables $X_1, \dots, X_n$ are independent and $f_i : \mathbb{R} \to \mathbb{R}$ is a function with $Y_i := f_i(X_i)$, then also $Y_1, \dots, Y_n$ are independent.
+</Theorem>
+
+<Theorem>
+the random variables $X_1, \dots, X_n$ are independent if and only if, $\forall B_i \subseteq \mathscr{W}(X_i)$, we have
+$$
+P[X_1 \in B_1, \dots, X_n \in B_n] = \prod_{i=1}^n P[X_i \in B_i].
+$$
+</Theorem>
+
+<Definition title="joint expected value">
+the *joint expected value* of a random variable $Y = g(X_1, \dots, X_n) = g(X)$ is defined as
+$$
+E[Y] =
+\begin{cases}
+\displaystyle \sum_{t_1} \cdots \sum_{t_n} g(t) f_X(t), & \text{discrete} \\
+\displaystyle \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} g(t)f_X(t)dt, & \text{continuous}
+\end{cases}
+$$
+where $t = (t_1, \dots, t_n)$, and in the discrete case $t_k \in \mathscr{W}(X_k)$.
+</Definition>
+
+<Definition title="conditional expected value">
+the *conditional expected value* of random variables $X$ and $Y$ is defined as
+$$
+E[X\mid Y] :=
+\begin{cases}
+\displaystyle \sum_{x \in \mathbb{R}} x \cdot f_{X\mid Y}(x\mid y), & \text{discrete} \\
+\displaystyle \int_{-\infty}^\infty x \cdot f_{X\mid Y}(x\mid y)dx,  & \text{continuous}
+\end{cases}
+$$
+</Definition>
+
+<Remark>
+* $E[X] = E[E[X\mid Y]]$,
+* $E[X\mid Y] = E[X]$ if $X$ and $Y$ are independent, and
+* $\text{Var}[X] = E\left[\text{Var}[X \mid Y]\right] + \text{Var}\left[E[X \mid Y]\right]$.
+</Remark>
+
+<Definition>
+let $Y = g(X_1, \dots, X_n) = g(X)$.
+$$
+P[Y \in C] = \int_{A_C} f_X(t)dt
+$$
+where $A_C = \{ x = (x_1, \dots, x_n) \in \mathbb{R}^n : g(x) \in C \}$ and $t = (t_1, \dots, t_n)$.
+</Definition>
+
+<Theorem title="transformation">
+when $g(\cdot)$ is a strictly increasing function, then
+$$
+\begin{align}
+F_Y(y) &=\ \int_{-\infty}^{g^{-1}(y)} f_X(x)dx \\
+&=\ F_X(g^{-1}(y)) \\
+f_Y(y) &=\ f_X\left( g^{-1}(y) \right) \frac{\partial}{\partial y} g^{-1}(y)
+\end{align}
+$$
+when $g(\cdot)$ is a strictly decreasing function, then
+$$
+\begin{align}
+F_Y(y) &=\ \int_{g^{-1}(y)}^{\infty} f_X(x)dx \\
+&=\ 1 - F_X(g^{-1}(y)) \\
+f_Y(y) &= - f_X\left( g^{-1}(y) \right) \frac{\partial}{\partial y} g^{-1}(y)
+\end{align}
+$$
+equivalently, $\displaystyle f_X(x) = f_Y(g(x)) \left| \frac{\partial g(x)}{\partial x} \right|$.
+
+in higher dimensions, the derivative generalizes to the determinant of the jacobian matrix --- the matrix with $\displaystyle \mathscr{J}_{ij} = \frac{\partial x_i}{\partial y_j}$. thus, for real-valued vector $x$ and $y$,
+$$
+f_X(x) = f_Y(g(x)) \left|\det \left( \frac{\partial g(x)}{\partial x} \right) \right|.
+$$
+</Theorem>
+
+<Theorem title="transformation">
+let $X$ have a continuous cdf $F_X(\cdot)$ and define $Y = F_X(X)$. then $Y \sim \text{Unif}[0,1]$, i.e., $F_Y(y) = y$ for $y \in [0,1]$.
+</Theorem>
+
+<Theorem>
+for $X \sim F_X$ and $Y \sim F_Y$, if $M_X$ and $M_Y$ exist, and $M_X(t) = M_Y(t)$ for all $t$ in some neighbourhood of zero, then $F_X(u) = F_Y(u)$ for all $u$.
+</Theorem>
+
+<Remark title="monte carlo integration">
+let $\displaystyle I = \int_a^b g(x)dx$ be the integral of a function that is hard to evaluate, then
+$$
+\begin{align}
+I &=\ \int_a^b g(x)dx \\
+&=\ (b - a) \int_a^b g(x) \frac{1}{b - a} dx \\
+&=\ (b - a) \int_{-\infty}^{\infty} g(x) f_{\text{Unif}}(x) dx \\
+&=\ (b - a) \cdot E[g(\text{Unif})]
+\end{align}
+$$
+where $\text{Unif}(a,b)$ is uniformly distributed. then, by the **law of large numbers**, we know that we can approximate $E[g(\text{Unif})]$ by randomly sampling $u_1, u_2, \dots$ from $\text{Unif}(a,b)$.
+$$
+\frac{b - a}{n} \sum_{i=1}^n g(u_i) \underset{n\to\infty}{\longrightarrow} (b - a) \cdot E[g(\text{Unif})].
+$$
+</Remark>
+
+<Remark title="sum">
+let $X_1, \dots, X_n$ be independent random variables, then the sum $Z = X_1 + \cdots + X_n$ has a pdf $f_Z(z)$ evaluated with a convolution between all pdfs
+$$
+f_Z(z) = (f_{X_1}(x_1) * \cdots * f_{X_n}(x_n))(z).
+$$
+in the special case where $Z = X + Y$, we have
+$$
+f_Z(z) =
+\begin{cases}
+\displaystyle \sum_{x_k \in \mathscr{W}(X)} f_X(x_k) f_Y(z - x_k), & \text{discrete} \\
+\displaystyle \int_{-\infty}^\infty f_X(t) f_Y(z - t)dt, & \text{continuous}
+\end{cases}
+$$
+</Remark>
+
+<Remark>
+often it is much easier to use properties of the random variables to find the sum instead of evaluating the convolution.
+</Remark>
+
+<Remark title="product">
+let $X$ and $Y$ be independent random variables. to evaluate the pdf and the cdf of $Z = XY$, we proceed as
+$$
+\begin{align}
+F_Z(z) &=\ P[XY \leq z] \\
+&=\ P\left[ X \geq \frac{z}{Y}, Y < 0 \right] \\
+&+\ P\left[ X \leq \frac{z}{Y}, Y > 0 \right] \\
+&=\ \int_{-\infty}^0 \left[ \int_{\frac{z}{y}}^\infty f_X(x)dx \right] f_Y(y)dy \\
+&+\ \int_0^\infty \left[ \int_{-\infty}^{\frac{z}{y}} f_X(x)dx \right] f_Y(y)dy
+\end{align}
+$$
+where the pdf is
+$$
+f_Z(z) = \frac{dF_Z}{dz}(z) = \int_{-\infty}^\infty f_Y(y)f_X\left(\frac{z}{y}\right) \frac{1}{|y|} dy.
+$$
+</Remark>
+
+<Remark title="quotient">
+let $X$ and $Y$ be independent random variables. to evaluate the pdf and the cdf of $\displaystyle Z = \frac{X}{Y}$, we proceed as
+$$
+\begin{align}
+F_Z(z) &=\ P\left[\frac{X}{Y} \leq z\right] \\
+&=\ P\left[ X \geq zY, Y < 0 \right] \\
+&+\ P\left[ X \leq zY, Y > 0 \right] \\
+&=\ \int_{-\infty}^0 \left[ \int_{yz}^\infty f_X(x)dx \right] f_Y(y)dy \\
+&+\ \int_0^\infty \left[ \int_{-\infty}^{yz} f_X(x)dx \right] f_Y(y)dy
+\end{align}
+$$
+where the pdf is
+$$
+f_Z(z) = \frac{dF_Z}{dz}(z) = \int_{-\infty}^\infty |y|\ f_X\left(yz\right) f_Y(y) dy.
+$$
+</Remark>
+
+<Definition title="covariance matrix / correlation matrix">
+let $X_1, \dots, X_n$ be random variables. let $\sigma_{ij} = \text{Cov}(X_i, X_j)$ and $\rho_{ij} = \text{Corr}(X_i, X_j)$ for every $i, j = 1, 2, \dots, n$. the *covariance* and *correlation matrices* as defined respectively as
+$$
+\Sigma =
+\begin{bmatrix}
+\sigma_{11} & \sigma_{12} & \cdots & \sigma_{1n} \\
+\sigma_{21} & \sigma_{22} & \cdots & \sigma_{2n} \\
+\vdots      & \vdots      & \ddots & \vdots \\
+\sigma_{n1} & \sigma_{n2} & \cdots & \sigma_{nn}
+\end{bmatrix}_{n\times n}
+$$
+$$
+P =
+\begin{bmatrix}
+1         & \rho_{12} & \cdots & \rho_{1n} \\
+\rho_{21} & 1         & \cdots & \rho_{2n} \\
+\vdots    & \vdots    & \ddots & \vdots \\
+\rho_{n1} & \rho_{n2} & \cdots & 1
+\end{bmatrix}_{n\times n}
+$$
+</Definition>
+
+<Theorem>
+let $X$ and $Y$ be random variables. $|\rho_{X,Y}| = 1$ if and only if there exist $\alpha, \beta \in \mathbb{R}$ such that $Y = \alpha + \beta X$.
+</Theorem>

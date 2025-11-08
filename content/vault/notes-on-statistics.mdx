@@ -1,0 +1,206 @@
+---
+title: "notes-on-statistics"
+date: "2020-04-01"
+excerpt: "notes on convergence, estimators, hypothesis testing, and finite sample distributions"
+---
+
+> **note**: this page is still in development.
+
+<Definition title="population">
+a *population* is a set of similar items or events which is of interest for some question or experiment.
+</Definition>
+
+<Definition title="sample">
+a *sample* is a set of individuals or objects collected or selected from a statistical population by a defined procedure.
+</Definition>
+
+## finite sample distributions
+
+<Definition title="convergence in distribution">
+a sequence $\displaystyle X_n$ of random variables is said to *converge in distribution* to a random variable $X$ if
+$$
+\lim_{n\to\infty} F_{X_n}(x) = F_X(x)
+$$
+for every $x \in \mathbb{R}$.
+
+for random vectors $\left\{ X_1, X_2, \dots \right\} \subset \mathbb{R}^k$, we say that this sequence *converges in distribution* to a random $k$-vector $X$ if
+$$
+\lim_{n\to\infty} P(X_n\in A) = P(X\in A)
+$$
+for every $A \subset \mathbb{R}^k$ which is a continuity set of $X$.
+</Definition>
+
+<Definition title="convergence in probability">
+a sequence $\displaystyle X_n$ of random variables *converges in probability* towards the random variable $X$ if
+$$
+\lim_{n\to\infty} P\left( \left| X_n - X \right| > \varepsilon \right) = 0
+$$
+for all $\varepsilon > 0$.
+</Definition>
+
+<Definition title="convergence in mean">
+given a real number $r \geq 1$, we say that the sequence $X_n$ *converges in the $r$th mean* or *in the $L^r$ norm* towards the random variable $X$ if the $r$th absolute moments of $X_n$ and $X$ exist, and
+$$
+\lim_{n\to\infty} E\left( \left| X_n - X \right|^r \right) = 0.
+$$
+</Definition>
+
+<Theorem title="law of large numbers">
+let $X_1, X_2, \dots$ be independent and identically distributed random variables with finite mean $\mu$. let $\bar{X}_n$ be the average of the first $n$ variables, then the *law of large numbers* establishes that:
+
+1. *weak*
+$$
+\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \underset{n\to\infty}{\longrightarrow} \mu
+$$
+2. *weak*
+$$
+P\left[ \left| \bar{X}_n - \mu \right| > \varepsilon \right] \underset{n\to\infty}{\longrightarrow} 0, \quad \forall \varepsilon > 0
+$$
+3. *weak*
+$$
+P\left[ \left| \bar{X}_n - \mu \right| < \varepsilon \right] \underset{n\to\infty}{\longrightarrow} 1, \quad \forall \varepsilon > 0
+$$
+4. *strong*
+$$
+P\left[ \left\{ \omega \in \Omega : \bar{X}_n(\omega) \underset{n\to\infty}{\longrightarrow} \mu \right\} \right] = 1
+$$
+</Theorem>
+
+<Theorem title="central limit theorem">
+suppose $\left\{X_1, \dots, X_n\right\}$ is a sequence of independent and identically distributed random variables with $E[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$. then, as $n$ approaches infinity, the random variables $\sqrt{n}\left( \bar{X}_n - \mu \right)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
+$$
+\text{i.e.} \quad \sqrt{n}\left( \bar{X}_n - \mu \right) \xrightarrow{d} \mathcal{N}(0, \sigma^2)
+$$
+</Theorem>
+
+<Remark>
+let $X_1, \dots, X_n$ be independent and identically distributed random variables drawn according to some distribution $P_\theta$ parametrized by $\theta = (\theta_1, \dots, \theta_m) \in \Theta$, where $\Theta$ is the set of all possible parameters for the selected distribution. the goal is to find the best estimator $\hat{\theta} \in \Theta$ such that $\hat{\theta} \approx \theta$ since the real $\theta$ cannot be known exactly from a finite sample.
+</Remark>
+
+<Definition title="estimator">
+an *estimator* $\hat{\theta}_j$ from a parameter $\theta_j$ is a random variable $\hat{\theta}_j(X_1, \dots, X_n)$ that is symbolized as a function of the observed data.
+</Definition>
+
+<Definition title="estimate">
+an *estimate* $\hat{\theta}_j(x_1, \dots, x_n)$ is a realization of the estimator. it is a real value for the estimated parameter.
+</Definition>
+
+<Definition title="bias">
+the *bias* of an estimator $\hat{\theta}$ is defined as
+$$
+\text{Bias} (\hat{\theta}, \theta) := E_\theta [\hat{\theta} - \theta].
+$$
+we say that an estimator is *unbiased* if $\text{Bias}_\theta [\hat{\theta}] = 0$ or $E_\theta [\hat{\theta}] = \theta$.
+</Definition>
+
+<Definition title="mean squared error">
+the *mean squared error* of an estimator $\hat{\theta}$ is defined as
+$$
+\text{MSE}_\theta[\hat{\theta}] := E\left[ \left( \hat{\theta} - \theta \right)^2 \right] = \text{Var}_\theta[\hat{\theta}] + \text{Bias}^2 (\hat{\theta}, \theta)
+$$
+</Definition>
+
+<Definition title="consistency">
+a sequence of estimators $\hat{\theta}^{(n)}$ of the parameter $\theta$ is called *consistent* if, for any $\varepsilon > 0$,
+$$
+P_\theta \left[ \left| \hat{\theta}^{(n)} - \theta \right| > \varepsilon \right] \underset{n\to\infty}{\longrightarrow} 0.
+$$
+
+<Remark>
+an estimator is consistent only if, as the sample data increases, the estimator approaches the real parameter.
+</Remark>
+</Definition>
+
+<Definition title="relative efficiency">
+the *relative efficiency* of two estimators is defined as
+$$
+e\left(\hat{\theta}_1, \hat{\theta}_2\right) = \frac{\text{Var}\left[\hat{\theta}_2\right]}{\text{Var}\left[\hat{\theta}_1\right]}.
+$$
+we say that $\hat{\theta}_1$ is preferable if $\text{Var}\left[\hat{\theta}_1\right] < \text{Var}\left[\hat{\theta}_2\right]$.
+</Definition>
+
+## point estimation
+
+<Definition title="likelihood function">
+the *likelihood function* $\mathscr{L}$ is defined as
+$$
+\mathscr{L}(\theta;\ x_1, \dots, x_n) = f(x_1, \dots, x_n;\ \theta).
+$$
+assuming $x_i \perp x_j$, $\forall i \neq j$,
+$$
+\mathscr{L}(\theta;\ x_1, \dots, x_n) = \prod_{i=1}^n f(x_i;\ \theta).
+$$
+
+<Remark>
+for practical purposes, we often use the *log-likelihood function* $\ell(\theta;\ x_1, \dots, x_n) = \log\mathscr{L}(\theta;\ x_1, \dots, x_n)$ since it is much easier to differentiate afterwards, and the maximum of $\mathscr{L}$ is preserved for all $\theta_j$.
+</Remark>
+</Definition>
+
+<Definition title="maximum likelihood estimator">
+the *maximum likelihood estimator* $\hat{\theta}$ for $\theta$ is defined as
+$$
+\hat{\theta} \in \left\{ \arg\max_{\theta \in \Theta} \mathscr{L}(\theta;\ X_1, \dots, X_n) \right\}
+$$
+</Definition>
+
+<Definition title="score">
+the *score* is the gradient the natural logarithm of the likelihood function with respect to an $m$-dimensional parameter vector $\theta$.
+$$
+s(\theta) := \frac{\partial \log \mathscr{L}(\theta)}{\partial\theta}.
+$$
+
+<Remark>
+the score indicates the steepness of the log-likelihood function and thereby the sensitivity to infinitesimal changes to the parameter values.
+</Remark>
+</Definition>
+
+<Definition title="fisher information">
+let $f(X;\ \theta)$ be the probability density function or probability mass function for $X$ conditioned on the value of $\theta$. we define the *fisher information* as
+$$
+\mathscr{I}(\theta) := E\left[\left(\frac{\partial}{\partial\theta}\log f(X;\ \theta)\right)^2\right] = - E\left[\frac{\partial^2}{\partial\theta^2}\log f(X;\ \theta)\right].
+$$
+
+<Remark>
+the fisher information is a way of measuring the amount of information that an observable random variable $X$ carries about an unknown parameter $\theta$ upon which the probability of $X$ depends.
+</Remark>
+</Definition>
+
+<Definition title="cramér–rao bound">
+suppose $\theta$ is an unknown deterministic parameter which is to be estimated from $n$ independent observations of $x$, each from a distribution according to some probability function $f(X;\ \theta)$. the variance of any unbiased estimator $\hat{\theta}$ of $\theta$ is then bounded by the reciprocal of the fisher information $\mathscr{I}(\theta)$. namely,
+$$
+\text{Var}\left[\hat{\theta}\right] \geq \frac{1}{n\mathscr{I}(\theta)}.
+$$
+</Definition>
+
+<Definition title="efficiency">
+the *efficiency* of an unbiased estimator $\hat{\theta}$ of a parameter $\theta$ is defined as
+$$
+e\left( \hat{\theta} \right) = \frac{1 / \mathscr{I}(\theta)}{\text{Var}\left[ \hat{\theta} \right]}
+$$
+where $\mathscr{I}(\theta)$ is the fisher information of the sample.
+</Definition>
+
+<Proposition>
+$$
+e\left( \hat{\theta} \right) \leq 1
+$$
+</Proposition>
+
+<Remark title="maximum likelihood estimator properties">
+* asymptotically unbiased. namely, $\displaystyle \lim_{n\to\infty} \text{Bias}\left( \hat{\theta}_n, \theta \right) = 0$.
+* asymptotically efficient. namely, $\displaystyle \lim_{n\to\infty} \text{Var}\left[ \hat{\theta} \right] = \frac{1}{n\mathscr{I}(\theta)}$.
+* consistency.
+* $\displaystyle \hat{\theta}_n \xrightarrow{d} \mathcal{N}\left( \theta, \frac{1}{n\mathscr{I}(\theta)} \right)$.
+</Remark>
+
+## interval estimation
+
+> **note**: this section is still in development.
+
+## parametric hypothesis testing
+
+> **note**: this section is still in development.
+
+## normality tests
+
+> **note**: this section is still in development.

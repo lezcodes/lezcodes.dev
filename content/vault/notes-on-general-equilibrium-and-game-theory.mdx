@@ -1,0 +1,289 @@
+---
+title: "notes-on-general-equilibrium-and-game-theory"
+date: "2020-11-01"
+excerpt: "notes on pure exchange economies, competitive equilibrium, production, pareto efficiency, and welfare theorems"
+---
+
+> **note**: this page is still in development.
+
+## general equilibrium
+
+### pure exchange economies
+
+<Remark title="initial assumptions">
+* there are $m$ consumers such that $\mathscr{I} = \{1, \dots, m\}$.
+* there are $n$ goods such that $\mathscr{L} = \{1, \dots, n\}$.
+* a utility function $u_i : \mathbb{R}^\mathscr{L} \to \mathbb{R}$ represents the preferences of the $i$th consumer.
+* each consumer can consume goods in $x_i \in \mathbb{R}^\mathscr{L}_+$.
+* each consumer has an initial endowment of $w_i \in \mathbb{R}^\mathscr{L}_+$.
+* the ordered pair $(u_i, w_i)$ describes each consumer.
+* the utility functions represent neoclassical preferences.
+</Remark>
+
+<Proposition>
+if $x \succ_i y$, then $u_i(x) > u_i(y)$.
+</Proposition>
+
+<Definition title="exchange economy">
+a *pure exchange economy* is
+$$
+\mathscr{E} = \left\langle \mathscr{I}, (u_i, w_i)_{i\in\mathscr{I}} \right\rangle,
+$$
+where $\mathscr{I}$ is the set of agents; $u_i$ and $w_i$ are the utility function and initial endowment of the $i$th consumer, respectively.
+</Definition>
+
+<Definition title="total endowment">
+$$
+\Omega = \sum_{i \in \mathscr{I}} w_i.
+$$
+</Definition>
+
+<Definition title="resource allocation">
+the *resource allocation* is denoted by $X = (x_1, x_2, \dots, x_m)$, where $x_i \in \mathbb{R}^\mathscr{L}_+$.
+</Definition>
+
+<Definition title="feasible allocation">
+the *feasible allocation* $\mathscr{F}$ of an economy $\mathscr{E}$ is defined by
+$$
+\mathscr{F} = \left\{ X = (x_1, x_2, \dots, x_m)\ :\ x_i \in \mathbb{R}^\mathscr{L}_i,\ \sum_{i \in \mathscr{I}} x_i = \sum_{i \in \mathscr{I}} w_i \right\}.
+$$
+</Definition>
+
+<Definition title="pareto efficiency">
+let $\mathscr{E}$ be an exchange economy. a feasible allocation of resources $X$ is said to be *pareto efficient* if and only if there is no other feasible allocation $\hat{X}$ such that, for every agent in $\mathscr{I}$, $u_i(\hat{x}_i) \geq u_i(x_i)$ and, for at least one agent $j$, $u_j(\hat{x}_j) > u_j(x_j)$.
+</Definition>
+
+<Definition title="pareto dominance">
+let $X$ and $\hat{X}$ be two feasible allocations. we say that $\hat{X}$ *pareto dominates* $X$ if and only if
+$$
+u_i(\hat{x}_{i,1}, \dots, \hat{x}_{i,n}) \geq u_i(x_{i,1}, \dots, x_{i,n}), \quad \forall i \in \mathscr{I},
+$$
+and there is at least one consumer $j$ such that
+$$
+u_j(\hat{x}_{j,1}, \dots, \hat{x}_{j,n}) > u_i(x_{j,1}, \dots, x_{j,n}).
+$$
+</Definition>
+
+<Definition title="contract curve">
+the set of all pareto allocations is known as the *contract curve*.
+</Definition>
+
+<Example title="general case">
+$$
+\begin{align}
+\max_{ x_1,\ \dots\ ,\ x_m } \quad & u_1(x_{1,1}, \dots, x_{1,n}) \\
+\text{subject to} \quad & u_2(x_{2,1}, \dots, x_{2,n}) \geq \bar{u}_2, \\
+& \quad \vdots \\
+& u_m(x_{m,1}, \dots, x_{m,n}) \geq \bar{u}_m; \\
+& \sum_{i \in \mathscr{I}} x_{i,1} \leq \sum_{i \in \mathscr{I}} w_{i,1}, \\
+& \quad \vdots \\
+& \sum_{i \in \mathscr{I}} x_{i,n} \leq \sum_{i \in \mathscr{I}} w_{i,n}.
+\end{align}
+$$
+</Example>
+
+<Theorem>
+let all utility functions be strictly increasing and quasiconcave, and $\hat{X}$ be a feasible interior allocation. then $\hat{X}$ is *pareto efficient* if and only if $\hat{X}$ exhausts all resources and, for all pairs of goods $(\ell, \ell')$,
+$$
+\text{MRS}(\ell, \ell')(\hat{x}_{1,1}, \dots, \hat{x}_{1,n}) = \cdots = \text{MRS}(\ell, \ell')(\hat{x}_{m,1}, \dots, \hat{x}_{m,n}).
+$$
+</Theorem>
+
+### competitive equilibrium
+
+<Remark title="initial assumptions">
+* there is a market for each good.
+* every agent can access the market without any cost.
+* there is a single price for each good.
+* all consumers know the price.
+* each consumer can sell their initial endowment in the market and use the income to buy goods and services.
+* consumers seek to maximize their utility given their budget restriction, independently of what everyone else is doing.
+* there is no centralized mechanism.
+* people may not know others' preferences or endowments.
+* there is perfect competition (namely, everyone is a price-taker).
+* prices are the only source of information for agents.
+</Remark>
+
+<Definition title="competitive equilibrium">
+an ordered pair of an allocation and a price vector, $\left( X^*, p = (p_1, \dots, p_n) \right)$, is called a *competitive equilibrium* if the following conditions hold:
+
+1. $\forall i \in \mathscr{I}$, $x_i^* = (x_{i,1}^*, \dots, x_{i,n}^*)$ solves the following maximization problem:
+$$
+\begin{align}
+\max_{ x_i } \quad & u_i(x_i) \\
+\text{subject to} \quad & \langle p, x_i \rangle \leq \langle p, w_i \rangle = \sum_{\ell \in \mathscr{L}} p_{\ell} w_{i,\ell}.
+\end{align}
+$$
+2. markets clear, i.e. $\displaystyle \sum_{i \in \mathscr{I}} x_{i,\ell}^* = \sum_{i \in \mathscr{I}} w_{i,\ell}$, $\forall \ell \in \mathscr{L}$.
+</Definition>
+
+<Proposition>
+given at least one consumer with strictly monotonic preferences. then, if $(X^*, p)$ is a competitive equilibrium, $p_1, p_2, \dots, p_n >0$.
+</Proposition>
+
+<Proposition>
+given at least one consumer with weakly monotonic preferences. then, if $(X^*, p)$ is a competitive equilibrium, for at least one $\ell$, $p_\ell > 0$.
+</Proposition>
+
+<Proposition>
+let $(X^*, p)$ be a competitive equilibrium. then $(X^*, cp)$ is also a competitive equilibrium, $\forall c \in \mathbb{R}_+$.
+</Proposition>
+
+<Theorem title="walras's law">
+if the consumer $i$ has weakly monotonic preferences and $\hat{x}_i \in x_i^*(p)$, then
+$$
+\langle p, \hat{x}_i \rangle = \sum_{\ell \in \mathscr{L}} p_{\ell} \hat{x}_{i,\ell} = \sum_{\ell \in \mathscr{L}} p_{\ell} w_{i,\ell} = \langle p, w_i \rangle.
+$$
+</Theorem>
+
+<Corollary title="walras's law">
+given weakly monotonic utility functions and $p = (p_1, \dots, p_n)$ such that $p_\ell > 0$. if any $(X^*, p)$ in which maximization condition holds, $\forall i \in \mathscr{I}$, and markets clear $\forall \ell = 1, 2, \dots, n - 1$, then the market clearing condition holds for commodity $n$ as well.
+</Corollary>
+
+<Theorem title="fixed point">
+for any continuous function $f : \triangle^{n - 1} \to \triangle^{n - 1}$, there exists a point $p^* = (p_1^*, p_2^*, \dots, p_n^*)$ such that $f(p^*) = p^*$, where
+$$
+\triangle^{n - 1} = \left\{ (p_1, p_2, \dots, p_n) \in \mathbb{R}^\mathscr{L}_+ : \sum_{\ell \in \mathscr{L}} p_\ell = 1 \right\}.
+$$
+</Theorem>
+
+<Definition title="shortage">
+we define *shortage* or *excess demand* as
+$$
+Z(p) = (z_1(p), z_2(p), \dots, z_n(p)) = \sum_{i \in \mathscr{I}} x^*_i (p) - \sum_{i \in \mathscr{I}} w_i.
+$$
+</Definition>
+
+<Proposition>
+$p$ is a competitive equilibrium if and only if $Z(p) = 0$.
+</Proposition>
+
+<Remark title="excess demand properties">
+* continuous in $p$.
+* zero degree homogeneity.
+* $\langle p, Z(p) \rangle = 0$.
+</Remark>
+
+<Proposition>
+the equilibrium is not unique.
+</Proposition>
+
+<Theorem title="welfare i">
+given any pure exchange economy such that all consumers have weakly monotonic utility functions. if $(X^*, p)$ is a competitive equilibrium, then $X^*$ is a pareto efficient allocation.
+</Theorem>
+
+<Theorem title="welfare ii">
+given an economy $\displaystyle \mathscr{E} = \langle \mathscr{I}, (u_i, w_i)_{i \in \mathscr{I}} \rangle$ where all consumers have weakly monotonic quasiconcave utility functions. if $(x_1, x_2, \dots, x_m)$ is a pareto optimal allocation, then there exists a redistribution of resources $(\hat{w}_1, \hat{w}_2, \dots, \hat{w}_m)$ and some prices $p = (p_1, p_2, \dots, p_n)$ such that:
+
+1. $\displaystyle \sum_{i \in \mathscr{I}} \hat{w}_i = \sum_{i \in \mathscr{I}} w_i$.
+2. $(p, (x_1, x_2, \dots, x_m))$ is a competitive equilibrium of the economy $\mathscr{E}$.
+</Theorem>
+
+### production
+
+<Remark title="initial assumptions">
+* there are $k$ firms such that $\mathscr{J} = \{1, \dots, k\}$.
+* the production of the firm $j$ for good $l$ is described by the function $f_{j,l}$ such that $f_j(z_{\ell,l}) = f_j(z_{1,l}, \dots, z_{n,l})$. namely, the firm $j$ uses $z_\ell$ units of commodities $\ell \in \mathscr{L}$ to produce commodity $l$.
+* the firms are owned by consumers in society.
+* the firms' ownership is exogenous.
+* $\theta_{i,j}$ represents the fraction of the $j$th firm owned by the $i$th consumer.
+* the firms do not have endowments.
+</Remark>
+
+<Remark>
+$$
+\sum_{i \in \mathscr{I}} \theta_{i,j} = \theta_{1,j} + \theta_{2,j} + \cdots + \theta_{m,j} = 1 .
+$$
+</Remark>
+
+<Definition title="competitive equilibrium">
+$((X^*, Z^*), p)$ is called a *competitive equilibrium* if the following conditions hold:
+
+1. $\forall j \in \mathscr{J}$, $z^*_j = ((z_{j,1,1'}, \dots, z_{j,1,n'}), \dots, (z_{j,n,1'}, \dots, z_{j,n,n'}))$ solves the following maximization problem:
+$$
+\pi^*_j := \max_{ z_j }\ p_l f_{j,l} (z_\ell) - \sum_{\ell \in \mathscr{L}} p_\ell z_{j, \ell}.
+$$
+2. $\forall i \in \mathscr{I}$, $x_i^* = (x_{i,1}^*, \dots, x_{i,n}^*)$ solves the following maximization problem:
+$$
+\begin{align}
+\max_{ x_i } \quad & u_i(x_i) \\
+\text{subject to} \quad & \langle p, x_i \rangle \leq \langle p, w_i \rangle + \sum_{j \in \mathscr{J}} \theta_{i,j} \pi^*_j.
+\end{align}
+$$
+3. markets clear, i.e. $\displaystyle \sum_{i \in \mathscr{I}} x_{i,\ell}^* + \sum_{j \in \mathscr{J}} \sum_{\ell \in \mathscr{L}} z^*_{j,l} = \sum_{i \in \mathscr{I}} w_{i,\ell} + \sum_{j \in \mathscr{J}} f_{j,l} (z^*_\ell)$, $\forall \ell \in \mathscr{L}$.
+</Definition>
+
+<Proposition>
+walras's law and welfare theorems hold.
+</Proposition>
+
+<Proposition>
+let $((X^*, Z^*), p)$ be a competitive equilibrium. then $((X^*, Z^*), cp)$ is also a competitive equilibrium, $\forall c \in \mathbb{R}_+$.
+</Proposition>
+
+<Remark>
+with production, edgeworth box diagrams are no longer helpful.
+</Remark>
+
+<Example title="general case">
+$$
+\begin{align}
+\max_{ x_i, z_j } \quad & u_1(x_1) \\
+\text{subject to} \quad & u_2(x_2) \geq \bar{u}_2, \\
+& \quad \vdots \\
+& u_m(x_m) \geq \bar{u}_m; \\
+& \sum_{i \in \mathscr{I}} x_{i,1} + \sum_{j \in \mathscr{J}} z_{j,1} \leq \sum_{j \in \mathscr{J}} f_{j,1} (z_\ell) + \sum_{i \in \mathscr{I}} w_{i,1}, \\
+& \quad \vdots \\
+& \sum_{i \in \mathscr{I}} x_{i,n} + \sum_{j \in \mathscr{J}} z_{j,n} \leq \sum_{j \in \mathscr{J}} f_{j,n} (z_\ell) + \sum_{i \in \mathscr{I}} w_{i,n}.
+\end{align}
+$$
+</Example>
+
+<Theorem>
+let all utility functions be quasiconcave and strictly increasing, and $(X,Z)$ be a feasible interior allocation. then $(X, Z)$ is pareto efficient if and only if all of the following equalities hold for all pairs of goods $(\ell, \ell')$:
+
+1. marginal rates of substitution are equal across consumers,
+$$
+\text{i.e.} \quad \text{MRS}(\ell,\ell')(x_1) = \cdots = \text{MRS}(\ell,\ell')(x_m).
+$$
+2. marginal rates of technical substitution are equal across firms for any pair of commodities,
+$$
+\text{i.e.} \quad \text{MRTS}(\ell,\ell')(z_1) = \cdots = \text{MRTS}(\ell,\ell')(z_k).
+$$
+3. marginal rates of transformation are equal to the marginal rates of substitution,
+$$
+\text{i.e.} \quad \text{MRT}(j,j')(z_{\ell''}) = \text{MRS}(\ell,\ell')(x_i), \quad \forall i \in \mathscr{I}.
+$$
+</Theorem>
+
+<Definition>
+we define the *production possibility set* as the set of all non-negative outputs of goods that the firms can produce using the economy's available factor inputs. the output combinations on the frontier of this set correspond to the pareto efficient allocation of factor inputs, i.e. the allocation in which it is not possible, given the total factor endowment, to increase the production of one good without decreasing the production of some other good.
+</Definition>
+
+<Remark title="friendly reminder on marginal rates">
+**marginal rate of substitution** (MRS)
+
+* it is the rate at which a consumer is willing to trade one good for another to maintain a constant level of utility.
+* it is the slope of an *indifference curve*.
+* it focuses on demand side of consumer theory.
+
+**marginal rate of transformation** (MRT)
+
+* it is the amount of one good that must be given up to produce an additional unit of another good.
+* it is the slope of *production possibility frontier*.
+* it focuses on supply side of a commodity.
+
+**marginal rate of technical substitution** (MRTS)
+
+* it is the amount by which the quantity of one input has to be reduced in order to use another input.
+* it is the slope of an *isoquant curve*.
+* it focuses on production side of economic theory.
+</Remark>
+
+## monopoly and monopsony
+
+> **note**: this section is still in development.
+
+## game theory
+
+> **note**: this section is still in development.

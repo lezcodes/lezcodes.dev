@@ -1,0 +1,1191 @@
+---
+title: "notes-on-microeconomic-theory"
+date: "2019-11-01"
+excerpt: "notes on utility functions, demand theory, compensated demand, welfare measures, walrasian demand, leisure-consumption models, intertemporal consumption, and firm theory"
+---
+
+> **note**: this page is still in development.
+
+these definitions and theorems apply to intermediate and advanced microeconomics courses.
+
+## kuhn-tucker method
+
+<Remark>
+consider a maximization or minimization problem for a function $f : \mathbb{R}^n \times \mathbb{R}^q \to \mathbb{R}$ that depends on $n$ decision variables and $q$ parameters, subject to:
+
+* $k$ equality constraints $h_i : \mathbb{R}^n \times \mathbb{R}^q \to \mathbb{R}$, and
+* $m$ inequality constraints $g_j : \mathbb{R}^n \times \mathbb{R}^q \to \mathbb{R}$.
+</Remark>
+
+### maximization
+
+<Example>
+$$
+\begin{align}
+\max_{\{x_1, \dots, x_n\}} \quad & f(x_1, \dots, x_n; p_1, \dots, p_q) \\
+\text{subject to} \quad & h_i(x_1, \dots, x_n; p_1, \dots, p_q) = 0, \quad \forall i = 1, \dots, k; \\
+& g_j(x_1, \dots, x_n; p_1, \dots, p_q) \geq 0, \quad \forall j = 1, \dots, m.
+\end{align}
+$$
+
+**lagrangian of the problem:**
+
+$$
+\mathcal{L}(x_1, \dots, x_n; p_1, \dots, p_q; \lambda_1, \dots, \lambda_k; \mu_1, \dots, \mu_m) = f(x_1, \dots, p_q) + \sum_{i=1}^k \lambda_i h_i(x_1, \dots, p_q) + \sum_{j=1}^m \mu_j g_j(x_1, \dots, p_q)
+$$
+</Example>
+
+### minimization
+
+<Example>
+$$
+\begin{align}
+\min_{\{x_1, \dots, x_n\}} \quad & f(x_1, \dots, x_n; p_1, \dots, p_q) \\
+\text{subject to} \quad & h_i(x_1, \dots, x_n; p_1, \dots, p_q) = 0, \quad \forall i = 1, \dots, k; \\
+& g_j(x_1, \dots, x_n; p_1, \dots, p_q) \geq 0, \quad \forall j = 1, \dots, m.
+\end{align}
+$$
+
+**lagrangian of the problem:**
+
+$$
+\mathcal{L}(x_1, \dots, x_n; p_1, \dots, p_q; \lambda_1, \dots, \lambda_k; \mu_1, \dots, \mu_m) = f(x_1, \dots, p_q) - \sum_{i=1}^k \lambda_i h_i(x_1, \dots, p_q) - \sum_{j=1}^m \mu_j g_j(x_1, \dots, p_q)
+$$
+</Example>
+
+### stationarity conditions
+
+<Proposition>
+$$
+\frac{\partial \mathcal{L}}{\partial x_i}(x_1^*, \dots, x_n^*; p_1, \dots, p_q; \lambda_1^*, \dots, \mu_m^*) = 0.
+$$
+
+$$
+\frac{\partial \mathcal{L}}{\partial \lambda_i}(x_1^*, \dots, x_n^*; p_1, \dots, p_q; \lambda_1^*, \dots, \mu_m^*) = 0.
+$$
+</Proposition>
+
+### complementary slackness conditions
+
+<Proposition>
+* **maximization:**
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mu_j}(x_1^*, \dots, x_n^*; p_1, \dots, p_q; \lambda_1^*, \dots, \mu_m^*) \geq 0;
+$$
+
+$$
+\mu_j^* \geq 0;
+$$
+
+$$
+\mu_j^* h_j(x_1^*, \dots, x_n^*; p_1, \dots, p_q; \lambda_1^*, \dots, \mu_m^*) = 0.
+$$
+
+* **minimization:**
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mu_j}(x_1^*, \dots, x_n^*; p_1, \dots, p_q; \lambda_1^*, \dots, \mu_m^*) \leq 0;
+$$
+
+$$
+\mu_j^* \geq 0;
+$$
+
+$$
+\mu_j^* h_j(x_1^*, \dots, x_n^*; p_1, \dots, p_q; \lambda_1^*, \dots, \mu_m^*) = 0.
+$$
+</Proposition>
+
+<Theorem title="envelope theorem">
+let $V$ and $\mathcal{L}$ be continuously differentiable and $(x^*, \lambda^*, \mu^*)$ the solution of some optimization problem with parameters $(p_1, \dots, p_q)$, then:
+$$
+\frac{\partial V}{\partial p_h}(p_1, \dots, p_q) = \frac{\partial \mathcal{L}^*}{\partial p_h}.
+$$
+</Theorem>
+
+## utility function
+
+<Definition title="completeness">
+let $a, b \in A$ be any two alternatives, we say that a consumer has **complete** preferences if they are capable of saying whether they prefer $a$ over $b$, $b$ over $a$, or are indifferent.
+</Definition>
+
+<Definition title="transitivity">
+let $\mathcal{R}$ be a homogeneous relation on the set $X$, we say that the consumer has **transitive** preferences if for any three alternatives $a\mathcal{R}b$ and $b\mathcal{R}c$, then $a\mathcal{R}c$.
+</Definition>
+
+<Definition title="rationality">
+we say that consumer preferences are **rational** if they are complete and transitive.
+</Definition>
+
+<Definition title="basket">
+a **basket** is a vector $(a_1, \dots, a_n) \in \mathbb{R}^n_+$ that represents the consumption of goods $x_1, \dots, x_n$.
+</Definition>
+
+<Definition title="utility function">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$, this represents the utility of a consumer; for any two alternatives $(x_1, \dots, x_n')$, $(x_1', \dots, x_n') \in \mathbb{R}^n_+$, we have $u(x_1, \dots, x_n) < u(x_1', \dots, x_n')$ if and only if the consumer prefers basket $(x_1', \dots, x_n')$ over basket $(x_1, \dots, x_n)$.
+</Definition>
+
+<Definition title="indifference curves">
+given a utility function $u : H \to \mathbb{R}$ and $k \in \mathbb{R}$, the set of level $k$ is defined as:
+$$
+\mathcal{C}_k = \{ x \in H \mid u(x) = k \}.
+$$
+
+if $H = \mathbb{R}^2$, said set of level $k$ is known, in economics, as **indifference curves**.
+</Definition>
+
+<Definition title="marginal utility">
+**marginal utility** measures the change in the utility of a consumer given a marginal change in said good.
+</Definition>
+
+<Theorem title="total differential">
+given a utility function $u : \mathbb{R}^2 \to \mathbb{R}$, the differential of $u$ evaluated at point $(x_0, y_0)$ is:
+$$
+\Delta u(x_0, y_0) = \Delta x \frac{\partial u}{\partial x}(x_0, y_0) + \Delta y \frac{\partial u}{\partial y}(x_0, y_0),
+$$
+where $\Delta x = x_1 - x_0$ and $\Delta y = y_1 - y_0$.
+</Theorem>
+
+<Definition title="marginal rate of substitution">
+the **marginal rate of substitution** $\text{MRS}(x, y)$ measures the number of units of good $Y$ that the consumer is willing to sacrifice to obtain one additional unit of good $X$ and maintain their utility constant, and is defined as:
+$$
+\text{MRS}(x, y) = \frac{\frac{\partial u}{\partial x}(x, y)}{\frac{\partial u}{\partial y}(x, y)}.
+$$
+</Definition>
+
+<Definition title="monotone transformation">
+a function $w$ is a **monotone transformation** of $u$ if only if there exists a function $g(\cdot)$ such that it is strictly increasing in all:
+$$
+w(X) = g(u(X)).
+$$
+</Definition>
+
+### properties of the utility function
+
+**monotonicity**
+
+<Definition title="weak monotonicity">
+a **utility function** $u : \mathbb{R}^n_+ \to \mathbb{R}$ is **weakly monotone** if for any $X \neq Y \in \mathbb{R}^n_+$, such that $x_i \leq y_i$, $\forall i \in \{1, 2, \dots, n\}$, we have $u(X) \leq u(Y)$.
+</Definition>
+
+<Definition title="strict monotonicity">
+a **utility function** $u : \mathbb{R}^n_+ \to \mathbb{R}$ is **strictly monotone** if for any $X \neq Y \in \mathbb{R}^n_+$, such that $x_i \leq y_i$, $\forall i \in \{1, 2, \dots, n\}$, we have $u(X) < u(Y)$.
+</Definition>
+
+**quasiconcavity**
+
+<Definition title="weak quasiconcavity">
+a **utility function** $u : \mathbb{R}^n_+ \to \mathbb{R}$ is **weakly quasiconcave** if for any $X \neq Y \in \mathbb{R}^n_+$, such that $u(X) = u(Y)$, we have:
+$$
+u(\alpha X + (1 - \alpha)Y) \geq u(X),
+$$
+for all $\alpha \in (0, 1)$.
+</Definition>
+
+<Definition title="strict quasiconcavity">
+a **utility function** $u : \mathbb{R}^n_+ \to \mathbb{R}$ is **strictly quasiconcave** if for any $X \neq Y \in \mathbb{R}^n_+$, such that $u(X) = u(Y)$, we have:
+$$
+u(\alpha X + (1 - \alpha)Y) > u(X),
+$$
+for all $\alpha \in (0, 1)$.
+</Definition>
+
+**homotheticity**
+
+<Definition title="homotheticity">
+a **utility function** $u : \mathbb{R}^n_+ \to \mathbb{R}$ is **homothetic** if for any $X, Y \in \mathbb{R}^n_+$, such that $u(X) < u(Y)$, we have:
+$$
+u(\lambda X) < u(\lambda Y),
+$$
+for all $\lambda > 0$.
+</Definition>
+
+<Theorem>
+given a differentiable utility function with monotone and homothetic preferences, it holds that:
+$$
+\text{MRS}(\lambda x_i, \lambda x_j) = \text{MRS}(x_i, x_j),
+$$
+for all $x \in \mathbb{R}^n_+$, $i \neq j$ and $\lambda > 0$.
+</Theorem>
+
+## marshallian demand
+
+<Example>
+$$
+\begin{align}
+\max_{\{x_1, \dots, x_n\}} \quad & u(x_1, \dots, x_n) \\
+\text{subject to} \quad & \sum_{i=1}^n p_i x_i \leq I, \\
+& 0 \leq x_1, \\
+& \quad \vdots \\
+& 0 \leq x_n.
+\end{align}
+$$
+</Example>
+
+### marshallian model solutions
+
+<Proposition title="optimality conditions">
+given a utility function $u : \mathbb{R}^2 \to \mathbb{R}$ and suppose that, at optimum, $p_x x^* + p_y y^* = I$, then:
+
+* if $x^*, y^* > 0$, at optimum: $\text{MRS}(x^*, y^*) = \frac{p_x}{p_y}$.
+* if $x^* = 0$, at optimum: $\text{MRS}\left(0, \frac{I}{p_y}\right) \leq \frac{p_x}{p_y}$.
+* if $y^* = 0$, at optimum: $\text{MRS}\left(\frac{I}{p_x}, 0\right) \geq \frac{p_x}{p_y}$.
+</Proposition>
+
+<Definition title="marshallian demands">
+if the optimal solution of the problem $(X^*)$ is also known as **marshallian demands** and is usually denoted as:
+$$
+x_i^* = X_i^M(P, I).
+$$
+</Definition>
+
+<Definition title="indirect utility function">
+the **indirect utility function** $V(P, I)$ is the value function of the marshallian problem:
+$$
+V(P, I) = u(X_1^M(P, I), \dots, X_n^M(P, I)).
+$$
+</Definition>
+
+<Theorem title="walras' law">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$ be a monotone utility function, then, in the optimal solution $(X^*)$, it holds that:
+$$
+\sum_{i=1}^n p_i x_i^* = I.
+$$
+</Theorem>
+
+<Theorem title="inada conditions">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$ be a monotone and differentiable utility function.
+
+(i) $\lim_{x \to 0} \text{MRS}(x, y) = \infty \implies x^* > 0$,
+
+(ii) $\lim_{y \to 0} \text{MRS}(x, y) = 0 \implies y^* > 0$.
+</Theorem>
+
+<Theorem title="uniqueness theorem">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$ be a strictly quasiconcave function, then the solution to the marshallian problem is unique.
+</Theorem>
+
+<Lemma title="roy's identity">
+let $V(P, I)$ be differentiable, then:
+$$
+X_i^M = -\frac{\frac{\partial V}{\partial p_i}}{\frac{\partial V}{\partial I}}, \quad \forall i = 1, \dots, n.
+$$
+</Lemma>
+
+### properties of the indirect utility function
+
+<Proposition>
+(i) homogeneous of degree zero in prices and income, i.e. $V(\lambda P, \lambda I) = V(P, I)$.
+
+(ii) non-increasing in prices, i.e. $\frac{\partial V}{\partial p_i}(P, I) \leq 0$.
+
+(iii) non-decreasing in income, i.e. $\frac{\partial V}{\partial I}(P, I) \geq 0$.
+</Proposition>
+
+### properties of marshallian demands
+
+<Proposition>
+(i) homogeneous of degree zero in prices and income, i.e. $X^M(\lambda P, \lambda I) = X^M(P, I)$.
+
+(ii) roy's identities hold.
+</Proposition>
+
+### comparative statics
+
+<Definition title="elasticity">
+given a parameter $P \in \{p_1, \dots, p_n, I\}$, the **elasticity** of good $X$ with respect to parameter $P$ is defined as:
+$$
+\varepsilon_{X, P}(p_1, \dots, p_n, I) = \frac{\partial X^M}{\partial P} \cdot \frac{P}{X^M}.
+$$
+</Definition>
+
+<Definition title="own-price elasticity">
+we say that good $X$ is:
+
+(i) **ordinary** if $\varepsilon_{X, p_i} < 0$.
+
+(ii) **inelastic** if $\varepsilon_{X, p_i} = 0$.
+
+(iii) **giffen** if $\varepsilon_{X, p_i} > 0$.
+</Definition>
+
+<Definition title="cross-price elasticity">
+we say that good $X_i$ is:
+
+(i) **complement** of $X_j$ if $\varepsilon_{X_i, p_j} < 0$.
+
+(ii) **independent** of $X_j$ if $\varepsilon_{X_i, p_j} = 0$.
+
+(iii) **substitute** of $X_j$ if $\varepsilon_{X_i, p_j} > 0$.
+</Definition>
+
+<Definition title="income elasticity">
+we say that good $X$ is:
+
+(i) **inferior** if $\varepsilon_{X, I} < 0$.
+
+(ii) **neutral** if $\varepsilon_{X, I} = 0$.
+
+(iii) **normal** if $\varepsilon_{X, I} > 0$.
+</Definition>
+
+### aggregations of the marshallian problem
+
+<Definition title="consumer expenditure">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$ be a monotone function, the **consumer expenditure** on good $X$ is defined as:
+$$
+S_i = \frac{p_i X_i^M}{I}.
+$$
+</Definition>
+
+<Theorem title="engel aggregation">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$ be a monotone utility function, then:
+$$
+\sum_{i=1}^n S_i \varepsilon_{x_i, I} = 1.
+$$
+</Theorem>
+
+<Theorem title="cournot aggregation">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$ be a monotone utility function, then:
+$$
+\sum_{i=1}^n S_i \varepsilon_{x_i, p_1} = -S_1.
+$$
+</Theorem>
+
+<Theorem title="euler aggregation">
+let $u : \mathbb{R}^n_+ \to \mathbb{R}$ be a utility function, it holds that:
+$$
+\varepsilon_{x_i, I} + \sum_{i=1}^n \varepsilon_{x_i, p_i} = 0.
+$$
+</Theorem>
+
+## compensated demand
+
+<Example>
+$$
+\begin{align}
+\min_{\{x_1, \dots, x_n\}} \quad & \sum_{i=1}^n p_i x_i \\
+\text{subject to} \quad & \bar{u} \leq u(x_1, \dots, x_n), \\
+& 0 \leq x_1, \\
+& \quad \vdots \\
+& 0 \leq x_n.
+\end{align}
+$$
+</Example>
+
+<Definition title="isocost curves">
+an **isocost curve** level $k$ is defined as those baskets that, with given prices, produce the same expenditure:
+$$
+\text{IG}_k = \{ (x_1, \dots, x_n) \mid p_1 x_1 + \cdots + p_n x_n = k \}.
+$$
+</Definition>
+
+### compensated model solutions
+
+<Proposition title="optimality conditions">
+given a utility function $u : \mathbb{R}^2 \to \mathbb{R}$ and suppose that, at optimum, $u(x, y) = \bar{u}$, then:
+
+* if $x^*, y^* > 0$, at optimum: $\text{MRS}(x^*, y^*) = \frac{p_x}{p_y}$.
+* if $x^* = 0$, at optimum: $\text{MRS}(0, y^*) \leq \frac{p_x}{p_y}$.
+* if $y^* = 0$, at optimum: $\text{MRS}(x^*, 0) \geq \frac{p_x}{p_y}$.
+</Proposition>
+
+<Definition title="compensated demands">
+if the optimal solution of the problem $(X^*)$ is also known as **compensated demands** or **hicksian demands** and is usually denoted as:
+$$
+x_i^* = X_i^C(P, \bar{u}).
+$$
+</Definition>
+
+<Definition title="minimum expenditure function">
+the **minimum expenditure function**, denoted $E(P, \bar{u})$, is the value function of the compensated problem:
+$$
+E(P, \bar{u}) = \sum_{i=1}^n p_i X_i^C.
+$$
+</Definition>
+
+<Theorem title="compensated demand law">
+any compensated demand is non-increasing in its own price and non-decreasing in cross price.
+
+i.e. $\frac{\partial X_i^C}{\partial p_i} \leq 0$; $\frac{\partial X_i^C}{\partial p_j} \geq 0$, $\forall i \neq j$.
+</Theorem>
+
+<Lemma title="shephard's lemma">
+$$
+X_i^C = \frac{\partial E}{\partial p_i}, \quad \forall i = 1, \dots, n.
+$$
+</Lemma>
+
+### properties of the minimum expenditure function
+
+<Proposition>
+(i) homogeneous of degree one in prices, i.e. $E(\lambda P, \bar{u}) = \lambda E(P, \bar{u})$.
+
+(ii) non-decreasing in utility, i.e. $\frac{\partial E}{\partial \bar{u}}(P, \bar{u}) \geq 0$.
+
+(iii) non-decreasing in prices, i.e. $\frac{\partial E}{\partial p_i}(P, \bar{u}) \geq 0$.
+
+(iv) concave in prices, i.e. $\frac{\partial^2 E}{\partial p_i^2}(P, \bar{u}) \leq 0$.
+</Proposition>
+
+### properties of compensated demands
+
+<Proposition>
+(i) homogeneous of degree zero in prices, i.e. $X^C(\lambda P, \bar{u}) = X^C(P, \bar{u})$.
+
+(ii) shephard's law holds, by obvious reasons.
+
+(iii) symmetry holds in cross effects, i.e. $\frac{\partial X_i^C}{\partial p_j} = \frac{\partial X_j^C}{\partial p_i}$.
+
+(iv) there exists symmetry in cross effects, i.e. $\frac{\partial X_i^C}{\partial p_j} = \frac{\partial X_j^C}{\partial p_i}$.
+
+(v) $X_i^C(P, \bar{u}) = X_i^M(P, E(P, \bar{u}))$.
+</Proposition>
+
+### marshallian-compensated duality
+
+<Proposition title="duality relations">
+the relations between the marshallian and compensated models are known as **duality relations**.
+
+(i) $E(P, V(P, I)) = I$.
+
+(ii) $X_i^C(P, V(P, I)) = X_i^M(P, I)$.
+
+(iii) $V(P, E(P, \bar{u})) = \bar{u}$.
+
+(iv) $X_i^M(P, E(P, \bar{u})) = X_i^C(P, \bar{u})$.
+
+(v) $\mu_{\bar{u}}^M = \left(\mu_{\bar{u}}^C\right)^{-1}$.
+</Proposition>
+
+<Proposition>
+let $u(X)$ be a homothetic and monotone utility function, then $x_1, \dots, x_n \in X$ are normal goods.
+</Proposition>
+
+### slutsky decomposition
+
+<Theorem title="slutsky equation">
+let $u$ be a monotone utility function, then:
+
+$$
+\underbrace{\frac{\partial X_i^M}{\partial p_\ell}(P, I)}_{\text{total effect}} = \underbrace{\frac{\partial X_i^C}{\partial p_\ell}(P, \bar{u})}_{\text{substitution effect}} - \underbrace{\frac{\partial X_i^M}{\partial I}(P, I) X_\ell^M(P, I)}_{\text{income effect}}
+$$
+
+and
+
+$$
+\underbrace{\frac{\partial X_i^M}{\partial p_j}(P, I)}_{\text{total effect}} = \underbrace{\frac{\partial X_i^C}{\partial p_j}(P, \bar{u})}_{\text{substitution effect}} - \underbrace{\frac{\partial X_i^M}{\partial I}(P, I) X_j^M(P, I)}_{\text{income effect}}
+$$
+
+for all $i \neq j$. in elasticity terms:
+
+(i) $\varepsilon_{X_i^M, p_i} = \varepsilon_{X_i^C, p_i} - S_i (\varepsilon_{X_i^M, I})$ (direct effect).
+
+(ii) $\varepsilon_{X_i^M, p_j} = \varepsilon_{X_i^C, p_j} - S_j (\varepsilon_{X_j^M, I})$ (cross effect).
+</Theorem>
+
+<Definition title="substitution effect">
+given some change in prices (i.e. $P$ to $P'$), the **substitution effect** is calculated, in algebraic form, as follows:
+$$
+\text{ES} = X^C(P, V(P, I)) - X^M(P, I).
+$$
+</Definition>
+
+<Definition title="income effect">
+given some change in prices (i.e. $P$ to $P'$), the **income effect** can be calculated, in algebraic form, as follows:
+$$
+\text{EI} = X^M(P, I) - X^C(P, V(P, I)).
+$$
+</Definition>
+
+<Theorem>
+between the marshallian and compensated demand the following relation holds:
+$$
+\frac{\partial X_i^M}{\partial \bar{u}}(P, \bar{u}) = \frac{\partial X_i^C}{\partial I}(P, I) \mu_R.
+$$
+</Theorem>
+
+## welfare measures
+
+<Definition title="compensating variation">
+the **compensating variation** measures the change in income that a consumer should receive before a change in prices so that, with final prices, they are capable of reaching the same initial utility level.
+
+i.e. $\text{VC}(P, P', I) = E(P, V(P, I)) - I$.
+</Definition>
+
+<Definition title="equivalent variation">
+the **equivalent variation** measures the change in income that a consumer should receive after a change in prices so that, with initial prices, they are capable of reaching the final utility level.
+
+i.e. $\text{VE}(P, P', I) = E(P, V(P, I)) - I$.
+</Definition>
+
+<Theorem title="hicks theorem">
+$$
+\text{VC} = \int_{p_1^{(0)}}^{p_1^{(1)}} X_i^C(P, u_0) dp_1
+$$
+
+$$
+\text{VE} = \int_{p_1^{(0)}}^{p_1^{(1)}} X_i^C(P, u_1) dp_1
+$$
+
+where $u_i = V(p_0, I)$.
+</Theorem>
+
+<Definition title="consumer surplus">
+the **consumer surplus** is the difference between the price that consumers pay and the price they are willing to pay:
+
+i.e. $\text{EC}(P, I) = \int_{P_1}^{\infty} X_i^M(P, I) dp_1$.
+
+likewise, we can define the change in consumer surplus as follows:
+
+$$
+\Delta \text{EC} = \int_{p_1^{(0)}}^{p_1^{(1)}} X_i^M(P, I) dp_1.
+$$
+</Definition>
+
+## walrasian demand
+
+<Example>
+$$
+\begin{align}
+\max_{\{x_1, \dots, x_n\}} \quad & u(x_1, \dots, x_n) \\
+\text{subject to} \quad & \sum_{i=1}^n p_i x_i \leq \sum_{i=1}^n p_i \bar{x}_i, \\
+& 0 \leq x_1, \\
+& \quad \vdots \\
+& 0 \leq x_n.
+\end{align}
+$$
+</Example>
+
+<Definition title="walrasian income">
+we define **walrasian income** as follows:
+$$
+I^W = (P, \bar{X}) = \sum_{i=1}^n p_i \bar{x}_i.
+$$
+</Definition>
+
+### walrasian model solutions
+
+<Proposition title="optimality conditions">
+given a utility function $u : \mathbb{R}^2 \to \mathbb{R}$ and suppose that, at optimum, $p_x x^* + p_y y^* = p_x \bar{x} + p_y \bar{y}$, then:
+
+* if $x^*, y^* > 0$, at optimum: $\text{MRS}(x^*, y^*) = \frac{p_x}{p_y}$.
+* if $x^* = 0$, at optimum: $\text{MRS}\left(0, \frac{I^W}{p_y}\right) \leq \frac{p_x}{p_y}$.
+* if $y^* = 0$, at optimum: $\text{MRS}\left(\frac{I^W}{p_x}, 0\right) \geq \frac{p_x}{p_y}$.
+</Proposition>
+
+<Definition title="walrasian demands">
+if the optimal solution of the walrasian problem $(X^*)$ is also known as **walrasian demands** and is usually denoted as:
+$$
+x_i^* = X_i^W(P, \bar{X}).
+$$
+</Definition>
+
+<Definition title="walrasian indirect utility function">
+the **walrasian indirect utility function**, denoted $V(P, \bar{X})$, is the value function of the walrasian problem:
+$$
+V(P, \bar{X}) = u(X_1^W(P, \bar{X}), \dots, X_n^W(P, \bar{X})).
+$$
+</Definition>
+
+<Definition title="net demands">
+**net demands** are defined as:
+$$
+X_i^N(P, \bar{X}) = X_i^W(P, \bar{X}) - \bar{x}_i.
+$$
+</Definition>
+
+### properties of the walrasian indirect utility function
+
+<Proposition>
+(i) homogeneous of degree zero in prices, i.e. $V^W(\lambda P, \bar{X}) = V^W(P, \bar{X})$.
+
+(ii) non-decreasing in endowment, i.e. $\frac{\partial V^W}{\partial \bar{x}_i} \geq 0$.
+
+(iii) the sign of the impact on prices of the indirect utility depends on the sign of the net demand, i.e. $\frac{\partial V}{\partial p_1} = -\mu p_1^W X_1^N(P, \bar{X})$.
+</Proposition>
+
+### properties of walrasian demands
+
+<Proposition>
+(i) homogeneous of degree zero in prices, i.e. $X^W(\lambda P, \bar{X}) = X^W(P, \bar{X})$.
+
+(ii) roy's identities hold, i.e. $X_i^N = \frac{\frac{\partial V^W}{\partial p_i}}{\frac{\partial V^W}{\partial \bar{x}_i}} P_i$, $\forall i = 1, \dots, n$.
+</Proposition>
+
+### marshallian-walrasian duality
+
+<Proposition title="duality relations">
+the relations between the marshallian and walrasian models are known as **duality relations**.
+
+(i) $I^W = I$.
+
+(ii) $X_i^W(P, \bar{X}) = X_i^M(P, I)$.
+
+(iii) $V^W(P, \bar{X}) = V(P, I)$.
+</Proposition>
+
+<Theorem title="slutsky equation">
+let $u$ be a monotone utility function, then:
+
+$$
+\underbrace{\frac{\partial X_i^W}{\partial p_\ell}(P, \bar{X})}_{\text{total effect}} = \underbrace{\frac{\partial X_i^C}{\partial p_\ell}(P, \bar{u})}_{\text{substitution effect}} - \underbrace{\frac{\partial X_i^M}{\partial I}(P, I) X_\ell^W(P, \bar{X})}_{\text{net income effect}}
+$$
+
+and
+
+$$
+\underbrace{\frac{\partial X_i^W}{\partial p_j}(P, \bar{X})}_{\text{total effect}} = \underbrace{\frac{\partial X_i^C}{\partial p_j}(P, \bar{u})}_{\text{substitution effect}} - \underbrace{\frac{\partial X_i^M}{\partial I}(P, I) X_j^W(P, \bar{X})}_{\text{net income effect}}
+$$
+
+for all $i \neq j$.
+</Theorem>
+
+### walrasian decision parameters
+
+<Proposition title="net demands">
+(i) if $X_i^N < 0$, then the consumer sells $x_i$.
+
+(ii) if $X_i^N = 0$, then the consumer consumes their endowment of $x_i$.
+
+(iii) if $X_i^N > 0$, then the consumer buys $x_i$.
+</Proposition>
+
+<Proposition title="endowments">
+(i) if $\text{MRS}(\bar{x}_i, \bar{x}_j) < p_i/p_j$, then the consumer sells $x_i$ and buys $x_j$.
+
+(ii) if $\text{MRS}(\bar{x}_i, \bar{x}_j) > p_i/p_j$, then the consumer buys $x_i$ and sells $x_j$.
+</Proposition>
+
+<Proposition title="changes in utility">
+(i) if $\frac{\partial V}{\partial p_i} < 0$, then the consumer sells $x_i$.
+
+(ii) if $\frac{\partial V}{\partial p_i} > 0$, then the consumer buys $x_i$.
+</Proposition>
+
+## leisure-consumption model
+
+<Example>
+$$
+\begin{align}
+\max_{\{h, c\}} \quad & u(h, c) \\
+\text{subject to} \quad & c \leq l^{NL} + w(T - h), \\
+& h \leq T, \\
+& 0 \leq h, c.
+\end{align}
+$$
+
+$$
+\begin{array}{ll}
+h & \text{leisure derived from leisure} \\
+T & \text{total time} \\
+w & \text{salary} \\
+l^{NL} & \text{non-labor income}
+\end{array}
+$$
+</Example>
+
+### leisure-consumption solution
+
+<Proposition title="optimality conditions">
+given the utility function $u(h, c)$ and suppose that, at optimum, $c = l^{NL} - hw$, then:
+
+* if $h^*, c^* > 0$, at optimum: $\text{MRS}(h^*, c^*) = w$.
+</Proposition>
+
+<Definition title="consumption demand">
+the **consumption demand** is one of the solutions to the leisure-consumption model and is denoted:
+$$
+c^W(w, l^{NL}).
+$$
+</Definition>
+
+<Definition title="leisure demand">
+the **leisure demand** is one of the solutions to the leisure-consumption model and is denoted:
+$$
+h^W(w, l^{NL}).
+$$
+</Definition>
+
+<Definition title="labor supply">
+the **labor supply** of the consumer is determined by:
+$$
+l(w, l^{NL}) = T - h^W(w, l^{NL}).
+$$
+</Definition>
+
+<Definition title="reservation salary">
+the **reservation salary** of the consumer is given by:
+$$
+w^R = \text{MRS}(T, l^{NL}).
+$$
+</Definition>
+
+### leisure-consumption duality
+
+<Proposition title="duality relations">
+in the leisure-consumption model the following duality relations hold:
+
+(i) $h^W(w, l^{NL}) = h^M(w, l^{NL} + wT)$.
+
+(ii) $c^W(w, l^{NL}) = c^M(w, l^{NL} + wT)$.
+</Proposition>
+
+<Theorem title="slutsky equation">
+let $u$ be a monotone utility function, then:
+
+$$
+\underbrace{\frac{\partial h^W}{\partial w}(w, l^{NL})}_{\text{total effect}} = \underbrace{\frac{\partial h^C}{\partial w}(w, \bar{u})}_{\text{substitution effect}} + \underbrace{\frac{\partial h^M}{\partial I}(w, l^{NL} + wT) l(w, l^{NL})}_{\text{net income effect}}
+$$
+
+and
+
+$$
+\underbrace{\frac{\partial c^W}{\partial w}(w, l^{NL})}_{\text{total effect}} = \underbrace{\frac{\partial c^C}{\partial w}(w, \bar{u})}_{\text{substitution effect}} + \underbrace{\frac{\partial c^M}{\partial I}(w, l^{NL} + wT) l(w, l^{NL})}_{\text{net income effect}}
+$$
+</Theorem>
+
+### leisure-consumption decision parameters
+
+<Proposition title="reservation salary">
+(i) if $w < w^R$, then the consumer will decide to work.
+
+(ii) if $w > w^R$, then the consumer will demand $T$ hours of leisure.
+</Proposition>
+
+<Proposition title="changes in utility">
+(i) if $\frac{\partial V}{\partial w} = \mu_R l < 0$, then the consumer will have greater affinity for work.
+
+(ii) if $\frac{\partial V}{\partial w} = \mu_R l > 0$, then the consumer will have greater affinity for leisure.
+</Proposition>
+
+## intertemporal consumption model
+
+<Example>
+$$
+\begin{align}
+\max_{\{c_0, \dots, c_n\}} \quad & u(c_0, \dots, c_n) \\
+\text{subject to} \quad & c_0 \leq \left(\sum_{t=0}^{n-1} (1 + r) (I_t - c_t)\right) + I_n, \\
+& 0 \leq c_0, \\
+& \quad \vdots \\
+& 0 \leq c_n.
+\end{align}
+$$
+
+$$
+\begin{array}{ll}
+c_t & \text{consumption in period } t \\
+I_t & \text{income in period } t \\
+r_t & \text{interest rate in period } t
+\end{array}
+$$
+</Example>
+
+### intertemporal solution
+
+<Proposition title="optimality conditions">
+given the utility function $u : \mathbb{R}^2 \to \mathbb{R}$ and suppose that, at optimum, $c_1 = I_1 + (1 + r_0)(I_0 - c_0)$, then:
+
+* if $c_0^*, c_1^* > 0$, at optimum: $\text{MRS}(c_0^*, c_1^*) = 1 + r_0$.
+</Proposition>
+
+<Definition title="consumption demand in period $t$">
+**consumption demands** are the solutions to the intertemporal consumption model and are denoted:
+$$
+c_t(r_0, \dots, r_{n-1}; I_0, \dots, I_n).
+$$
+</Definition>
+
+<Definition title="savings">
+the **savings** of the consumer in period $t$ is defined as:
+$$
+s_t = I_t - c_t.
+$$
+</Definition>
+
+<Definition title="$\bar{r}$ definition">
+we define $\bar{r}$ as the interest rate at which the consumer does not wish to save nor borrow in period $t$:
+$$
+\bar{r}_t = \text{MRS}(I_t, I_{t+1}).
+$$
+</Definition>
+
+<Theorem title="slutsky equation">
+let $u$ be a monotone utility function, then:
+
+$$
+\underbrace{\frac{\partial c_t}{\partial r_\ell}(R, I)}_{\text{total effect}} = \underbrace{\frac{\partial c_t^C}{\partial r_\ell}(R, \bar{u})}_{\text{substitution effect}} + \underbrace{\frac{\partial c_t^M}{\partial r_\ell}(R, I) s_\ell(R, I)}_{\text{net income effect}}
+$$
+
+and
+
+$$
+\underbrace{\frac{\partial c_{t+1}}{\partial r_t}(R, I)}_{\text{total effect}} = \underbrace{\frac{\partial c_{t+1}^C}{\partial r_t}(R, \bar{u})}_{\text{substitution effect}} + \underbrace{\frac{\partial c_{t+1}^M}{\partial r_t}(R, I) s_t(R, I)}_{\text{net income effect}}
+$$
+</Theorem>
+
+### intertemporal decision parameters
+
+<Proposition title="savings">
+(i) if $s_t < 0$, then the consumer is a debtor in period $t$.
+
+(ii) if $s_t = 0$, then the consumer neither saves nor borrows in period $t$.
+
+(iii) if $s_t > 0$, then the consumer is a saver in period $t$.
+</Proposition>
+
+<Proposition title="interest rate">
+(i) if $r < \bar{r}$, then the consumer will decide to borrow in period $t$.
+
+(ii) if $r > \bar{r}$, then the consumer will decide to save in period $t$.
+</Proposition>
+
+<Proposition title="changes in utility">
+(i) if $\frac{\partial V}{\partial r_t} = \mu_R s_t < 0$, then the consumer will have greater affinity for borrowing.
+
+(ii) if $\frac{\partial V}{\partial r_t} = \mu_R s_t > 0$, then the consumer will have greater affinity for saving.
+</Proposition>
+
+## firm decisions
+
+<Definition title="production function">
+the **production function** describes the relation between the production of goods and the quantity of inputs (capital and labor) required to produce the same, in this case:
+$$
+f : \mathbb{R}^2 \to \mathbb{R} \quad \text{given by some} \quad f(l, k).
+$$
+</Definition>
+
+<Definition title="isoquant">
+an **isocuant curve** level $k$ is defined as those baskets that, with given prices, produce the same quantity $\bar{q}$:
+$$
+\text{IC}_k = \{(l, k) \in \mathbb{R}^2_+ \mid f(l, k) = \bar{q}\}.
+$$
+</Definition>
+
+<Definition title="marginal product">
+the **marginal product** of an input measures the change in firm production given a marginal change in said input.
+
+i.e. $\text{PM}_{k,L} = \frac{\partial f}{\partial l}(l, k)$ and $\text{PM}_{l,K} = \frac{\partial f}{\partial k}(l, k)$.
+</Definition>
+
+<Definition title="marginal rate of technical substitution">
+the **marginal rate of technical substitution** $\text{MRTS}(l, k)$ measures the number of units of capital that are willing to sacrifice to obtain an additional unit of labor maintaining production constant.
+
+i.e. $\text{MRTS}(l, k) = \frac{\text{PM}_{k,L}(l, k)}{\text{PM}_{l,K}(l, k)}$.
+</Definition>
+
+<Definition title="average product">
+the **average product** of an input measures the average quantity produced by each unit of said input.
+
+i.e. $\text{PMe}_L = \frac{f(l, k)}{l}$ and $\text{PMe}_K = \frac{f(l, k)}{k}$.
+</Definition>
+
+<Theorem title="decreasing returns">
+we say that $f(l, k)$ has decreasing returns to scale if $f(\lambda l, \lambda k) < \lambda f(l, k)$, $\forall l, k \geq 0$ and $\forall \lambda > 1$.
+</Theorem>
+
+<Theorem title="constant returns">
+we say that $f(l, k)$ has constant returns to scale if $f(\lambda l, \lambda k) = \lambda f(l, k)$, $\forall l, k \geq 0$ and $\forall \lambda > 1$.
+</Theorem>
+
+<Theorem title="increasing returns">
+we say that $f(l, k)$ has increasing returns to scale if $f(\lambda l, \lambda k) > \lambda f(l, k)$, $\forall l, k \geq 0$ and $\forall \lambda > 1$.
+</Theorem>
+
+<Proposition>
+we say that $f(l, k)$ has decreasing returns to scale if and only if the average productivity of inputs is decreasing.
+</Proposition>
+
+<Proposition>
+we say that $f(l, k)$ has constant returns to scale if and only if the average productivity of inputs is constant.
+</Proposition>
+
+<Proposition>
+we say that $f(l, k)$ has increasing returns to scale if and only if the average productivity of inputs is increasing.
+</Proposition>
+
+### cost minimization
+
+<Example>
+$$
+\begin{align}
+\min_{\{l, k\}} \quad & wl + rk \\
+\text{subject to} \quad & 0 \leq l, \\
+& 0 \leq k, \\
+& \bar{q} \leq f(l, k).
+\end{align}
+$$
+
+$$
+\begin{array}{ll}
+f(l, k) & \text{production function} \\
+k & \text{capital} \\
+l & \text{labor} \\
+\bar{q} & \text{minimum supply} \\
+r & \text{interest rate (capital price)} \\
+w & \text{salary (labor price)}
+\end{array}
+$$
+</Example>
+
+#### cost minimization solutions
+
+<Proposition title="optimality conditions">
+given a production function $f(l, k)$ and suppose that, at optimum, $f(l^*, k^*) = \bar{q}$, then:
+
+* if $l^*, k^* > 0$, at optimum: $\text{MRTS}(l^*, k^*) = \frac{w}{r}$.
+* if $l^* = 0$, at optimum: $\text{MRTS}(0, k^*) \leq \frac{w}{r}$.
+* if $k^* = 0$, at optimum: $\text{MRTS}(l^*, 0) \geq \frac{w}{r}$.
+</Proposition>
+
+<Definition title="contingent demands">
+if the optimal solution of the cost minimization problem $(l^*, k^*)$ is also known as **contingent input demands** and is usually denoted as:
+$$
+l^* = l^c(w, r, \bar{q}) \quad k^* = k^c(w, r, \bar{q})
+$$
+</Definition>
+
+<Definition title="minimum cost function">
+the **minimum cost function**, denoted $C(w, r, \bar{q})$, is the value function of the cost minimization problem:
+$$
+C(w, r, \bar{q}) = wl^c(w, r, \bar{q}) + rk^c(w, r, \bar{q}).
+$$
+</Definition>
+
+<Theorem title="contingent demand law">
+let $l^c(w, r, \bar{q})$ and $k^c(w, r, \bar{q})$, then each input is non-increasing in its own price and non-decreasing in cross price.
+
+i.e. $\frac{\partial l^c}{\partial w} \leq 0$; $\frac{\partial k^c}{\partial r} \leq 0$; $\frac{\partial l^c}{\partial r} \geq 0$; $\frac{\partial k^c}{\partial w} \geq 0$.
+</Theorem>
+
+<Lemma title="shephard's lemma">
+$$
+l^c(w, r, \bar{q}) = \frac{\partial C(w, r, \bar{q})}{\partial w} \quad k^c(w, r, \bar{q}) = \frac{\partial C(w, r, \bar{q})}{\partial r}
+$$
+</Lemma>
+
+#### properties of the minimum cost function
+
+<Proposition>
+(i) homogeneous of degree one in prices, i.e. $C(\lambda w, \lambda r, \bar{q}) = \lambda C(w, r, \bar{q})$.
+
+(ii) increasing in quantity, i.e. $\frac{\partial C}{\partial \bar{q}} > 0$.
+
+(iii) non-decreasing in prices, i.e. $\frac{\partial C}{\partial w} \geq 0$ and $\frac{\partial C}{\partial r} \geq 0$.
+
+(iv) concave in prices, i.e. $\frac{\partial^2 C}{\partial w^2} \leq 0$ and $\frac{\partial^2 C}{\partial r^2} \leq 0$.
+</Proposition>
+
+#### properties of contingent input demands
+
+<Proposition>
+(i) homogeneous of degree zero in prices, i.e. $l^c(\lambda w, \lambda r, \bar{q}) = l^c(w, r, \bar{q})$ and $k^c(\lambda w, \lambda r, \bar{q}) = k^c(w, r, \bar{q})$.
+
+(ii) contingent demand law holds.
+
+(iii) shephard's lemma holds.
+
+(iv) there exists symmetry in cross effects, i.e. $\frac{\partial l^c}{\partial r} = \frac{\partial k^c}{\partial w}$.
+</Proposition>
+
+<Definition title="marginal cost">
+the **marginal cost** measures the change in costs given a marginal change in production.
+
+i.e. $\text{CMg}(w, r, \bar{q}) = \frac{\partial C(w, r, \bar{q})}{\partial \bar{q}}$.
+</Definition>
+
+<Definition title="average cost">
+the **average cost** measures the average costs to produce each unit.
+
+i.e. $\text{CMe}(w, r, \bar{q}) = \frac{C(w, r, \bar{q})}{\bar{q}}$.
+</Definition>
+
+<Proposition>
+we say that $f(l, k)$ has decreasing returns to scale if and only if average cost is increasing.
+</Proposition>
+
+<Proposition>
+we say that $f(l, k)$ has constant returns to scale if and only if average cost is constant.
+</Proposition>
+
+<Proposition>
+we say that $f(l, k)$ has increasing returns to scale if and only if average cost is decreasing.
+</Proposition>
+
+<Proposition title="relation between marginal cost and average cost">
+(i) if $\text{CMg} < \text{CMe}$, then $\frac{\partial \text{CMg}}{\partial \bar{q}}(w, r, \bar{q}) < 0$.
+
+(ii) if $\text{CMg} = \text{CMe}$, then $\frac{\partial \text{CMg}}{\partial \bar{q}}(w, r, \bar{q}) = 0$.
+
+(iii) if $\text{CMg} > \text{CMe}$, then $\frac{\partial \text{CMg}}{\partial \bar{q}}(w, r, \bar{q}) > 0$.
+</Proposition>
+
+<Corollary>
+let $f$ be a production function and $\bar{q} = f(l, k)$, then:
+$$
+\text{CMe}(w, r, \bar{q}) = \frac{w}{\text{PM}_{k,L}(l^c, k^c)} + \frac{r}{\text{PM}_{l,K}(l^c, k^c)}.
+$$
+</Corollary>
+
+### benefit maximization
+
+<Example>
+$$
+\begin{align}
+\max_{\{q\}} \quad & pq - C(w, r, \bar{q}) \\
+\text{subject to} \quad & 0 \leq q.
+\end{align}
+$$
+
+$$
+\begin{array}{ll}
+C(w, r, \bar{q}) & \text{minimum cost function} \\
+p & \text{market price} \\
+\bar{q} & \text{supply}
+\end{array}
+$$
+</Example>
+
+#### benefit maximization solution
+
+<Proposition title="optimality conditions">
+given a minimum cost function $C(w, r, \bar{q})$, then:
+
+* if $q^* = 0$, at optimum $p \leq \text{CMg}(w, r, 0)$.
+* if $q^* > 0$, at optimum $p = \text{CMg}(w, r, q^*)$.
+</Proposition>
+
+<Definition title="supply">
+if the optimal solution of the benefit maximization problem $(q^*)$ is also known as **supply** and is usually denoted as:
+$$
+q^* = q(w, r, p).
+$$
+</Definition>
+
+<Definition title="maximum benefit function">
+the **maximum benefit function**, denoted $\pi(w, r, p)$, is the value function of the benefit maximization problem:
+$$
+\pi(w, r, p) = pq(w, r, p) - C(w, r, q(w, r, p)).
+$$
+</Definition>
+
+<Proposition title="decision parameters">
+so that $q^*$ produces a maximum, it must be fulfilled that $\frac{\partial \text{CMg}(w, r, \bar{q})}{\partial \bar{q}} \geq 0$. additionally:
+
+(i) if $p < \text{CMeV}(w, r, q^*)$, then the firm's benefits of NOT producing are greater than producing.
+
+(ii) if $p = \text{CMeV}(w, r, q^*)$, then it is the same for the firm to produce or not.
+
+(iii) if $p > \text{CMeV}(w, r, q^*)$, then the firm's benefits of producing are greater than not producing.
+
+*note:* $\text{CMeV} = \frac{C(w, r, q^*) - C(w, r, 0)}{q^*}$.
+</Proposition>
+
+<Proposition>
+let $q^*$ be the efficient production scale such that $0 < q^* < q^*$, where $q^*$ is a solution of the maximization problem. then, $q^*$ is not optimal.
+</Proposition>
+
+<Proposition>
+if the production function has increasing returns to scale, then $q^* = 0$ or $q^* \to \infty$.
+</Proposition>
+
+<Theorem title="supply law">
+let $q(w, r, p)$ be derivable, then supply is non-decreasing in selling price.
+
+i.e. $\frac{\partial q}{\partial p}(w, r, p) \geq 0$.
+</Theorem>
+
+#### properties of the maximum benefit function
+
+<Proposition>
+(i) homogeneous of degree one in prices, i.e. $\pi(\lambda w, \lambda r, \lambda p) = \lambda \pi(w, r, p)$.
+
+(ii) non-decreasing in selling price, i.e. $\frac{\partial \pi}{\partial p} \geq 0$.
+
+(iii) non-increasing in input prices, i.e. $\frac{\partial \pi}{\partial w} \leq 0$ and $\frac{\partial \pi}{\partial r} \leq 0$.
+</Proposition>
+
+#### properties of supply
+
+<Proposition>
+(i) homogeneous of degree zero in prices, i.e. $q(\lambda w, \lambda r, \lambda p) = q(w, r, p)$.
+
+(ii) supply law holds, by obvious reasons.
+
+(iii) the sign of the impact on input prices of supply depends on the contingent demands in the following form:
+$$
+\frac{\partial l}{\partial p} = \frac{\partial l^c}{\partial \bar{q}} \frac{\partial q}{\partial p} \quad \text{and} \quad \frac{\partial k}{\partial p} = \frac{\partial k^c}{\partial \bar{q}} \frac{\partial q}{\partial p}.
+$$
+</Proposition>
+
+<Lemma title="hotelling's lemma">
+$$
+\frac{\partial \pi}{\partial p} = q^* \geq 0.
+$$
+</Lemma>
+
+<Corollary>
+$$
+\frac{\partial \pi}{\partial w} = -l(w, r, p) \quad \frac{\partial \pi}{\partial r} = -k(w, r, p)
+$$
+</Corollary>
+
+<Definition title="producer surplus">
+the **producer surplus** represents the difference between the price at which the producer sells and the disposition to sell a determined quantity and is defined as follows:
+$$
+\begin{align}
+\text{EP} &= \pi(w_1, r_1, p_1) - \pi(w_1, r_1, p_0) \\
+&= \int_{p_0}^{p_1} q(w, r, p) dp \\
+&= \pi(w_1, r_1, p_1) - \pi(w_0, r_1, p_1) \\
+&= -\int_{w_0}^{w_1} l(w, r, p) dw \\
+&= \pi(w_1, r_1, p_1) - \pi(w_1, r_0, p_1) \\
+&= -\int_{r_0}^{r_1} k(w, r, p) dr
+\end{align}
+$$
+</Definition>
+
+<Definition title="input-induced demands">
+**input-induced demands** determine the quantity of capital and labor that the firm demands for each level of $w$, $r$ and $p$. it is denoted:
+$$
+l(w, r, p) = l^c(w, r, q(w, r, p));
+$$
+$$
+k(w, r, p) = k^c(w, r, q(w, r, p)).
+$$
+</Definition>
+
+#### properties of input-induced demands
+
+<Proposition>
+(i) homogeneous of degree zero in prices, i.e. $l(\lambda w, \lambda r, \lambda p) = l(w, r, p)$ and $k(\lambda w, \lambda r, \lambda p) = k(w, r, p)$.
+
+(ii) non-increasing in input prices, i.e. $\frac{\partial l}{\partial w} \leq 0$ and $\frac{\partial k}{\partial r} \leq 0$.
+
+(iii) the sign of the impact on selling price of input demands depends on the contingent demands in the following form:
+$$
+\frac{\partial l}{\partial p} = \frac{\partial l^c}{\partial \bar{q}} \frac{\partial q}{\partial p} \quad \text{and} \quad \frac{\partial r}{\partial p} = -\frac{\partial k^c}{\partial \bar{q}} \frac{\partial q}{\partial p}.
+$$
+</Proposition>
+
+<Theorem title="slutsky equation">
+let $u$ be a monotone utility function, then:
+
+$$
+\underbrace{\frac{\partial l}{\partial w}(w, r, p)}_{\text{total effect}} = \underbrace{\frac{\partial l^c}{\partial w}(w, r, q)}_{\text{substitution effect}} - \left(\frac{\partial l^c}{\partial \bar{q}}(w, r, q)\right) \frac{\partial q}{\partial p}(w, r, p),
+$$
+
+$$
+\underbrace{\frac{\partial k}{\partial r}(w, r, p)}_{\text{total effect}} = \underbrace{\frac{\partial k^c}{\partial r}(w, r, q)}_{\text{substitution effect}} - \left(\frac{\partial k^c}{\partial \bar{q}}(w, r, q)\right) \frac{\partial q}{\partial p}(w, r, p),
+$$
+
+$$
+\underbrace{\frac{\partial l}{\partial r}(w, r, p)}_{\text{total effect}} = \underbrace{\frac{\partial l^c}{\partial r}(w, r, q)}_{\text{substitution effect}} - \frac{\partial l^c}{\partial \bar{q}}(w, r, q) \frac{\partial q}{\partial p}(w, r, p),
+$$
+
+and
+
+$$
+\underbrace{\frac{\partial k}{\partial w}(w, r, p)}_{\text{total effect}} = \underbrace{\frac{\partial k^c}{\partial w}(w, r, q)}_{\text{substitution effect}} - \frac{\partial k^c}{\partial \bar{q}}(w, r, q) \frac{\partial q}{\partial p}(w, r, p).
+$$
+</Theorem>

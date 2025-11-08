@@ -1,0 +1,1408 @@
+---
+title: "notes-on-consumer-and-producer-theory"
+date: "2021-04-01"
+excerpt: "notes on linear algebra, real analysis, calculus, optimization, convexity, correspondences, and consumer/producer theory"
+---
+
+> **note**: this page is still in development.
+
+these definitions and theorems also apply to courses on calculus, linear algebra, optimization, and real analysis.
+
+## linear algebra
+
+### basic notions of linear algebra
+
+<Remark>
+vectors are always columns, but it is customary to write them as rows to save space.
+</Remark>
+
+<Definition title="homogeneous system">
+if $b = 0_{m\times 1}$, the system is said to be *homogeneous* and there is at least one solution, given by $x = 0_{n\times 1}$.
+
+$$
+\text{i.e. } \quad Ax = 0.
+$$
+</Definition>
+
+<Proposition>
+if $b \neq 0$, there need not exist $x$ such that $Ax = b$.
+</Proposition>
+
+<Definition title="linear combination">
+$y \in \mathbb{R}^m$ is a *linear combination* of $x_1, \dots, x_n \in \mathbb{R}^m$ if there exists $\alpha_1, \dots, \alpha_n \in \mathbb{R}$ such that $\displaystyle y = \sum_{i = 1}^n \alpha_i x_i$.
+</Definition>
+
+<Example>
+consider three matrices $A_{m\times n}$, $B_{k\times m}$ and $C_{k\times n}$ such that $BA = C$.
+
+observe that:
+
+1. rows of $C$ are linear combinations of rows of $A$, and
+2. columns of $C$ are linear combinations of columns of $B$.
+
+> these statements are in fact equivalent since $BA = C$ if and only if $A^T B^T = C^T$.
+</Example>
+
+### elementary row operations and rref
+
+<Definition title="elementary row operations">
+simple operations that allow to transform a system of linear equations into an equivalent system.
+
+there are three elementary row operations:
+
+1. switching rows,
+2. multiplying a row with a non-zero constant, and
+3. replacing a row with the sum of that row and another row.
+</Definition>
+
+<Theorem>
+let $E_{n\times n}$ be an elementary matrix. then
+
+1. $E$ is invertible.
+2. there exist a number $k$ of elementary matrices $E_1, \dots, E_k$ such that $E^{-1} = E_1 \cdots E_k$.
+</Theorem>
+
+<Definition title="row reduced echelon form">
+applying the three elementary row operations sequentially to any given matrix, we can find its *row reduced echelon form* (rref).
+
+the rref of a matrix has the following properties:
+
+1. all the zero rows are at the bottom,
+2. the first non-zero entry of each non-zero row is 1,
+3. if the first non-zero entry of a row occurs on column $j$ and if the first non-zero entry of the next row occurs on column $j'$, then $j < j'$, and
+4. if the first non-zero entry of a row occurs on column $j$, then all the earlier rows have zeros on column $j$.
+</Definition>
+
+<Theorem>
+every matrix has a unique rref.
+</Theorem>
+
+### rank
+
+<Definition title="rank">
+the *rank* of $A_{m\times n}$ is the number of non-zero rows in its rref $A'$.
+</Definition>
+
+<Definition title="pivotal column">
+a *pivotal column* is one which contains the first non-zero entry of some row.
+</Definition>
+
+<Corollary>
+if $A$ is $m\times n$, then $\text{rk} A = \text{rk} A' \leq \min\{m, n\}$.
+
+also, for a given $A_{m\times n}$:
+
+1. $\text{rk} A = m$ if and only if $A'$ has no zero rows.
+2. $\text{rk} A = n$ if and only if all columns of $A'$ are pivotal.
+</Corollary>
+
+<Theorem>
+let $A$ be $m \times n$. then $\text{rk} A = m$ if and only if, $\forall b \in \mathbb{R}^m$, $\exists x \in \mathbb{R}^n$ such that $Ax = b$. namely, there is **at least one solution** to the system.
+</Theorem>
+
+<Theorem>
+let $A$ be $m \times n$. then $\text{rk} A = n$ if and only if, $\forall b \in \mathbb{R}^m$, if $Ax = Ay = b$, then $x = y$. namely, there is **at most one solution** to the system.
+</Theorem>
+
+<Corollary>
+let $A$ be $m\times n$. for each $b \in \mathbb{R}^m$, $Ax = b$ has a unique solution in $\mathbb{R}^n$ if and only if $\text{rk} A = m = n$.
+</Corollary>
+
+### subspaces
+
+<Definition title="subspace">
+a non-empty set $S \subseteq \mathbb{R}^m$ is a *subspace* of $\mathbb{R}^m$ if $\alpha x + \beta y \in S$ whenever $x, y \in S$ and $\alpha, \beta \in \mathbb{R}$.
+</Definition>
+
+<Proposition>
+the intersection of members of an arbitrary family of subspaces is a subspace. the union of subspaces need not be a subspace.
+</Proposition>
+
+<Definition title="range">
+the *range* of $A_{m\times n}$ is the set
+$$
+R(A) = \left\{ b \in \mathbb{R}^m : \exists x \in \mathbb{R}^n,\ Ax = b \right\}.
+$$
+</Definition>
+
+<Definition title="null space">
+the *null space* of $A_{m\times n}$ is the set
+$$
+N(A) = \left\{ x \in \mathbb{R}^n : Ax = 0 \right\}.
+$$
+</Definition>
+
+<Proposition>
+for any $A_{m\times n}$, the following propositions hold:
+
+1. $N(A) = N(A')$,
+2. $R(A) \neq R(A')$,
+3. $N(A) \subseteq N(BA)$,
+4. $R(BA) \subseteq R(B)$,
+5. $R(A) = \mathbb{R}^m \iff \text{rk} A = m$, and
+6. $N(A) = \{0\} \iff \text{rk} A = n$.
+</Proposition>
+
+<Definition title="linear span">
+vectors $a_1, \dots, a_n \in S$ *span* $S$ if, for every $x \in S$, there exist $\alpha_1, \dots, \alpha_n \in \mathbb{R}$ such that $\displaystyle x = \sum_{i = 1}^n \alpha_i a_i$.
+
+namely, each $x$ is a linear combination of $a_1, \dots, a_n$.
+</Definition>
+
+<Definition title="linear independence">
+vectors $a_1, \dots, a_n$ in $\mathbb{R}^m$ are *linearly independent* if, for all $\alpha_1, \dots, \alpha_n \in \mathbb{R}$,
+$$
+\sum_{i=1}^n \alpha_i a_i = 0 \implies \alpha_1 = \cdots = \alpha_n = 0.
+$$
+
+> a linearly independent set cannot contain $0$.
+</Definition>
+
+<Proposition>
+for any given matrix, the following propositions hold:
+
+1. the non-zero rows of any matrix in rref are linearly independent,
+2. all subsets of a linearly independent set are also linearly independent, and
+3. a set $\{a_1, \dots, a_n\}$ in $\mathbb{R}^m$ is linearly independent if and only if $N(A_{m\times n}) = \{0_{n\times 1}\}$, where $\displaystyle A = \left[ a_1 \mid \cdots \mid a_n \right]_{m\times n}$ is formed by merging members of $\{a_1, \dots, a_n\}$ as columns.
+</Proposition>
+
+<Lemma>
+$\{a_1, \dots, a_n\} \subset \mathbb{R}^m$ is linearly dependent if and only if, for some $k \in \{2, \dots, n\}$, $a_k$ is a linear combination of $a_1, \dots, a_{k-1}$.
+</Lemma>
+
+<Definition title="basis">
+let $S$ be a subspace of $\mathbb{R}^m$. a set $\{a_1, \dots, a_n\} \subseteq S$ is a *basis* for $S$ if it spans $S$ and is linearly independent.
+</Definition>
+
+<Theorem>
+let $S$ be a subspace of $\mathbb{R}^m$ with basis $\{a_1, \dots, a_n\}$. if $\{b_1, \dots, b_r\} \subset S$ is linearly independent, then $r \leq n$.
+</Theorem>
+
+<Corollary>
+any $m + 1$ vectors in $\mathbb{R}^m$ are linearly dependent.
+</Corollary>
+
+<Corollary>
+if $\{a_1, \dots, a_n\}$ and $\{b_1, \dots, b_r\}$ are two bases for $S$, then $n = r$.
+</Corollary>
+
+<Definition title="dimension">
+the *dimension* of a subspace $S$ is the number of elements in any basis for $S$.
+</Definition>
+
+<Theorem title="fundamental  of linear algebra i">
+let $A$ be $m\times n$. then
+
+1. $\dim R(A^T) = \text{rk} A$,
+2. $\text{rk} A = \text{rk} A^T$, and
+3. $\dim N(A) = n - \text{rk} A$.
+</Theorem>
+
+### orthogonality
+
+<Definition title="orthogonal complement">
+let $S$ be a subspace of $\mathbb{R}^m$. the *orthogonal complement* of $S$ is the set
+$$
+S^\perp = \left\{ y \in \mathbb{R}^m : y \cdot x = 0,\ \forall x \in S \right\}.
+$$
+</Definition>
+
+<Lemma>
+for any subspace $S$ of $\mathbb{R}^m$, $S \cap S^\perp = \{0\}$.
+</Lemma>
+
+<Theorem title="fundamental  of linear algebra ii">
+let $A$ be $m\times n$. then
+
+1. $R(A) = N(A^T)^\perp$, and
+2. $R(A)^\perp = N(A^T)$.
+</Theorem>
+
+<Corollary>
+for any subspace $S$ of $\mathbb{R}^m$, $(S^\perp)^\perp = S$.
+</Corollary>
+
+### inverse
+
+<Theorem>
+let $A$ and $C$ be both $n\times n$. if $AC = I$, then $\text{rk} A = \text{rk} C = n$.
+</Theorem>
+
+<Theorem>
+let $A$ and $C$ be both $n\times n$. if $AC = I$, then $CA = I$.
+</Theorem>
+
+<Definition title="invertible matrix">
+$A_{n\times n}$ is *invertible* if there exists $C_{n\times n}$ such that $AC =CA = I$.
+</Definition>
+
+<Theorem>
+if $AC = CA = I$ and if $AB = BA =I$, then $C = B$.
+</Theorem>
+
+<Remark>
+if $A$ and $B$ are invertible, then $AB$ is invertible as well.
+</Remark>
+
+<Remark>
+if $A$ is invertible, then so is $A^T$ and $(A^T)^{-1} = (A^{-1})^T$.
+</Remark>
+
+## real analysis
+
+### basic notions of topology
+
+<Definition title="metric">
+let $X$ be a set. a function $d : X \times X \to \mathbb{R}$ is a *metric* on $X$ if, for all $x, y, z \in X$, the following conditions hold:
+
+1. $d(x,y) \geq 0$,
+2. $d(x,y) = 0 \iff x = y$,
+3. $d(x, y) = d(y, x)$, and
+4. $d(x, y) \leq d(x, z) + d(z, y)$.
+</Definition>
+
+<Definition title="metric space">
+a *metric space* is a pair $(X, d)$ where $X$ is a set and $d$ is a metric on $X$.
+</Definition>
+
+<Definition title="open ball">
+let $(X, d)$ be a metric space. for any $x \in X$ and $\varepsilon > 0$, $B(x, \varepsilon) = \{ y \in X : d(x, y) < \varepsilon \}$ is the *open ball* centered at $x$ with radius $\varepsilon$.
+</Definition>
+
+<Definition title="interior">
+let $S \subseteq X$. $x$ is an *interior point* of $S$ if $B(x, \varepsilon) \subset S$ for some $\varepsilon > 0$. the set of all interior points of $S$ is the *interior* of $S$.
+</Definition>
+
+<Remark>
+$\text{int}(S) \subseteq S$
+</Remark>
+
+<Definition title="open set">
+$S$ is *open* if $S = \text{int}(S)$.
+</Definition>
+
+<Remark>
+$\emptyset$, $\text{int}(S)$ and $B(x, \varepsilon)$ are open.
+</Remark>
+
+<Definition title="closure">
+let $S \subseteq X$. $x$ is an *closure point* of $S$ if $B(x, \varepsilon) \cap S \neq \emptyset$ for every $\varepsilon > 0$. the set of all closure points of $S$ is the *closure* of $S$.
+</Definition>
+
+<Remark>
+$S \subseteq \overline{S}$
+</Remark>
+
+<Definition title="closed set">
+$S$ is *closed* if $S = \overline{S}$.
+</Definition>
+
+<Remark>
+$\emptyset$ and $\overline{S}$ are closed.
+</Remark>
+
+<Theorem>
+$S$ is closed if and only if $X \setminus S$ is open.
+</Theorem>
+
+<Definition title="boundary">
+let $S \subseteq X$. $x$ is an *boundary point* of $S$ if $B(x, \varepsilon) \cap S \neq \emptyset$ and $B(x, \varepsilon) \cap (X \setminus S) \neq \emptyset$ for every $\varepsilon > 0$. the set of all boundary points of $S$ is the *boundary* of $S$.
+</Definition>
+
+<Remark>
+* $\partial S = \partial(X \setminus S)$.
+* $\partial S \subseteq \overline{S}$.
+* $S$ is closed if and only if $\partial S \subseteq S$.
+* $\partial S$ is a closed set.
+</Remark>
+
+<Definition title="metric subspace">
+let $(X, d)$ be a metric space and $S \subseteq X$. $d$ is a metric on $S$ and therefore $(S, d)$ is a metric space as well, usually referred to as a *metric subspace* of $(X, d)$.
+</Definition>
+
+<Theorem>
+let $(S, d)$ be a metric subspace of $(X, d)$.
+
+* $A \subseteq S$ is open in $(S, d)$ if and only if there exists an open set $U$ in $(X, d)$ such that $A = S \cap U$.
+* $A \subseteq S$ is closed in $(S, d)$ if and only if there exists a closed set $U$ in $(X, d)$ such that $A = S \cap U$.
+</Theorem>
+
+### sequences
+
+<Definition title="sequence">
+let $(X, d)$ be a metric space. a *sequence* in $(X, d)$ is a map $f : \mathbb{N} \to X$.
+</Definition>
+
+<Definition title="convergent sequence">
+a sequence $\{x_k\}$ is said to be *convergent* if the following property holds: there exists some $x \in X$ such that, for every $\varepsilon > 0$, there exists some $l \in \mathbb{N}$ such that, for every $k > l$, $x_k \in B(x, \varepsilon)$. such $x$ is called the limit of $\{x_k\}$.
+</Definition>
+
+<Theorem>
+if $\lim x_k$ exists, it is unique.
+</Theorem>
+
+<Definition title="subsequence">
+let $\{x_k\}$ be a sequence. a *subsequence* of $\{x_k\}$ is a sequence obtained by deleting some (possibly none, possibly infinitely many) members of $\{x_k\}$. namely, let $\{k_n\}$ be a non-decreasing sequence of integers. then $\{x_{k_{n}}\}$ is a subsequence of $\{x_k\}$.
+</Definition>
+
+<Theorem>
+$\{x_k\}$ is convergent with a limit $x$ if and only if every subsequence of $\{x_k\}$ is convergent with limit $x$.
+</Theorem>
+
+<Theorem>
+let $(X, d)$ be a metric space and $S \subseteq X$. $x \in \overline{S}$ if and only if there exists a sequence $\{x_k\}$ such that $x_k \in S$ for all $k$, and $\lim x_k = x$.
+</Theorem>
+
+<Theorem>
+$S$ is closed if and only if every convergent sequence in $S$ converges to an element of $S$.
+</Theorem>
+
+<Definition title="bounded sequence">
+let $(X, d)$ be a metric space. a sequence $\{x_k\}$ in $X$ is *bounded* if it is contained in a ball with finite radius, i.e., if for some $\varepsilon > 0$ and $y \in X$, $x_k \in B(y, \varepsilon)$ for every $k$.
+</Definition>
+
+<Theorem title="bolzano–weierstrass">
+every bounded sequence in $\mathbb{R}^m$ has a convergent subsequence.
+</Theorem>
+
+<Definition title="cauchy sequence">
+let $(X, d)$ be a metric space. a sequence $\{x_k\}$ in $X$ is a *cauchy sequence* if, for every $\varepsilon > 0$, there exists a positive integer $k_\varepsilon$ such that, whenever $k, l > k_\varepsilon$, $d(x_k, x_l) < \varepsilon$.
+</Definition>
+
+<Theorem>
+if $\{x_k\}$ is convergent, then $\{x_k\}$ is cauchy. if $\{x_k\}$ is cauchy, then $\{x_k\}$ is bounded.
+</Theorem>
+
+<Definition title="completeness">
+let $(X, d)$ be a metric space. $(X, d)$ is complete if every cauchy sequence in $X$ converges to an element of $X$.
+</Definition>
+
+<Theorem>
+let $(X, d)$ be complete and $S \subseteq X$. $(S, d)$ is complete if and only if $S$ is a closed subset of $X$.
+</Theorem>
+
+<Definition title="open cover">
+let $(X, d)$ be a metric space and $S \subseteq X$. a collection of open sets $O_i$, $i \in I$, is an *open cover* for $S$ if $\displaystyle S \subset \bigcup_{i \in I} O_i$.
+</Definition>
+
+<Definition title="finite subcover">
+let $O_i$, $i \in I$, be an open cover for $S$. if $I_0$ is a finite subset of $I$ and $\displaystyle S \subset \bigcup_{i \in I_0} O_i$, then the collection $O_i$, $i \in I_0$, is a *finite subcover* of $S$.
+</Definition>
+
+<Definition title="compactness">
+$S$ is *compact* if every open cover of $S$ has a finite subcover.
+</Definition>
+
+<Theorem>
+a compact set is bounded and closed.
+</Theorem>
+
+<Theorem>
+$S$ is compact if and only if every sequence in $S$ has a subsequence that converges to a point in $S$.
+</Theorem>
+
+<Theorem title="heine-borel">
+a subset of $\mathbb{R}^m$ is compact if and only if it is closed and bounded.
+</Theorem>
+
+### continuity
+
+<Definition title="continuity">
+let $(X, d)$ and $(Y, \sigma)$ be metric spaces.  a function $f : X \to Y$ is *continuous at $x \in X$* if, for every $\varepsilon > 0$, there exists $\delta > 0$ such that, whenever $x' \in B(x, \delta)$, $f(x') \in B(f(x), \varepsilon)$.
+</Definition>
+
+<Definition title="global continuity">
+$f$ is *continuous* if it is continuous at $x$ for every $x \in X$.
+</Definition>
+
+<Theorem>
+$f$ is continuous at $x$ if and only if for every sequence $\{x_k\}$ in $X$, whenever $\lim x_k = x$, $\lim f(x_k) = f(x)$.
+</Theorem>
+
+<Definition title="image">
+let $(X, d)$ and $(Y, \sigma)$ be metric spaces and $f : X \to Y$. if $S \subseteq X$, then $f(S) = \{ f(x) \in Y : x \in S \}$.
+</Definition>
+
+<Definition title="inverse image">
+let $(X, d)$ and $(Y, \sigma)$ be metric spaces and $f : X \to Y$. if $S \subseteq Y$, then $f^{-1}(S) = \{ x \in X : f(x) \in S \}$.
+</Definition>
+
+<Theorem>
+the following are equivalent:
+
+* $f$ is continuous.
+* $f^{-1}(S)$ is open if $S$ is open.
+* $f^{-1}(S)$ is closed if $S$ is closed.
+</Theorem>
+
+<Definition title="upper semicontinuous">
+let $(X, d)$ be a metric space. a function $f : X \to \mathbb{R}$ is *upper semicontinuous* if $\{x \in X : f(x) \geq \alpha \}$ is closed for every $\alpha \in \mathbb{R}$.
+</Definition>
+
+<Definition title="lower semicontinuous">
+let $(X, d)$ be a metric space. a function $f : X \to \mathbb{R}$ is *lower semicontinuous* if $\{x \in X : f(x) \leq \alpha \}$ is closed for every $\alpha \in \mathbb{R}$.
+</Definition>
+
+<Theorem>
+$f : X \to \mathbb{R}$ is continuous if and only if $f$ is upper semicontinuous and lower semicontinuous.
+</Theorem>
+
+<Definition title="maximizer / minimizer">
+let $(X, d)$ be a metric space and $S \subseteq X$. a function $f : S \to \mathbb{R}$ has a *maximizer* if for some $x^* \in S$, $f(x) \leq f(x^*)$ for every $x \in S$. similarly, $f$ has a *minimizer* if for some $x_* \in S$, $f(x) \geq f(x_*)$ for every $x \in S$.
+</Definition>
+
+<Theorem title="weierstrass">
+let $S$ be compact and $f : S \to \mathbb{R}$ be continuous. then $f$ has a maximizer and a minimizer.
+</Theorem>
+
+<Theorem>
+let  $S$ be compact and $f : S \to \mathbb{R}$ be upper semicontinuous. then $f$ has a maximizer.
+</Theorem>
+
+<Theorem>
+let  $S$ be compact and $f : S \to \mathbb{R}$ be lower semicontinuous. then $f$ has a minimizer.
+</Theorem>
+
+<Theorem>
+let $(X, d)$ be a metric space. if $S$ and $T$ are disjoint and closed subsets of $X$, then there exists disjoint and open sets $U$ and $V$ such that $U \supset S$ and $V \supset T$.
+</Theorem>
+
+## differentiable functions
+
+<Definition title="differentiability (single variable)">
+let $S \subseteq \mathbb{R}$, $x \in S$ and $f : S \to \mathbb{R}$. then $f$ is *differentiable at $x$* if
+$$
+\lim_{u \to 0} \frac{f(x + u) - f(x)}{u}
+$$
+exists.
+
+namely, $f$ is *differentiable at $x$* if there is some $y \in \mathbb{R}$ such that, for every $\varepsilon > 0$, there exists some $\delta > 0$ such that
+$$
+\left\{ x + u \in B_\delta(x) \cap S : u \neq 0 \right\} \implies \left\lvert \frac{f(x + u) - f(x)}{u} - y \right\rvert < \varepsilon
+$$
+where  $y = f'(x)$.
+</Definition>
+
+<Definition title="partial derivative">
+let $S \subseteq \mathbb{R}^n$, $x \in S$ and $f : S \to \mathbb{R}$. the *$j$th partial derivative of $f$ at $x$* is
+$$
+D_j f(x) := \lim_{u \to 0} \frac{f(x + ue_j) - f(x)}{u}
+$$
+if this limit exists.
+</Definition>
+
+<Definition title="gradient">
+if $D_j f(x)$ exists for all $j = 1, \dots, n$, then the *gradient of $f$ at $x$* is the vector
+$$
+\nabla f(x) :=
+\begin{bmatrix}
+D_1 f(x) \\
+\vdots \\
+D_n f(x)
+\end{bmatrix}
+\in \mathbb{R}^n.
+$$
+</Definition>
+
+<Definition title="jacobian">
+let $S \subseteq \mathbb{R}^n$, $x \in S$ and $f : S \to \mathbb{R}^m$. suppose that $D_j f_i(x)$ exists for all $i$ and $j$, then the *jacobian of $f$ at $x$* is the $m\times n$ matrix
+$$
+J_f(x) :=
+\begin{bmatrix}
+D_1 f_1(x) & \cdots & D_n f_1(x) \\
+\vdots & \ddots & \vdots \\
+D_1 f_m(x) & \cdots & D_n f_m(x)
+\end{bmatrix}_{m\times n}
+=
+\begin{bmatrix}
+\nabla f_1(x)^T \\
+\vdots \\
+\nabla f_m(x)^T
+\end{bmatrix}.
+$$
+</Definition>
+
+<Definition title="differentiability (multivariate)">
+let $S \subseteq \mathbb{R}^n$. then $f : S \to \mathbb{R}^m$ is *differentiable at $x \in S$* if the following two conditions hold:
+
+1. $D_j f_i (x)$ exists for all $i$ and $j$,
+2. we have
+$$
+\lim_{u \to 0} \frac{\lVert f(x + u) - f(x) - J_f(x)u \rVert}{\lVert u \rVert} = 0.
+$$
+
+> the second condition holds if and only if, for every $\varepsilon > 0$, there is some $\delta > 0$ such that, whenever $x + u \in B_\delta(x) \cap S$ and $u \neq 0_{n\times 1}$, we have
+$$
+\frac{\lVert f(x + u) - f(x) - J_f(x)u \rVert}{\lVert u \rVert} < \varepsilon.
+$$
+</Definition>
+
+<Theorem>
+suppose $S\subseteq\mathbb{R}^n$, $x \in S$ and $f : S \to \mathbb{R}^m$. suppose that, for each $i$ and $j$, $D_j f_i(x)$ exists and that $x \mapsto D_j f_i(x)$ is continuous on $S$. then $f$ is differentiable at $x$.
+</Theorem>
+
+<Theorem title="implicit function">
+let $F : \mathbb{R}^2 \to \mathbb{R}$. suppose that $D_1F(x,y)$ and $D_2F(x,y)$ exist and are continuous in an open $U$ containing $(a, b) \in \mathbb{R}^2$. suppose that $F(a, b) = 0$ and that $D_2F(a, b) \neq 0$. then there exists $\varepsilon > 0$ and $g : B_\varepsilon \to \mathbb{R}$ such that $g(a) = b$, $F(x, g(x)) = 0$ for all $x \in B_\varepsilon (a)$ and
+$$
+g'(a) = -\frac{D_1F(a,b)}{D_2F(a,b)}.
+$$
+</Theorem>
+
+<Theorem title="implicit function  (general)">
+suppose $F : \mathbb{R}^{n + m} \to \mathbb{R}^m$ is differentiable in an open set $U$ containing $(a, b) \in \mathbb{R}^{n + m}$ and suppose that the entries of $J_F (x,y)$ are continuous at each $(x,y) \in U$. let $A_{m\times n}$ and $B_{m\times m}$ be defined by $J_F (a, b)$ as
+$$
+A =
+\begin{bmatrix}
+D_1 F_1(a,b) & \cdots & D_n F_1(a,b) \\
+\vdots & \ddots & \vdots \\
+D_1 F_m(a,b) & \cdots & D_n F_m(a,b)
+\end{bmatrix}_{m\times n}
+$$
+$$
+B =
+\begin{bmatrix}
+D_{n+1} F_1(a,b) & \cdots & D_{n+m} F_1(a,b) \\
+\vdots & \ddots & \vdots \\
+D_{n+1} F_m(a,b) & \cdots & D_{n+m} F_m(a,b)
+\end{bmatrix}_{m\times m}
+$$
+and suppose that $F(a,b) = 0$ and $B$ is non-singular. then there exists $\varepsilon > 0$ and $g : B_\varepsilon (a) \to \mathbb{R}^m$ such that $g(a) = b$, $F(x, g(x)) = 0$ for all $x \in B_\varepsilon (a)$ and $J_g (a) = -B^{-1}_{m\times m} A_{m\times n}$.
+</Theorem>
+
+<Theorem title="inverse function">
+suppose that $f : \mathbb{R}^m \to \mathbb{R}^m$ is differentiable in an open set $U$ containing $b \in \mathbb{R}^m$. suppose that the partials of $f$ are continuous on $U$. suppose that $f(b) = a$ and $J_f(b)$ is non-singular. then there exists some $\varepsilon > 0$ and some $g : B_\varepsilon (a) \to \mathbb{R}^m$ such that $g(a) = b$, $f(g(x)) = x$ for all $x \in B_\varepsilon (a)$, and $g$ is differentiable at $a$ with $J_g (a) = J_f (b)^{-1}$.
+</Theorem>
+
+<Theorem title="weierstrass">
+let $S \subseteq \mathbb{R}^n$ be compact and let $f : S \to \mathbb{R}$ be continuous. then there exists $x'$ and $x''$ in $S$ such that, for all $x \in S$, $f(x') \leq f(x) \leq f(x'')$.
+</Theorem>
+
+<Theorem>
+suppose $f : \mathbb{R}^n \to \mathbb{R}$ attains its maximum or minimum on an open set $U$ at some $x \in U$. if $D_i f(x)$ exists, then $D_i f(x) = 0$.
+</Theorem>
+
+<Theorem title="rolle's lemma">
+suppose $f : [a, b] \to \mathbb{R}$ is continuous at each $x \in [a, b]$ and $f$ is differentiable at each $x \in (a, b)$. furthermore, suppose that $f(a) = 0 = f(b)$. then there exists some $c \in (a, b)$ such that $f'(c) = 0$.
+</Theorem>
+
+<Theorem title="mean value">
+suppose that $f : [a, b] \to \mathbb{R}$ is continuous at each $x \in [a, b]$ and that $f$ is differentiable at each $x \in (a, b)$. then there exists $c \in (a, b)$ such that
+$$
+f'(c) = \frac{f(b) - f(a)}{b - a}.
+$$
+</Theorem>
+
+<Theorem title="mean value  (multivariate)">
+let $U$ be an open set in $\mathbb{R}^n$ containing $a$ and $b$. suppose that $(1 - t)a + tb \in U$ whenever $t \in [0, 1]$. suppose that $f : U \to \mathbb{R}$ is differentiable at each $x \in U$. then there exists $t' \in (0,1)$ such that $\nabla f(c') \cdot (b - a) = f(b) - f(a)$ where $c' = (1 - t')a + t'b$.
+</Theorem>
+
+<Definition title="hessian matrix">
+let $U$ be open set in $\mathbb{R}^n$ and let $f : U \to \mathbb{R}$. the *hessian of $f$ at $x \in U$* is the matrix
+$$
+H_f (x) :=
+\begin{bmatrix}
+D_1 D_1 f(x) & \cdots & D_n D_1 f(x) \\
+\vdots & \ddots & \vdots \\
+D_1 D_n f(x) & \cdots & D_n D_n f(x)
+\end{bmatrix}_{n \times n}
+$$
+</Definition>
+
+<Theorem>
+suppose $U$ is open in $\mathbb{R}^n$, $f : U \to \mathbb{R}^n$ and $x \mapsto D_i D_j f(x)$ is continuous at each $x \in U$ for every $i$ and $j$. then $H_f (x)$ is symmetric for each $x \in U$.
+</Theorem>
+
+<Theorem>
+suppose $U \subseteq \mathbb{R}^n$ is an open set containing $a$ and $b$ such that $f : U \to \mathbb{R}$. furthermore, suppose that $U$ contains $(1 - t) a + tb$ for each $t \in [0, 1]$. suppose that both $f$ and $\nabla f$ are differentiable on $U$. then there is some $t' \in (0, 1)$ such that
+$$
+f(b) = f(a) + \nabla f(a) \cdot (b - a) + \frac{1}{2} (b - a)^T H_f (c') (b - a)
+$$
+where $c' = (1 - t')a + t'b$.
+</Theorem>
+
+<Definition title="convex function">
+let $S \subseteq \mathbb{R}^n$ be convex. a function $f : S \to \mathbb{R}$ is *convex* if, for all $t \in [0,1]$ and for all $x, x' \in S$, we have $f((1 - t)x + tx') \leq (1 - t) f(x) + tf(x')$. a function $f : S \to \mathbb{R}$ is *strictly convex* if, for all $t \in (0,1)$ and for all $x, x' \in S$ such that $x \neq x'$, we have $f((1 - t)x + tx') < (1 - t) f(x) + tf(x')$.
+</Definition>
+
+<Theorem>
+suppose that $U \subseteq \mathbb{R}^n$ is open and convex and that $f : U \to \mathbb{R}$ is differentiable. then
+
+1. $f$ is convex if and only if $f(x') \geq f(x) + \nabla f(x) \cdot (x' - x)$ for each $x, x' \in U$.
+2. $f$ is strictly convex if and only if $f(x') > f(x) + \nabla f(x) \cdot (x' - x)$ for each $x, x' \in U$ such that $x \neq x'$.
+</Theorem>
+
+## correspondences
+
+<Definition title="correspondence">
+a *correspondence* from $X$ to $Y$ (both euclidean) is a map $\varphi : X \rightrightarrows Y$ which associates with every $x \in X$ a non-empty set $\varphi (x) \subseteq Y$. namely, a *correspondence* from $X$ to $Y$ is a function from $X$ to $\{A \subseteq Y : A \neq \emptyset\}$.
+</Definition>
+
+<Definition title="closed-valued / open-valued / compact-valued">
+a correspondence $\varphi$ is *closed-valued* is $\varphi(x)$ is a closed subset of $Y$ for every $x \in X$. we similarly define correspondences which are *open-valued*, *compact-valued*, etcetera.
+</Definition>
+
+<Definition title="graph">
+the *graph* of $\varphi$ is the set
+$$
+G_\varphi := \{ (x, y) \in X \times Y : y \in \varphi(x) \} .
+$$
+</Definition>
+
+<Proposition>
+$\varphi$ is *closed / open* if $G_\varphi$ is a closed / open subset of $X \times Y$.
+</Proposition>
+
+<Definition title="inverses">
+let $U \subseteq Y$. the *strong and weak inverses* of $U$ under $\varphi$ are defined respectively as
+$$
+\varphi_s^{-1} (U) := \{x \in X : \varphi(x) \subseteq U\}
+$$
+$$
+\varphi_w^{-1} (U) := \{x \in X : \varphi(x) \cap U \neq \emptyset\}
+$$
+</Definition>
+
+<Proposition>
+* $\varphi_s^{-1} (U) \subseteq \varphi_w^{-1} (U)$.
+* if $\varphi$ is such that $\mid \varphi (x) \mid = 1$ for every $x$, then $\varphi_s^{-1} (U) = \varphi_w^{-1} (U)$.
+* in general, $\varphi_w^{-1} (U) = \left(\varphi_s^{-1} \left(U^C\right)\right)^C$.
+</Proposition>
+
+<Definition title="upper hemi-continuity">
+a correspondence $\varphi : X \rightrightarrows Y$ is *upper hemi-continuous (uhc) at $x \in X$* if, whenever $U$ is an open subset of $Y$ and $x \in \varphi_s^{-1} (U)$, $B(x, \delta) \subseteq \varphi_s^{-1} (U)$ for some $\delta > 0$. $\varphi$ is *uhc* if it is uhc at every $x \in X$.
+</Definition>
+
+<Proposition>
+$\varphi$ is uhc if and only if the strong inverse of any open set in $Y$ under $\varphi$ is open in $X$.
+</Proposition>
+
+<Definition title="lower hemi-continuity">
+a correspondence $\varphi : X \rightrightarrows Y$ is *lower hemi-continuous (lhc) at $x \in X$* if, whenever $U$ is an open subset of $Y$ and $x \in \varphi_w^{-1} (U)$, $B(x, \delta) \subseteq \varphi_w^{-1} (U)$ for some $\delta > 0$. $\varphi$ is *lhc* if it is lhc at every $x \in X$.
+</Definition>
+
+<Proposition>
+$\varphi$ is lhc if and only if the weak inverse of any open set in $Y$ under $\varphi$ is open in $X$.
+</Proposition>
+
+<Definition title="continuity">
+a correspondence is *continuous* if it is lhc and uhc.
+</Definition>
+
+<Theorem>
+let $f : X \to Y$ be a function and let $\varphi : X \rightrightarrows Y$ be defined as $\varphi (x) = \{f(x)\}$ for every $x$. then the following are equivalent:
+
+1. $\varphi$ is uhc.
+2. $\varphi$ is lhc.
+3. $f$ is continuous.
+</Theorem>
+
+<Proposition>
+if the function $f : X \to Y$ is upper / lower semicontinuous, the correspondence $\varphi : X \rightrightarrows Y$ defined by $\varphi (x) = \{f(x)\}$ need not be upper / lower hemicontinuous.
+</Proposition>
+
+<Remark>
+closedness and uhc are not nested.
+</Remark>
+
+<Theorem>
+if $\varphi : X \rightrightarrows Y$ is uhc and closed-valued, then it is also closed.
+</Theorem>
+
+<Theorem>
+if $\varphi : X \rightrightarrows Y$ is closed and $Y$ is compact, then $\varphi$ is uhc.
+</Theorem>
+
+<Theorem>
+if $\varphi$ is open, then it is lhc.
+</Theorem>
+
+<Proposition>
+for every $x \in X$, every sequence $\{x_n\}$ converging to $x$ and every sequence $\{y_n\}$ such that $y_n \in \varphi(x_n)$ for every $n$, there exists a convergent subsequence of $\{y_n\}$ with limit in $\varphi(x)$.
+</Proposition>
+
+<Proposition>
+for every $x \in X$, every sequence $\{x_n\}$ converging to $x$ and every $y \in \varphi(x)$, there exists a sequence $\{y_n\}$ converging to $y$ such that $y_n \in \varphi(x_n)$ for every $n$.
+</Proposition>
+
+<Theorem>
+1. if $\varphi$ satisfies **proposition 1** (sequential characterization), then $\varphi$ is uhc.
+2. if $\varphi$ is uhc and compact-valued, then $\varphi$ satisfies **proposition 1**.
+</Theorem>
+
+<Theorem>
+$\varphi$ satisfies **proposition 2** if and only if $\varphi$ satisfies lhc.
+</Theorem>
+
+<Corollary>
+if $\varphi : X \rightrightarrows Y$ is uhc and compact-valued and $K \subseteq X$ is compact, then $\displaystyle \varphi(K) := \bigcup_{x \in K} \varphi (x)$ is compact.
+</Corollary>
+
+<Remark>
+a subset $S$ of a metric space is *compact* if and only if every sequence $S$ has a subsequence that converges to a point in $S$.
+</Remark>
+
+<Theorem title="the maximum">
+let $T$ and $X$ be euclidean sets. let $\varphi : T \rightrightarrows X$ and $f : X \times T \to \mathbb{R}$. for every $t \in T$, consider the problem
+$$
+\max_{x \in \varphi(t)} f(x, t).
+$$
+define $\displaystyle \mu (t) = \argmax_{x \in \varphi(t)} f(x, t)$. suppose that $\mu(t) \neq \emptyset$ for every $t$.
+
+we can define a function $g : T \to \mathbb{R}$ as $g(t) = f(x, t)$ for some $x \in \mu(t)$.
+
+if $\varphi$ is compact-valued, uhc and lhc and if $f$ is continuous, then
+
+1. $\mu : T \rightrightarrows X$ is compact-valued and uhc, and
+2. $g : T \to \mathbb{R}$ is continuous.
+</Theorem>
+
+## convexity
+
+<Definition title="convex set">
+a non-empty set $S \subseteq \mathbb{R}^m$ is *convex* if, for every $x, x' \in S$ and every $t \in [0, 1]$, $tx + (1 - t)x' \in S$.
+</Definition>
+
+<Definition title="convex combination">
+a *convex combination* of vectors $x_1, \dots, x_n$ is a vector of the form $\displaystyle \sum_{i = 1}^n \alpha_i x_i$ where $\alpha_1, \dots, \alpha_n$ are non-negative numbers which add up to 1.
+</Definition>
+
+<Theorem>
+$S \subseteq \mathbb{R}^m$ is convex if and only if $S = \tilde{S}$ where
+$$
+\tilde{S} := \left\{ \sum_{i = 1}^n \alpha_i x_i : n \in \mathbb{N},\ x_i \in S,\ \alpha_i \geq 0,\ \forall i,\ \sum_{i = 1}^n \alpha_i = 1 \right\};
+$$
+i.e., if and only if it contains all convex combinations of its elements.
+</Theorem>
+
+<Proposition>
+* arbitrary intersections of convex sets are convex.
+* $S + T := \{ s + t : s \in S, t \in T\}$ is convex if $S$ and $T$ are convex.
+* for every scalar $\lambda \geq 0$, $\lambda S := \{\lambda s : s \in S\}$ is convex if $S$ is convex.
+* the closure and interior of a convex set are convex using the euclidean metric.
+</Proposition>
+
+<Definition title="convex hull">
+the *convex hull* of a set $S \subseteq \mathbb{R}^m$ is the "smallest" convex superset of $S$. namely,
+$$
+\text{conv} S := \bigcap \left\{ G \subseteq \mathbb{R}^m : S \subseteq G \wedge G\ \text{is convex} \right\}.
+$$
+</Definition>
+
+<Proposition>
+$\text{conv} S$ is convex and $S \subseteq \text{conv} S$.
+</Proposition>
+
+<Theorem>
+$\text{conv} S = \tilde{S}$
+</Theorem>
+
+<Proposition>
+$S$ is convex if and only if $\text{conv} S \subseteq S$.
+</Proposition>
+
+<Theorem title="carathéodory">
+let $S \subseteq \mathbb{R}^m$ be non-empty. if $x \in \text{conv} S$, then $x$ can be written as a convex combination of no more than $m + 1$ members of $S$, i.e., there exists $x_1, x_2, \dots, x_{m+1} \in S$ and $\alpha_1, \alpha_2, \dots, \alpha_{m+1} \geq 0$ with $\displaystyle \sum_{i = 1}^{m + 1} \alpha_i = 1$ such that $\displaystyle x = \sum_{i = 1}^{m + 1} \alpha_i x_i$.
+</Theorem>
+
+<Proposition>
+* $\displaystyle \text{conv} \left( \sum_{i = 1}^n S_i \right) = \sum_{i = 1}^n \text{conv} S_i$.
+* if $A \subset \mathbb{R}^m$ is open, then $\text{conv} A$ is open.
+* the convex hull of a closed set in $\mathbb{R}^m$ need not be closed. but if $K \subset \mathbb{R}^m$ is compact, then $\text{conv} K$ is compact.
+</Proposition>
+
+<Theorem title="shapley-folkman">
+let $S_i \subseteq \mathbb{R}^m$ for every $i = 1, \dots, n$, and let $\displaystyle x \in \text{conv} \sum_{i = 1}^n S_i$. then there exists $x_1, \dots, x_n$ such that
+
+1. $x_i \in \text{conv} S_i$ for every $i$,
+2. $\displaystyle x = \sum_{i = 1}^n x_i$, and
+3. $\# \{i : x_i \notin S_i\} \leq m$.
+</Theorem>
+
+<Remark>
+if $x \in \mathbb{R}^m$ can be written as $\displaystyle x = \sum_{i = 1}^k \alpha_i x_i$ where $\alpha_1, \dots, \alpha_k \in \mathbb{R}_+$, $x_1, \dots, x_k \in \mathbb{R}^m$ and, if $k > m$, then there exist $\beta_1, \dots, \beta_k \in \mathbb{R}_+$ with $\# \{i : \beta_i > 0\} \leq m$ such that $\displaystyle x = \sum_{i = 1}^k \beta_i x_i$.
+
+> scalars $\alpha_i$ and $\beta_i$ do not need to add up to 1.
+</Remark>
+
+<Definition title="hyperplane">
+fix $p \in \mathbb{R}^m$ and $\alpha \in \mathbb{R}$. the *hyperplane* formed by $p$ and $\alpha$ is
+$$
+H(p; \alpha) := \left\{ x \in \mathbb{R}^m : p \cdot x = \alpha \right\}
+$$
+where $p$ is called the *normal vector* of $H(p; \alpha)$.
+</Definition>
+
+<Theorem title="minkowski">
+let $S \subseteq \mathbb{R}^m$ be non-empty, convex and closed, and let $\bar{x} \notin S$. there exists $p \in \mathbb{R}^m \setminus \{0\}$ and $x_0 \in S$ such that $p \cdot \bar{x} > p \cdot x_0 \geq p \cdot x$ for every $x \in S$.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^m$ is non-empty and convex, and that $x_n$ is a sequence in $\mathbb{R}^m\setminus \overline{S}$. if $x_n \to \bar{x}$, then there exists $p \in \mathbb{R}^m \setminus \{0\}$ such that, for every $x \in S$, $p \cdot x \leq p \cdot \bar{x}$.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^m$ is non-empty and convex. if $\bar{x} \in \partial S$, then there exists $p \in \mathbb{R}^m \setminus \{0\}$ such that $p \cdot \bar{x} \geq p \cdot x$ for every $x \in S$.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^m$ is a non-empty and convex set, and let $\bar{x} \notin S$. then there exists $p \in \mathbb{R}^m \setminus \{0\}$ such that $p \cdot x \leq p \cdot \bar{x}$ for every $x \in S$.
+</Theorem>
+
+<Theorem>
+let $S$ and $T$ be disjoint and convex subsets of $\mathbb{R}^m$. there exists $p \in \mathbb{R}^m \setminus \{0\}$ such that $p \cdot s \leq p \cdot t$ for every $(s, t) \in S \times T$.
+</Theorem>
+
+<Definition title="convex function">
+let $S \subseteq \mathbb{R}^n$ be convex. a function $f : S \to \mathbb{R}$ is *convex* if $f(tx + (1 - t)y) \leq tf(x) + (1 - t)f(y)$, $\forall x, y \in S$, $t \in [0, 1]$. similarly, $f$ is said to be *strictly convex* if $f(tx + (1 - t)y) < tf(x) + (1 - t)f(y)$, $\forall x, y \in S$, $t \in (0, 1)$.
+</Definition>
+
+<Definition title="concave function">
+let $S \subseteq \mathbb{R}^n$ be convex. a function $f : S \to \mathbb{R}$ is *concave* if $f(tx + (1 - t)y) \geq tf(x) + (1 - t)f(y)$, $\forall x, y \in S$, $t \in [0, 1]$. similarly, $f$ is said to be *strictly concave* if $f(tx + (1 - t)y) > tf(x) + (1 - t)f(y)$, $\forall x, y \in S$, $t \in (0, 1)$.
+</Definition>
+
+<Definition title="subgradient">
+suppose $S \subseteq \mathbb{R}^n$ is convex and $f : S \to \mathbb{R}$. a vector $p \in \mathbb{R}^n$ is a *subgradient* for $f$ at $x \in S$ if
+$$
+f(y) \geq f(x) + p \cdot (x - y),
+$$
+for all $y \in S$.
+</Definition>
+
+<Definition title="supergradient">
+suppose $S \subseteq \mathbb{R}^n$ is convex and $f : S \to \mathbb{R}$. a vector $p \in \mathbb{R}^n$ is a *supergradient* for $f$ at $x \in S$ if
+$$
+f(y) \leq f(x) + p \cdot (x - y),
+$$
+for all $y \in S$.
+</Definition>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^n$ is convex and $f : S \to \mathbb{R}$. if $f$ has a subgradient at every $x \in S$, then $f$ is convex.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^n$ is convex, $f : S \to \mathbb{R}$ is convex, and $x \in \text{int}(S)$. then $f$ is continuous at $x$.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^n$ is convex, $f : S \to \mathbb{R}$ is convex, and $x \in \text{int}(S)$. then $f$ has a subgradient at $x$.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^n$ is convex, $f : S \to \mathbb{R}$ is convex, $x \in \text{int}(S)$, and $f$ is differentiable at $x$. then $\nabla f(x)$ is the unique subgradient of $f$ at $x$.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^n$ is convex and $f : S \to \mathbb{R}$. if $p_1$ is a subgradient of $f$ at $x_1$ and $p_2$ is a subgradient of $f$ at $x_2$, then $(p_1 - p_2) \cdot (x_1 - x_2) \geq 0$.
+</Theorem>
+
+<Theorem>
+suppose that $S \subseteq \mathbb{R}^n$ is open and convex, and $f : S \to \mathbb{R}$ is differentiable and convex. then $\left(\nabla f(x_1) - \nabla f(x_2)\right) \cdot (x_1 - x_2) \geq 0$.
+</Theorem>
+
+## support functions
+
+### maximization
+
+<Definition title="barrier cone">
+for any non-empty $S \subseteq \mathbb{R}^n$, the *barrier cone* of $S$ is defined as
+$$
+b(S) := \left\{ p \in \mathbb{R}^n : \max_{x \in S}\ \text{is well-defined} \right\}.
+$$
+</Definition>
+
+<Definition title="support function">
+for any non-empty $S \subseteq \mathbb{R}^n$, the *support function* of $S$ is a function $\sigma_S : b(S) \to \mathbb{R}$ such that
+$$
+\sigma_S (p) := \max_{x \in S} p \cdot x.
+$$
+</Definition>
+
+<Remark>
+if $p \in b(S)$ and $\lambda \in \mathbb{R}_+$, then $\lambda p \in b(S)$ as well. hence $b(S)$ is a *cone* and, in particular, $0 \in b(S)$.
+</Remark>
+
+<Proposition>
+$b(S)$ need not be convex even if $S$ is.
+</Proposition>
+
+<Theorem>
+let $S \subseteq \mathbb{R}^n$ be non-empty.
+
+* if $x_1$ solves $\displaystyle \max_{x \in S} p_1 \cdot x$ and $x_2$ solves $\displaystyle \max_{x \in S} p_2 \cdot x$, then $(x_1 - x_2)\cdot(p_1 - p_2) \geq 0$. this is known as monotonicity of solutions.
+* $\sigma_S(tp) = t\sigma_S(p)$ for every $p \in b(S)$ and $t \geq 0$. namely,  homogeneity of degree 1.
+* if $b(S)$ is convex, then $\sigma_S$ is convex.
+* suppose $S \subseteq \mathbb{R}^n$ is closed and convex, and $p \in b(S)$. $x_p$ solves $\displaystyle \max_{x \in S} p \cdot x$ if and only if $x_p$ is a subgradient of $\sigma_S$ at $p$.
+* suppose $S \subseteq \mathbb{R}^n$ is closed and convex, $p \in \text{int}(b(S))$ and $\sigma_S$ is differentiable at $p$. then $x_p$ solves $\displaystyle \max_{x \in S} p \cdot x$ if and only if $x_p = \nabla \sigma_S (p)$. also known as **hotelling's lemma** in profit maximization.
+</Theorem>
+
+### minimization
+
+<Definition title="barrier cone">
+for any non-empty $S \subseteq \mathbb{R}^n$, the *barrier cone* of $S$ is defined as
+$$
+b^-(S) := \left\{ p \in \mathbb{R}^n : \min_{x \in S}\ \text{is well-defined} \right\}.
+$$
+</Definition>
+
+<Definition title="support function">
+for any non-empty $S \subseteq \mathbb{R}^n$, the *support function* of $S$ is a function $\tau_S : b^-(S) \to \mathbb{R}$ such that
+$$
+\tau_S (p) := \min_{x \in S} p \cdot x.
+$$
+</Definition>
+
+<Remark>
+note that $b^-(S) = -b(S) = \left\{ p \in \mathbb{R}^n : -p \in b(S) \right\}$. furthermore, $\tau_S (p) = -\sigma_S (-p)$.
+</Remark>
+
+<Theorem>
+let $S \subseteq \mathbb{R}^n$ be non-empty.
+
+* if $x_1$ solves $\displaystyle \min_{x \in S} p_1 \cdot x$ and $x_2$ solves $\displaystyle \min_{x \in S} p_2 \cdot x$, then $(x_1 - x_2)\cdot(p_1 - p_2) \leq 0$. this is known as monotonicity of solutions.
+* $\tau_S(tp) = t\tau_S(p)$ for every $p \in b^-(S)$ and $t \geq 0$. namely,  homogeneity of degree 1.
+* if $b^-(S)$ is convex, then $\tau_S$ is concave.
+* suppose $S \subseteq \mathbb{R}^n$ is closed and convex, and $p \in b^-(S)$. $x_p$ solves $\displaystyle \min_{x \in S} p \cdot x$ if and only if $x_p$ is a supergradient of $\tau_S$ at $p$.
+* suppose $S \subseteq \mathbb{R}^n$ is closed and convex, $p \in \text{int}(b^-(S))$ and $\tau_S$ is differentiable at $p$. then $x_p$ solves $\displaystyle \min_{x \in S} p \cdot x$ if and only if $x_p = \nabla \tau_S (p)$. also known as **shephard's lemma** in cost minimization.
+</Theorem>
+
+## nonlinear programming
+
+### minimization problems
+
+<Definition title="nonlinear programming problem">
+let $f : \mathbb{R}^n \to \mathbb{R}$, $g_1 : \mathbb{R}^n \to \mathbb{R}$, . . . , $g_m : \mathbb{R}^n \to \mathbb{R}$ be differentiable functions. the *nlp problem* is
+
+$$
+\begin{align}
+\min_{x \in \mathbb{R}^n} \quad & f(x) \\
+\text{subject to} \quad & g_1(x) \geq 0, \\
+& \quad \vdots \\
+& g_m(x) \geq 0.
+\end{align}
+$$
+</Definition>
+
+#### kuhn-tucker necessity conditions
+
+<Definition title="kuhn-tucker pair for nlp">
+a pair $\left(\bar{x}, \bar{\lambda}\right) \in \mathbb{R}^{n + m}$ is a *kuhn-tucker pair for nlp* if
+
+1. $g_i\left(\bar{x}\right) \geq 0$ for all $i = 1, \dots, m$,
+2. $\bar{\lambda}_i \geq 0$ for all $i = 1, \dots, m$,
+3. $\displaystyle \nabla f\left(\bar{x}\right) = \sum_{i = 1}^m \nabla g_i\left(\bar{x}\right)\bar{\lambda}_i$, and
+4. $\bar{\lambda}_i g_i\left(\bar{x}\right) = 0$ for all $i = 1, \dots, m$.
+
+we will say that $\bar{x}$ satisfies the kuhn-tucker conditions for nlp if there exists some $\bar{\lambda}$ such that $\left( \bar{x}, \bar{\lambda} \right)$ is a kuhn-tucker pair for nlp.
+</Definition>
+
+<Definition title="active constraints">
+for any $x \in \mathbb{R}^n$, let $I(x) = \left\{ i = 1, \dots, m : g_i(x) = 0 \right\}$. hence $I(x)$ is the set of *active constraints* at $x$.
+</Definition>
+
+<Lemma>
+suppose that $\left( \bar{x}, \bar{\lambda} \right)$ is a kuhn-tucker pair for nlp. if $I\left(\bar{x}\right) = \emptyset$, then $\nabla f\left(\bar{x}\right) = 0$. if $I\left(\bar{x}\right) \neq \emptyset$, then $\displaystyle \nabla f\left(\bar{x}\right) = \sum_{i = 1}^m \nabla g_i\left(\bar{x}\right)\bar{\lambda}_i$.
+</Lemma>
+
+<Lemma>
+suppose that
+
+1. $g_i\left(\bar{x}\right) \geq 0$ for all $i = 1, \dots, m$, and
+2. $\left\{ \bar{\mu}_i \right\}_{i \in I\left(\bar{x}\right)}$ is a collection of non-negative numbers satisfying $\displaystyle \nabla f\left(\bar{x}\right) = \sum_{i \in I\left(\bar{x}\right)} \nabla g_i\left(\bar{x}\right)\bar{\mu}_i$.
+
+if $\bar{\lambda}_i = \bar{\mu}_i$ for all $i \in I\left(\bar{x}\right)$ and $\bar{\lambda}_i = 0$ for all $i \notin I\left(\bar{x}\right)$, then $\left( \bar{x}, \bar{\lambda} \right)$ is a kuhn-tucker pair for nlp.
+</Lemma>
+
+<Definition title="linear programming problem">
+for $a_1, \dots, a_m, c \in \mathbb{R}^n$ and $b_1, \dots, b_m \in \mathbb{R}$, consider the following *lp problem*:
+
+$$
+\begin{align}
+\min_{x \in \mathbb{R}^n} \quad & c \cdot x \\
+\text{subject to} \quad & a_1 \cdot x \geq b_1, \\
+& \qquad \vdots \\
+& a_m \cdot x \geq b_m.
+\end{align}
+$$
+lp is a special case of nlp where $f(x) = c \cdot x$ and $g_i(x) = a_i \cdot x - b_i$.
+</Definition>
+
+<Definition title="kuhn-tucker pair for lp">
+a pair $\left(\bar{x}, \bar{\lambda}\right) \in \mathbb{R}^{n + m}$ is a *kuhn-tucker pair for lp* if
+
+1. $a_i \cdot \bar{x} \geq b_i$ for all $i = 1, \dots, m$,
+2. $\bar{\lambda}_i \geq 0$ for all $i = 1, \dots, m$,
+3. $\displaystyle c = \sum_{i = 1}^m a_i\bar{\lambda}_i$, and
+4. $\bar{\lambda}_i \left( a_i \cdot \bar{x} - b_i \right) = 0$ for all $i = 1, \dots, m$.
+</Definition>
+
+<Theorem>
+suppose that $A = \left[ a_1 \mid \cdots \mid a_m \right]$ and $a_i \in \mathbb{R}^n$ for all $i = 1, \dots, m$. then the set
+
+$$
+\text{pos} A := \left\{ Au : u \in \mathbb{R}^m_+ \right\}
+$$
+
+is a non-empty, closed and convex cone.
+</Theorem>
+
+<Theorem>
+if $\bar{x}$ solves the lp problem, then there exists some $\bar{\lambda}$ such that $\left(\bar{x}, \bar{\lambda}\right) \in \mathbb{R}^{n + m}$ is a kuhn-tucker pair for lp.
+</Theorem>
+
+<Definition title="general constraint qualification">
+a solution $\bar{x}$ to the nlp problem satisfies the *general constraint qualification (gcq) condition* if it solves the following lp problem:
+
+$$
+\begin{align}
+\min_{x \in \mathbb{R}^n} \quad & \nabla f\left(\bar{x}\right) \cdot x \\
+\text{subject to} \quad & g_i\left(\bar{x}\right) + \nabla g_i\left(\bar{x}\right) \cdot \left(x - \bar{x}\right) \geq 0,\ \forall i = 1, \dots, m.
+\end{align}
+$$
+</Definition>
+
+<Theorem>
+if $\bar{x}$ solves the nlp problem and satisfies the gcq condition, then it satisfies the kt conditions for nlp.
+</Theorem>
+
+<Definition title="cottle constraint qualification">
+a solution $\bar{x}$ to the nlp problem satisfies the *cottle constraint qualification (ccq) condition* if there exists some $z \in \mathbb{R}^n$ such that $\nabla g_i \left(\bar{x}\right) \cdot z > 0$ for all $i \in I\left(\bar{x}\right)$.
+</Definition>
+
+<Theorem>
+suppose $\bar{x}$ solves the nlp problem. if $\bar{x}$ satisfies the ccq condition, then it satisfies the gcq condition.
+</Theorem>
+
+<Definition title="linear independence constraint qualification">
+a solution $\bar{x}$ to the nlp problem satisfies the *linear independence constraint qualification (licq) condition* is the collection $\left\{ \nabla g_i \left(\bar{x}\right) \right\}_{i \in I\left(\bar{x}\right)}$ is linearly independent.
+</Definition>
+
+<Theorem>
+suppose $\bar{x}$ solves the nlp problem. if $\bar{x}$ satisfies the licq condition, then it satisfies the ccq condition.
+</Theorem>
+
+<Corollary>
+suppose $\bar{x}$ solves the nlp problem. if $\bar{x}$ satisfies the licq condition, then it satisfies the kt conditions for nlp.
+</Corollary>
+
+#### kuhn-tucker sufficiency conditions
+
+<Theorem>
+let $f : \mathbb{R}^n \to \mathbb{R}$ be differentiable. then
+
+1. $f$ is convex if and only if $f(y) - f(x) \geq \nabla f(x) \cdot (y - x)$, and
+2. $f$ is concave if and only if $f(y) - f(x) \leq \nabla f(x) \cdot (y - x)$,
+
+for every $x$ and $y$.
+</Theorem>
+
+<Theorem>
+suppose $\bar{x} \in \mathbb{R}^n$ satisfies the kt conditions for nlp. if $f$ is convex and each $g_i$ is concave, then $\bar{x}$ solves the nlp problem.
+</Theorem>
+
+<Definition title="quasi-convex / quasi-concave">
+a function $f : \mathbb{R}^n \to \mathbb{R}$ is *quasi-convex / quasi-concave* if the lower-contour set $\left\{ x \in \mathbb{R}^n : f(x) \leq \alpha \right\}$ / the upper-contour set $\left\{ x \in \mathbb{R}^n : f(x) \geq \alpha \right\}$ is convex for every $\alpha \in \mathbb{R}$.
+</Definition>
+
+<Theorem>
+let $f : \mathbb{R}^n \to \mathbb{R}$ be differentiable. then
+
+1. $f$ is quasi-concave if and only if $f(y) - f(x) \geq 0 \implies \nabla f(x) \cdot (y - x) \geq 0$, and
+2. $f$ is quasi-convex if and only if $f(y) - f(x) \leq 0 \implies \nabla f(x) \cdot (y - x) \leq 0$,
+
+for every $x$ and $y$.
+</Theorem>
+
+<Definition title="pseudo-convex / pseudo-concave">
+a differentiable function $f : \mathbb{R}^n \to \mathbb{R}$ is *pseudo-convex* if, for every $x$ and $y$, $\nabla f(x) \cdot (y - x) \geq 0$ implies $f(y) - f(x) \geq 0$. a differentiable function $f : \mathbb{R}^n \to \mathbb{R}$ is *pseudo-concave* if, for every $x$ and $y$, $\nabla f(x) \cdot (y - x) \leq 0$ implies $f(y) - f(x) \leq 0$.
+</Definition>
+
+<Theorem>
+suppose $\left(\bar{x}, \bar{\lambda}\right)$ is a kt pair for nlp. if $f$ is pseudo-convex and every $g_i$ is quasi-concave, then $x$ solves the nlp problem.
+</Theorem>
+
+<Theorem>
+suppose $\bar{x}$ solves the nlp. if each $g_i$ is concave and if there exists $x^*$ such that $g_i(x^*) > 0$ for all $i$, then $\bar{x}$ satisfies the ccq condition.
+</Theorem>
+
+<Remark>
+for a nlp problem with concave constraints, the existence of an $x^*$ such that $g_i(x^*) > 0$ for all $i$ is called the *slater constraint qualification* condition.
+</Remark>
+
+#### comparative statics
+
+<Remark>
+consider the problem $\displaystyle \min_{x \in \mathbb{R}^n} F(x, \alpha)$ subject to $G_i (x, \alpha) \geq 0$ for all $i = 1, \dots, m$, where $\alpha \in \mathbb{R}^p$ and all functions are differentiable. call this problem $P_\alpha$. let $v(\alpha)$ be the value of $P_\alpha$.
+</Remark>
+
+<Definition title="regular solution">
+a vector $\bar{x} \in \mathbb{R}^n$ is a *regular solution to $P_{\bar{\alpha}}$* if there exist $\varepsilon > 0$ and $\hat{x} : B_\varepsilon (\bar{\alpha}) \to \mathbb{R}^n$ such that
+
+1. $\bar{x}$ satisfies the kt conditions,
+2. $\hat{x} (\alpha)$ solves the problem $P_\alpha$ for every $\alpha \in B_\varepsilon (\bar{\alpha})$ and $\hat{x}(\bar{\alpha}) = \bar{x}$,
+3. $I(\hat{x}(\alpha)) = I(\bar{x})$ for all $\alpha \in B_\varepsilon (\bar{\alpha})$, and
+4. $\hat{x}$ is differentiable at $\bar{\alpha}$.
+</Definition>
+
+<Theorem>
+suppose that $\bar{x}$ is a regular solution to $P_{\bar{\alpha}}$ with associated multiplier vector $\bar{\lambda}$. then
+
+$$
+\nabla v (\bar{\alpha}) = \nabla_\alpha F (\bar{x}, \bar{\alpha}) - \sum_{i = 1}^m \bar{\lambda}_i \nabla_\alpha G_i (\bar{x}, \bar{\alpha}).
+$$
+</Theorem>
+
+<Remark>
+suppose that $\bar{x}$ is a regular solution to $P_{\bar{\alpha}}$ with associated multiplier vector $\bar{\lambda}$. if $m = 0$, then $\nabla v(\bar{\alpha}) = \nabla_\alpha F(\bar{x}, \bar{\alpha})$. if $p = m$, $G_i (x, \alpha) = g_i(x) - \alpha_i$, and $F(x, \alpha) = f(x)$, then $\nabla v(\bar{\alpha}) = \bar{\lambda}$.
+</Remark>
+
+### maximization problems
+
+<Remark>
+consider the problem $\max f(x)$ subject to $g_i (x) \leq 0$ for all $i = 1, \dots, m$ where all function are differentiable. let $I(x) = \left\{ i : g_i(x) = 0 \right\}$.
+</Remark>
+
+<Theorem>
+if $\bar{x}$ solves the maximization problem above and $\displaystyle \left\{\nabla g_i (\bar{x})\right\}_{i \in I(\bar{x})}$ is a linearly independent set, then there exists $\bar{\lambda} \in \mathbb{R}^m_+$ such that $\displaystyle \nabla f(\bar{x}) = \sum_{i=1}^m \bar{\lambda}_i \nabla g_i (\bar{x})$ and $\bar{\lambda}_i g_i (\bar{x}) = 0$ for all $i$.
+</Theorem>
+
+<Theorem>
+suppose that
+
+1. $g_i(\bar{x}) \leq 0$ for all $i = 1, \dots, m$,
+2. there exists a set $\displaystyle \left\{\bar{\lambda}_i\right\}_{i \in I(\bar{x})}$ of positive numbers such that $\displaystyle \nabla f(\bar{x}) = \sum_{i\in I(\bar{x})} \bar{\lambda}_i \nabla g_i (\bar{x})$,
+3. $f$ is pseudo-concave, and
+4. each $g_i$ is quasi-convex.
+
+then $\bar{x}$ solves the maximization problem above.
+</Theorem>
+
+### consumer theory
+
+#### utility maximization
+
+consider the following utility maximization problem
+
+$$
+\begin{align}
+\max_{x \in \mathbb{R}^n} \quad & u(x) \\
+\text{subject to} \quad & p \cdot x \leq y, \\
+& x \geq 0.
+\end{align}
+$$
+
+the kt conditions are
+
+$$
+\begin{array}{ccc}
+\nabla u(x) \leq \lambda p & x \geq 0 & \left[ \nabla u(x) - \lambda p \right] \cdot x = 0 \\
+p \cdot x \leq y & \lambda \geq 0 & \left( p \cdot x - y \right) \lambda = 0
+\end{array}
+$$
+
+<Remark>
+$\lambda$ is interpreted as the *marginal utility of income*. call the solutions $x(p,y)$ the *demand functions* and $v(p,y) := u(x(p,y))$ the *indirect utility function*.
+</Remark>
+
+<Definition title="indirect utility function properties">
+1. zero degree homogeneity.
+2. $v$ is non-decreasing in $y$, and non-increasing in $p$.
+3. $v$ is quasi-convex in $(p,y)$.
+</Definition>
+
+#### expenditure minimization
+
+consider the following expenditure minimization problem
+
+$$
+\begin{align}
+\min_{x \in \mathbb{R}^n} \quad & p \cdot x \\
+\text{subject to} \quad & u(x) \geq \bar{u}, \\
+& x \geq 0.
+\end{align}
+$$
+
+<Remark>
+let $h(p, \bar{u})$ be the solution and $e(p,\bar{u}) := p \cdot h(p, \bar{u})$. the *expenditure function* $e$ is mathematically identical to the cost function.
+</Remark>
+
+<Definition title="expenditure function properties">
+1. $e(\cdot, \bar{u})$ is 1-homogeneous.
+2. $e(\cdot, \bar{u})$ is non-decreasing.
+3. $e(\cdot, \bar{u})$ is concave.
+4. by shephard's lemma, $\displaystyle \frac{\partial e}{\partial p_i} = h_i (p, \bar{u})$.
+</Definition>
+
+<Theorem title="roy's identity">
+$$
+x_i(p,y) = -\frac{\displaystyle \frac{\partial v}{\partial p_i}}{\displaystyle \frac{\partial v}{\partial y}}.
+$$
+</Theorem>
+
+<Definition title="relationships between utility maximization and expenditure minimization">
+1. $h(p,v(p,y)) = x(p,y)$
+2. $x(p,e(p,\bar{u})) = h(p,\bar{u})$
+3. $e(p,v(p,y)) = y$
+4. $v(p,e(p,\bar{u})) = \bar{u}$
+</Definition>
+
+<Theorem title="slutsky equation">
+$$
+\frac{\partial x_i}{\partial p_j} (p,y) = \frac{\partial h_i}{\partial p_j} (p,v(p,y)) - x_j \frac{\partial x_i}{\partial y} (p,y),\ \forall i \neq j.
+$$
+</Theorem>
+
+## preferences and utility representation
+
+### binary relations
+
+<Definition title="binary relation">
+let $X$ be a set and $X^2 = \left\{(x, y) : x, y \in X\right\}$. a *binary relation* on $X$ is any subset of $X^2$. we will typically denote binary relations by $P$, $R$, $I$ or $\succ$, $\succsim$, $\sim$.
+
+> let $P$ be a binary relation. instead of $(x, y) \in P$, we write $xPy$. similarly, instead of $(x, y) \notin P$, we write $x \not P y$.
+</Definition>
+
+<Definition title="strict preference">
+let $P$ be a binary relation. suppose we would like $xPy$ to mean $x$ is *strictly better* that $y$. here are some properties which we might like to impose on $P$.
+
+* *irreflexivity*: $xPx$ for no $x \in X$.
+* *asymmetry*: for any $x, y \in X$, if $xPy$, then $y \not P x$.
+* *acyclicity*: for every $n$ and for every $x_1, \dots, x_n \in X$, if $x_i P x_{i+1}$ for every $i < n$, then $x_n \not P x_1$.
+* *transitivity*: if $xPy$ and $yPz$, then $xPz$.
+* *negative transitivity*: if $xPy$ and $z \in X$, then either $xPz$ or $zPy$.
+* *connectedness*: if $x \neq y$, then either $xPy$ or $yPx$.
+</Definition>
+
+<Remark>
+* $P$ is a (strict) *linear order* if it is connected, asymmetric and negatively transitive.
+* $P$ is a (strict) *weak order* if it is asymmetric and negatively transitive.
+* $P$ is a (strict) *partial order* if it is irreflexive and transitive.
+</Remark>
+
+<Definition title="weak preference">
+let $R$ be a binary relation. suppose we would like $xRy$ to mean $x$ is *at least as good as* $y$. here are some properties which we might like to impose on $R$.
+
+* *reflexivity*: $xRx$ for all $x \in X$.
+* *completeness*: for all $x, y \in X$, $xRy$ or $yRx$.
+* *transitivity*: if $xRy$ and $yRz$, then $xRz$.
+* *antisymmetry*: if $xRy$ and $yRx$, then $x = y$.
+</Definition>
+
+<Remark>
+* $P$ is a (weak) *linear order* if it is antisymmetric, complete and transitive.
+* $P$ is a (weak) *weak order* if it is complete and transitive.
+* $P$ is a (weak) *partial order* if it is reflexive and transitive.
+</Remark>
+
+<Definition title="indifference">
+let $I$ be a binary relation. suppose we would like $xIy$ to mean that $x$ and $y$ are *equally good*. here are some properties which we might like to impose on $I$.
+
+* *reflexivity*: $xIx$ for all $x \in X$.
+* *symmetry*: if $xIy$, then $yIx$.
+* *transitivity*: if $xIy$ and $yIz$, then $xIz$.
+</Definition>
+
+<Remark>
+call $I$ an *equivalence* class if it is reflexive, symmetric and transitive.
+</Remark>
+
+<Proposition>
+suppose that $P$ is a (strict) weak order and that binary relations $R$ and $I$ are defined, using $P$, as follows
+
+$$
+\begin{align}
+xRy && \iff && y \not P x \\
+xIy && \iff && x \not P y && \land && y \not P x
+\end{align}
+$$
+
+then $R$ is a (weak) weak order and $I$ is an equivalence class. if, in particular, $P$ is a (strict) linear order, then $R$ is a (weak) linear order.
+</Proposition>
+
+<Proposition>
+suppose that $R$ is a (weak) weak order and that binary relations $P$ and $I$ are defined, using $R$, as follows
+
+$$
+\begin{align}
+xPy && \iff && xRy && \land && y \not R x \\
+xIy && \iff && xRy && \land && yRx
+\end{align}
+$$
+
+then $P$ is a (strict) weak order and $I$ is an equivalence class. if, in particular, $R$ is a (weak) linear order, then $P$ is a (strict) linear order.
+</Proposition>
+
+### preference maximization
+
+<Definition title="menu">
+let $2^X = \left\{ A \subseteq X : A \neq \emptyset \right\}$. any member of $2^X$ is a *menu*.
+</Definition>
+
+<Remark>
+for any binary relation $T$ and any menu $A$, let
+$$
+\begin{align}
+m(A,T) &= \left\{ x \in A : yTx,\ \text{for no}\ y \in A \right\}, \\
+M(A,T) &= \left\{ x \in A : xTy,\ \forall y \in A \right\}.
+\end{align}
+$$
+in general, these sets may be empty and they need not to coincide.
+</Remark>
+
+<Proposition>
+suppose $X$ is finite. $P$ is acyclic if and only if $m(A,P) \neq \emptyset$ for all $A$.
+</Proposition>
+
+<Proposition>
+suppose $R$ is a (weak) weak order and define $P$ using $R$ as follows:
+$$
+xPy \iff xRy \land y \not R x.
+$$
+then $m(A,P) = M(A,P)$ for all $A$. if $R$ is a (weak) linear order, then $M(A,R)$ is a singleton.
+</Proposition>
+
+<Theorem>
+let $P$ be a binary relation on a countable set $X$. $P$ admits a utility representation if and only if $P$ is a weak order.
+</Theorem>
+
+<Remark>
+in general, there exist weak orders (even linear orders) which do not have utility representations.
+</Remark>
+
+<Theorem>
+let $P$ be a linear order on an arbitrary set $X$. $P$ admits a utility representation if and only if $X$ contains a countable $P$-dense subset.
+</Theorem>
+
+<Theorem>
+a binary relation $P$ on an arbitrary set $X$ admits a utility representation if and only if $P$ is a weak order on $X$ and $X^*$ contains a countable $P^*$-dense subset.
+</Theorem>
+
+<Lemma>
+given $P$, say that the pair $(a,b)$ is a gap if $aPb$ but there exits no $c$ such that $aPc$ and $cPb$. let $G_1 = \left\{ a : (a,b) \right.$ is a gap for some $\left. b \right\}$, $G_2 = \left\{ b : (a,b) \right.$ is a gap for some $\left. a \right\}$ and $G = G_1 \cup G_2$.
+
+suppose $P$ is a linear order on an arbitrary set $X$. $G$ is countable if one of the following two conditions holds:
+
+1. $X$ contains a countable $P$-dense subset.
+2. $P$ admits a utility representation.
+</Lemma>
+
+### a topological approach
+
+<Corollary>
+let $R$ be a complete and transitive binary relation (i.e., a weak order) on $X \subseteq \mathbb{R}^n$. define, as usual, $xPy$ if and only if $xRy$ and $y \not R x$. recall that such $P$ is asymmetric and negatively transitive. endow $X$ with the euclidean metric. we say that $R$ admits a continuous utility representation if there exists a continuous function $u : X \to \mathbb{R}$ such that $xRy$ if and only if $u(x) \geq u(y)$.
+</Corollary>
+
+<Theorem>
+let $X \subseteq \mathbb{R}^n$ be convex and $R$ be a binary relation on $X$. $R$ is a continuous weak order if and only if it admits a continuous utility representation.
+</Theorem>
+
+<Proposition>
+let $e = (1, \dots, 1) \in \mathbb{R}^n$. if $R$ is a strictly monotone weak order and $\alpha$ and $\beta$ are scalars, then
+$$
+\alpha \geq \beta \iff (\alpha e) R (\beta e).
+$$
+</Proposition>
+
+<Theorem>
+suppose $R$ is a strictly monotone and continuous weak order on $X = \mathbb{R}^n$. then $R$ admits a continuous utility representation.
+</Theorem>
