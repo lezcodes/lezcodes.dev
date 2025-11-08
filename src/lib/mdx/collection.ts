@@ -39,11 +39,13 @@ export function getCollectionItems<T extends ContentItem = ContentItem>(
   const config = COLLECTION_CONFIG[collectionType];
   const fileNames = listMdxFiles(config.directory);
 
-  const items = fileNames.map((fileName) => {
-    const slug = extractSlug(fileName);
-    const fullPath = path.join(config.directory, fileName);
-    return readContentItem(fullPath, slug) as T;
-  });
+  const items = fileNames
+    .map((fileName) => {
+      const slug = extractSlug(fileName);
+      const fullPath = path.join(config.directory, fileName);
+      return readContentItem(fullPath, slug) as T;
+    })
+    .filter((item) => item.date && item.title); // Filter out items without required frontmatter
 
   return sortByDate(items);
 }
@@ -62,11 +64,11 @@ export function getCollectionItemBySlug<T extends ContentItem = ContentItem>(
 
 /**
  * Generic function to get all slugs from a collection
+ * Only returns slugs for items with valid frontmatter
  */
 export function getCollectionSlugs(collectionType: ContentType): string[] {
-  const config = COLLECTION_CONFIG[collectionType];
-  const fileNames = listMdxFiles(config.directory);
-  return fileNames.map(extractSlug);
+  const items = getCollectionItems(collectionType);
+  return items.map((item) => item.slug);
 }
 
 /**

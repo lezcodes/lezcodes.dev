@@ -299,3 +299,27 @@
   background: rgba(0, 0, 0, 0.03);
   font-weight: 600;
 }
+
+/* Performance optimization for math rendering */
+.article-body .katex-display {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 3rem;
+}
+
+.article-body .theorem-block {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 10rem;
+}
+
+/* Lazy math loading placeholders */
+.article-body .lazy-katex {
+  display: inline-block;
+  min-height: 1.2em;
+  min-width: 2em;
+}
+
+.article-body .lazy-katex[data-display-mode="true"] {
+  display: block;
+  min-height: 2.5em;
+  margin: 1em 0;
+}

@@ -1,7 +1,8 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { MathRenderer } from "@/components/MathRenderer";
 import { TableOfContents } from "@/components/TableOfContents";
 import { YouCanAlso } from "@/components/YouCanAlso";
-import { mdxOptions } from "@/lib/mdx";
+import { mdxComponents, mdxOptions } from "@/lib/mdx";
 import { extractHeadings } from "@/lib/toc";
 
 interface ArticleLayoutProps {
@@ -24,6 +25,7 @@ export function ArticleLayout({
   return (
     <>
       {structuredData}
+      <MathRenderer />
       <article className="article-content">
         <header className="article-header">
           <h1 className="article-title">{title}</h1>
@@ -42,7 +44,11 @@ export function ArticleLayout({
             <TableOfContents headings={headings} />
           </aside>
           <div className="article-body">
-            <MDXRemote source={content} options={mdxOptions} />
+            <MDXRemote
+              source={content}
+              options={mdxOptions}
+              components={mdxComponents}
+            />
           </div>
         </div>
         <YouCanAlso />
