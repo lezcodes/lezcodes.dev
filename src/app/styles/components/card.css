@@ -1,0 +1,57 @@
+/**
+ * Card Component
+ * Styles for content cards on listing pages
+ */
+
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.card {
+  border: none;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: var(--foreground);
+  transition: background-color 0.2s;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  background-color: transparent;
+}
+
+.card:hover {
+  background-color: transparent;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 300;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+  text-decoration: underline;
+  display: inline;
+  transition: background-color 0.2s;
+}
+
+.card:hover .card-title {
+  background-color: hsl(var(--hue), 80%, 70%);
+}
+
+.card-date {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-family: var(--font-geist-mono);
+  font-weight: 200;
+  padding-top: 0.125rem;
+}
+
+.card-excerpt {
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  color: var(--muted);
+  margin-top: 0.25rem;
+  font-weight: 300;
+}

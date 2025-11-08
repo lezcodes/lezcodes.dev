@@ -1,0 +1,35 @@
+/**
+ * Header & Navigation Styles
+ */
+
+.header {
+  padding: 1.5rem 0 1rem 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .logo {
+  font-size: clamp(1.25rem, 3.5vw, 2.3rem);
+  font-weight: 400;
+  color: var(--foreground);
+  text-decoration: none;
+  text-transform: lowercase;
+  letter-spacing: 0;
+  transition: opacity 0.2s;
+  border-bottom: none;
+  background-color: transparent;
+}
+
+/* Highlight logo when hovering anywhere */
+body:hover .header .logo {
+  background-color: hsl(var(--hue), 80%, 70%);
+}
+
+/* Remove highlight when hovering directly over logo */
+body:hover .header .logo:hover {
+  background-color: transparent;
+}

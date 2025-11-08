@@ -1,0 +1,35 @@
+/**
+ * CSS Variables & Theme Configuration
+ * Defines colors, spacing, and other design tokens
+ */
+
+:root {
+  --background: #faf9f5;
+  --foreground: #141413;
+  --muted: #6b6b6b;
+  --border: #c8c8c8;
+  --accent: #635bff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Hue rotation animation for selection highlights */
+@property --hue {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 150;
+}
+
+@keyframes hue-rotate {
+  0% {
+    --hue: 0;
+  }
+  100% {
+    --hue: 360;
+  }
+}

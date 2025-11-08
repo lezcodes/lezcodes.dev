@@ -1,0 +1,55 @@
+/**
+ * Posts List Component
+ * Styles for post listings
+ */
+
+.posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 0;
+  padding: 0.25rem 0;
+}
+
+.posts-list .post-item a {
+  display: contents;
+}
+
+.post-date {
+  display: none;
+}
+
+.post-date::before {
+  content: "■";
+  margin-right: 0.5rem;
+  font-size: 0.5rem;
+}
+
+.post-separator {
+  color: var(--muted);
+  user-select: none;
+  display: none;
+}
+
+.post-title {
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-decoration: underline;
+  transition: background-color 0.2s;
+  background-color: transparent;
+  display: inline;
+  width: max-content;
+  justify-self: start;
+  align-self: center;
+}
+
+.posts-list .post-item a:hover .post-title {
+  background-color: hsl(var(--hue), 80%, 70%);
+}

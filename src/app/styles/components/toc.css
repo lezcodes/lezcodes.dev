@@ -1,0 +1,72 @@
+/**
+ * Table of Contents Component
+ * Sticky sidebar navigation for articles
+ */
+
+.toc {
+  margin-top: 1.5rem;
+  max-height: calc(100vh - 10rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for TOC */
+.toc::-webkit-scrollbar {
+  width: 4px;
+}
+
+.toc::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.toc::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.toc::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+.toc-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-right: 0.5rem;
+}
+
+.toc-item {
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.toc-level-2 {
+  padding-left: 0;
+}
+
+.toc-level-3 {
+  padding-left: 1rem;
+  font-size: 0.875em;
+}
+
+.toc-link {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 300;
+}
+
+.toc-link:hover {
+  color: var(--foreground);
+  background-color: transparent;
+}

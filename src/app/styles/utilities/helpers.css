@@ -1,0 +1,60 @@
+/**
+ * Utility Classes
+ * Reusable utility classes for common patterns
+ */
+
+.mono-content {
+  max-width: 800px;
+}
+
+.mono-section {
+  margin-top: 5rem;
+}
+
+.mono-section h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-transform: lowercase;
+  letter-spacing: -0.01em;
+}
+
+.mono-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mono-post-card {
+  display: block;
+  border: 1px solid var(--border);
+  padding: 2rem;
+  text-decoration: none;
+  color: var(--foreground);
+  transition: all 0.2s;
+  margin-bottom: 1.5rem;
+}
+
+.mono-post-card:hover {
+  border-color: var(--foreground);
+  transform: translateY(-2px);
+}
+
+.mono-post-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.mono-post-date {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.mono-post-excerpt {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
