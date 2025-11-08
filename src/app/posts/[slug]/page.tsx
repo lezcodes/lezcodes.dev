@@ -5,6 +5,7 @@
 
 import { createContentPageHandlers } from "@/lib/pages/content-page-factory";
 import { getAllPostSlugs, getPostBySlug } from "@/lib/posts";
+import { viewport as seoViewport } from "@/lib/seo";
 
 // Create page handlers for posts collection
 const handlers = createContentPageHandlers({
@@ -18,4 +19,5 @@ const handlers = createContentPageHandlers({
 
 export const generateStaticParams = handlers.generateStaticParams;
 export const generateMetadata = handlers.generateMetadata;
+export const viewport = seoViewport;
 export default handlers.PageComponent;

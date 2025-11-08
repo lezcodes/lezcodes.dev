@@ -1,6 +1,8 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { TableOfContents } from "@/components/TableOfContents";
 import { YouCanAlso } from "@/components/YouCanAlso";
 import { mdxOptions } from "@/lib/mdx";
+import { extractHeadings } from "@/lib/toc";
 
 interface ArticleLayoutProps {
   title: string;
@@ -17,6 +19,8 @@ export function ArticleLayout({
   readingTime,
   structuredData,
 }: ArticleLayoutProps) {
+  const headings = extractHeadings(content);
+
   return (
     <>
       {structuredData}
@@ -35,6 +39,7 @@ export function ArticleLayout({
                 </>
               )}
             </div>
+            <TableOfContents headings={headings} />
           </aside>
           <div className="article-body">
             <MDXRemote source={content} options={mdxOptions} />

@@ -5,10 +5,15 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StructuredData } from "@/components/StructuredData";
-import { generatePageMetadata, generatePersonStructuredData } from "@/lib/seo";
+import {
+  generatePageMetadata,
+  generatePersonStructuredData,
+  viewport as seoViewport,
+} from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = generatePageMetadata({});
+export const viewport = seoViewport;
 
 export default function RootLayout({
   children,

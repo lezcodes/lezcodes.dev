@@ -4,7 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { getHomeData } from "@/lib/home";
 import { mdxOptions } from "@/lib/mdx";
 import { getAllPosts } from "@/lib/posts";
-import { generatePageMetadata } from "@/lib/seo";
+import { generatePageMetadata, viewport as seoViewport } from "@/lib/seo";
 import { getAllVaultItems } from "@/lib/vault";
 
 export const metadata: Metadata = generatePageMetadata({
@@ -12,6 +12,8 @@ export const metadata: Metadata = generatePageMetadata({
   description:
     "Hola! I'm lez, ML and software engineer. Economics graduate from ITAM. Currently leading the platform team at Monopolio. Previously at RappiCard and Didi Food.",
 });
+
+export const viewport = seoViewport;
 
 export default function Home() {
   const homeData = getHomeData();

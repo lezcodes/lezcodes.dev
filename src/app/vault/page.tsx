@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ListingPage } from "@/components/ListingPage";
-import { generatePageMetadata } from "@/lib/seo";
+import { generatePageMetadata, viewport as seoViewport } from "@/lib/seo";
 import { getAllVaultItems } from "@/lib/vault";
 
 export const metadata: Metadata = generatePageMetadata({
@@ -9,6 +9,8 @@ export const metadata: Metadata = generatePageMetadata({
     "curated list of favorite reads, links, and anime reviews by carlos lezama (lez).",
   path: "/vault",
 });
+
+export const viewport = seoViewport;
 
 export default function VaultPage() {
   const vaultItems = getAllVaultItems();
