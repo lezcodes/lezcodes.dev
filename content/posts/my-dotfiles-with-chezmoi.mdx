@@ -206,6 +206,67 @@ i use [oh my tmux](https://github.com/gpakosz/.tmux) which is basically a sensib
 
 mostly use tmux for long-running processes and ssh sessions. you know, the usual stuff.
 
+#### karabiner for tmux prefix
+
+the default tmux prefix (`Ctrl+B`) is awkward to hit constantly. i use [karabiner-elements](https://karabiner-elements.pqrs.org/) to remap caps lock to `Ctrl+B`, but only in terminal apps (ghostty and apple terminal).
+
+install karabiner:
+
+```bash
+brew install --cask karabiner-elements
+```
+
+add this to your karabiner config at `~/.config/karabiner/karabiner.json`:
+
+```json
+{
+  "global": { "show_in_menu_bar": false },
+  "profiles": [
+    {
+      "complex_modifications": {
+        "rules": [
+          {
+            "description": "Caps Lock to Ctrl+B (Terminal/Ghostty only)",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Terminal$",
+                      "^com\\.mitchellh\\.ghostty$"
+                    ],
+                    "type": "frontmost_application_if"
+                  }
+                ],
+                "from": {
+                  "key_code": "caps_lock",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "key_code": "b",
+                    "modifiers": ["left_control"]
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          }
+        ]
+      },
+      "name": "Default profile",
+      "selected": true,
+      "virtual_hid_keyboard": {
+        "country_code": 0,
+        "keyboard_type_v2": "ansi"
+      }
+    }
+  ]
+}
+```
+
+now caps lock acts as the tmux prefix, but only when you're in a terminal. everywhere else it's still caps lock (or whatever else you want to map it to). game changer for tmux workflows.
+
 ### package management: homebrew
 
 my `.Brewfile` is the source of truth for all my packages:
